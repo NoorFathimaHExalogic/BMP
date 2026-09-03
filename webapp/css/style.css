@@ -275,7 +275,7 @@
     color: var(--rak-color-text-mid) !important;
 }
 .rakCard__date-sep.sapMText {
-    color: transparent !important;
+    color: var(--rak-color-text-mid) !important;
     white-space: pre !important;
 }
 .rakCard__meta-inline.sapMText {

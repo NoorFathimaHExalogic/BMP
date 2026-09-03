@@ -156,7 +156,7 @@
                                     <HBox alignItems="Center">
                                         <items>
                                             <Text class="rakCard__project-no" text="Project no. {view>projectNumber}" />
-                                            <Text class="rakCard__date-sep" text="   " />
+                                            <Text class="rakCard__date-sep" text=" | " />
                                             <Text class="rakCard__date" text="{view>createdOnDisplay}" />
                                         </items>
                                     </HBox>
