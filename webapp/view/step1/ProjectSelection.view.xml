@@ -172,10 +172,12 @@
                             <HBox justifyContent="SpaceBetween" alignItems="Center" width="100%" class="rakCard__row3">
                                 <items>
                                     <Text class="rakCard__address" text="{view>address}" />
-                                    <Link
-                                        text="{i18n>step1DetailLink}"
-                                        press=".onFullDetails"
-                                        class="rakCard__detail-link" />
+                                    <HBox alignItems="Center" class="rakCard__detail-link-wrap">
+                                        <items>
+                                            <core:Icon src="sap-icon://detail-view" class="rakCard__detail-icon" />
+                                            <Link text="{i18n>step1DetailLink}" press=".onFullDetails" class="rakCard__detail-link" />
+                                        </items>
+                                    </HBox>
                                 </items>
                             </HBox>
                         </VBox>

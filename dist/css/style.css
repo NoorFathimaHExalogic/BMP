@@ -1,35 +1,464 @@
-/*
- * RAK ZP02 — SAPUI5 Custom CSS
- * Namespace: rak.zp02
- *
- * POLICY:
- *  - All custom overrides MUST be scoped to the application root
- *    (e.g. .rakZp02App > ...) to avoid polluting the global SAPUI5 theme.
- *  - Never override sap.m / sap.f base styles globally.
- *  - CSS custom properties (design tokens) are declared here and
- *    consumed by component-level overrides defined in each view's
- *    own <style> block or additional CSS files.
- *  - Phase 0: This file is intentionally near-empty.
- *    Visual customisation begins in Phase 1 (Step 1 implementation).
- *
- * DESIGN TOKENS (from Figma node 30:3069, file aq5xvEg4AvS44yaZH17ipr):
- *
- *   --rak-red:            #bf1313;   (Primary brand red, var name from Figma)
- *   --rak-red-selected:   #eb3642;   (Card selected border / accent)
- *   --rak-dark-blue:      #10233e;   (Header text, "Full Details" link)
- *   --rak-blue:           #004b90;
- *   --rak-text-dark:      #313131;
- *   --rak-text-muted:     #929292;
- *   --rak-border-light:   #d9d9d9;
- *   --rak-bg-page:        #f9f9f9;
- *   --rak-card-bg:        #ffffff;
- *   --rak-shadow-card:    0px 0px 7px 0px rgba(173, 173, 173, 0.25);
- *   --rak-shadow-header:  0px 1px 9px 0px rgba(0, 0, 0, 0.25);
- *
- * STATUS TAG TOKENS:
- *   --rak-tag-opened-bg:  #d6ecff;
- *   --rak-tag-issued-bg:  #e8d6ff;
- *   --rak-tag-complete-bg:#d6ffe4;
- *
- * Phase 1 scoped overrides will be added here with the prefix .rakZp02App
- */
+/* ── Poppins — locally served ────────────────────────────────── */
+@font-face {
+    font-family: 'Poppins';
+    src: url('../assets/fonts/Poppins-Regular.woff2') format('woff2');
+    font-weight: 400; font-style: normal; font-display: swap;
+}
+@font-face {
+    font-family: 'Poppins';
+    src: url('../assets/fonts/Poppins-Medium.woff2') format('woff2');
+    font-weight: 500; font-style: normal; font-display: swap;
+}
+@font-face {
+    font-family: 'Poppins';
+    src: url('../assets/fonts/Poppins-SemiBold.woff2') format('woff2');
+    font-weight: 600; font-style: normal; font-display: swap;
+}
+
+/* ── Design tokens ───────────────────────────────────────────── */
+:root {
+    --rak-color-primary:       #bf1313;
+    --rak-color-primary-dark:  #960000;
+    --rak-color-navy:          #10233e;
+    --rak-color-text-dark:     #313131;
+    --rak-color-text-mid:      #616161;
+    --rak-color-border:        #c0c0c0;
+    --rak-color-border-card:   #d9d9d9;
+    --rak-color-bg:            #f5f5f5;
+    --rak-color-white:         #ffffff;
+    --rak-shadow-header:       0px 1px 9px 0px rgba(0,0,0,0.25);
+    --rak-shadow-card:         0px 0px 7px 0px rgba(173,173,173,0.25);
+    --rak-radius-card:         6px;
+    --rak-radius-btn:          47px;
+    --rak-radius-search:       24px;
+}
+
+/* ── Global font override ────────────────────────────────────── */
+.rakApp,
+.rakApp * {
+    font-family: 'Poppins', 'SAP-icons', Arial, sans-serif !important;
+}
+
+/* ── Page background ─────────────────────────────────────────── */
+.rakPage {
+    background: var(--rak-color-bg);
+    min-height: 100vh;
+}
+
+/* ── RAK Header bar ──────────────────────────────────────────── */
+.sapMBar.rakHeader,
+.sapMIBar.rakHeader {
+    background: var(--rak-color-white) !important;
+    box-shadow: var(--rak-shadow-header) !important;
+    height: 50px !important;
+    min-height: 50px !important;
+    border-bottom: none !important;
+    padding: 0 60px !important;
+}
+.rakHeader__logo-area {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+.rakHeader__logo       { height: 36px; width: auto; display: block; }
+.rakHeader__divider    { height: 24px; width: 1px; background: #e0e0e0; margin: 0 4px; flex-shrink: 0; }
+.rakHeader__wordmark   { height: 20px; width: auto; display: block; }
+.rakHeader__user-area  { display: flex; align-items: center; gap: 8px; cursor: pointer; }
+.rakHeader__user-name  { font-size: 14px; font-weight: 400; color: var(--rak-color-navy); }
+.rakHeader__avatar     { width: 32px; height: 32px; border-radius: 50%; display: block; }
+.rakHeader__chevron    { width: 12px; height: 12px; display: block; }
+
+/* ── Content container ───────────────────────────────────────── */
+.rakContent {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding-left: 60px;
+    padding-right: 60px;
+    box-sizing: border-box;
+}
+
+/* ── Permit heading ──────────────────────────────────────────── */
+.rakPermitHeading.sapMHBox {
+    padding-top: 24px;
+    padding-bottom: 20px;
+    width: 100%;
+    box-sizing: border-box;
+}
+.rakPermitHeading__left.sapMHBox {
+    gap: 8px;
+    flex: 1;
+}
+.rakPermitHeading__icon.sapMImg { display: block; }
+.rakPermitHeading__title.sapMTitle {
+    font-size: 20px !important;
+    font-weight: 600 !important;
+    color: var(--rak-color-navy) !important;
+    margin: 0 !important;
+}
+.rakPermitHeading__actions.sapMHBox {
+    gap: 8px;
+}
+/* Override SAP Transparent button to look like text-icon action */
+.rakPermitAction.sapMBtn .sapMBtnInner {
+    color: var(--rak-color-navy) !important;
+    font-size: 14px !important;
+    background: transparent !important;
+    border: none !important;
+    padding: 0 8px !important;
+}
+.rakPermitAction.sapMBtn .sapMBtnIcon {
+    color: var(--rak-color-navy) !important;
+}
+
+/* ── Stepper (custom control) ────────────────────────────────── */
+.rakStepperWrap {
+    padding-top: 8px;
+    padding-bottom: 4px;
+}
+.rakStepper {
+    display: flex;
+    align-items: flex-start;
+    width: 100%;
+    margin-bottom: 24px;
+}
+.rakStepper__item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    flex-shrink: 0;
+}
+.rakStepper__circle {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 13px;
+    font-weight: 500;
+    box-sizing: border-box;
+    font-family: 'Poppins', Arial, sans-serif;
+}
+.rakStepper__circle--active    { background: var(--rak-color-primary); color: #fff; }
+.rakStepper__circle--completed { background: #fff; border: 2px solid var(--rak-color-primary); color: var(--rak-color-primary); }
+.rakStepper__circle--inactive  { background: #fff; border: 1px solid #bdbdbd; color: #9e9e9e; }
+.rakStepper__circle--more      { background: #fff; border: 1px solid var(--rak-color-navy); color: var(--rak-color-navy); font-size: 14px; }
+.rakStepper__arrow { font-size: 14px; line-height: 1; }
+.rakStepper__label {
+    margin-top: 6px;
+    font-size: 11px;
+    font-weight: 400;
+    color: var(--rak-color-text-mid);
+    text-align: center;
+    max-width: 72px;
+    line-height: 1.3;
+    word-break: keep-all;
+}
+.rakStepper__label--active { color: var(--rak-color-primary); font-weight: 600; }
+.rakStepper__label--more   { color: var(--rak-color-navy); }
+.rakStepper__connector {
+    flex: 1;
+    height: 1px;
+    background: #dbdcdd;
+    margin-top: 15px;
+    min-width: 12px;
+}
+
+/* ── Section card ────────────────────────────────────────────── */
+.rakSectionCard.sapMVBox {
+    background: var(--rak-color-white);
+    border-radius: var(--rak-radius-card);
+    padding: 20px 24px 12px;
+    margin-bottom: 0;
+    box-sizing: border-box;
+    width: 100%;
+}
+.rakSection__title.sapMTitle {
+    font-size: 16px !important;
+    font-weight: 600 !important;
+    color: var(--rak-color-text-dark) !important;
+    margin-bottom: 6px !important;
+}
+.rakSection__desc.sapMText {
+    font-size: 13px !important;
+    font-weight: 400 !important;
+    color: var(--rak-color-text-mid) !important;
+    margin: 0 !important;
+    line-height: 1.5 !important;
+}
+
+/* ── Filter row ──────────────────────────────────────────────── */
+.rakFilters.sapMHBox {
+    margin-top: 16px;
+    margin-bottom: 12px;
+    width: 100%;
+    box-sizing: border-box;
+}
+.rakFilters__dropdowns.sapMHBox {
+    gap: 12px;
+}
+
+/* SAP Select override */
+.rakSelect.sapMSlt {
+    border: 1px solid var(--rak-color-border) !important;
+    border-radius: var(--rak-radius-card) !important;
+    height: 40px !important;
+    min-height: 40px !important;
+    background: var(--rak-color-white) !important;
+}
+.rakSelect.sapMSlt .sapMSltLabel {
+    font-size: 14px !important;
+    color: var(--rak-color-text-dark) !important;
+}
+
+/* SAP SearchField override */
+.rakSearch.sapMSF {
+    border: 1px solid var(--rak-color-border) !important;
+    border-radius: var(--rak-radius-search) !important;
+    height: 40px !important;
+    min-height: 40px !important;
+    background: var(--rak-color-white) !important;
+}
+
+/* ── Result count ────────────────────────────────────────────── */
+.rakResultCount.sapMText {
+    font-size: 14px !important;
+    font-weight: 400 !important;
+    color: var(--rak-color-text-mid) !important;
+    margin-bottom: 12px !important;
+    display: block !important;
+}
+
+/* ── Project cards ───────────────────────────────────────────── */
+.rakProjectList.sapMList {
+    background: transparent !important;
+}
+.rakProjectList .sapMLIB {
+    background: var(--rak-color-white) !important;
+    border: 1px solid var(--rak-color-border-card) !important;
+    border-radius: var(--rak-radius-card) !important;
+    box-shadow: var(--rak-shadow-card) !important;
+    padding: 16px 20px !important;
+    margin-bottom: 12px !important;
+    cursor: pointer;
+    transition: border-color 0.15s;
+    box-sizing: border-box;
+    min-height: 100px;
+}
+.rakProjectList .sapMLIBShowSeparator { border-bottom: none !important; }
+.rakProjectList .sapMLIB.rakCardSelected { border: 1.5px solid #eb3642 !important; }
+.rakProjectList .sapMLIBHoverable:hover  { border-color: var(--rak-color-primary) !important; }
+
+/* Blocked card */
+.rakProjectList .sapMLIB.rakCard--blocked {
+    background: #fafafa !important;
+    opacity: 0.85;
+    cursor: pointer;
+}
+
+/* Card inner layout */
+.rakCardInner.sapMVBox {
+    gap: 6px;
+}
+.rakCard__row1.sapMHBox,
+.rakCard__row3.sapMHBox {
+    width: 100%;
+}
+.rakCard__project-no.sapMText {
+    font-size: 14px !important;
+    font-weight: 600 !important;
+    color: var(--rak-color-navy) !important;
+}
+.rakCard__date.sapMText {
+    font-size: 13px !important;
+    font-weight: 400 !important;
+    color: var(--rak-color-text-mid) !important;
+}
+.rakCard__date-sep.sapMText {
+    color: transparent !important;
+    white-space: pre !important;
+}
+.rakCard__meta-inline.sapMText {
+    font-size: 13px !important;
+    font-weight: 400 !important;
+    color: var(--rak-color-text-mid) !important;
+    white-space: nowrap !important;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+.rakCard__address.sapMText {
+    font-size: 13px !important;
+    font-weight: 400 !important;
+    color: var(--rak-color-text-dark) !important;
+    flex: 1 !important;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+.rakCard__detail-link-wrap.sapMHBox {
+    align-items: center !important;
+    gap: 4px !important;
+    flex-shrink: 0 !important;
+    margin-left: 12px !important;
+    cursor: pointer;
+}
+.rakCard__detail-icon.sapUiIcon {
+    font-size: 13px !important;
+    color: var(--rak-color-navy) !important;
+}
+.rakCard__detail-link.sapMLnk {
+    font-size: 13px !important;
+    font-weight: 400 !important;
+    color: var(--rak-color-navy) !important;
+    white-space: nowrap !important;
+    flex-shrink: 0 !important;
+}
+
+/* Status badges — BRD domain values */
+.rakCard__status {
+    display: inline-flex;
+    align-items: center;
+    padding: 3px 10px;
+    border-radius: 47px;
+    font-size: 12px;
+    font-weight: 500;
+    white-space: nowrap;
+    flex-shrink: 0;
+    margin-left: 8px;
+}
+.rakCard__status--OPENED              { background: #e8eaf6; color: #3949ab; }
+.rakCard__status--PERMIT_ISSUED       { background: #f3e5f5; color: #7b1fa2; }
+.rakCard__status--UNDER_CONSTRUCTION  { background: #fff3e0; color: #e65100; }
+.rakCard__status--PARTIALLY_COMPLETED { background: #ede7f6; color: #512da8; }
+.rakCard__status--COMPLETED           { background: #e8f5e9; color: #2e7d32; }
+
+/* ── Pagination ──────────────────────────────────────────────── */
+.rakPagination.sapMHBox {
+    padding: 20px 0 12px;
+    gap: 4px;
+    width: 100%;
+    box-sizing: border-box;
+}
+.rakPagBtn.sapMBtn .sapMBtnInner {
+    border: 1px solid var(--rak-color-primary) !important;
+    border-radius: 30px !important;
+    min-width: 32px !important;
+    width: 32px !important;
+    height: 32px !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    color: var(--rak-color-text-dark) !important;
+    background: var(--rak-color-white) !important;
+    font-size: 13px !important;
+    padding: 0 !important;
+}
+.rakPagBtn.sapMBtn .sapMBtnIcon {
+    color: var(--rak-color-primary) !important;
+    font-size: 14px !important;
+}
+.rakPagBtn.sapMBtn:not([disabled]) .sapMBtnInner:hover {
+    background: #fef2f2 !important;
+}
+/* Disabled state */
+.rakPagBtn.sapMBtn[disabled] .sapMBtnInner {
+    border-color: #bdbdbd !important;
+    opacity: 0.5 !important;
+}
+.rakPagBtn.sapMBtn[disabled] .sapMBtnIcon {
+    color: #bdbdbd !important;
+}
+/* Active/current page */
+.rakPagBtn--num.sapMBtn .sapMBtnInner[class*="Emphasized"] {
+    background: var(--rak-color-primary) !important;
+    color: #fff !important;
+    border-color: var(--rak-color-primary) !important;
+}
+/* Emphasized type override for active page button */
+.rakPagBtn--num .sapMBtnEmphasized {
+    background: var(--rak-color-primary) !important;
+    color: #fff !important;
+    border-color: var(--rak-color-primary) !important;
+}
+.rakPagBtn--num .sapMBtnEmphasized:hover {
+    background: var(--rak-color-primary-dark) !important;
+}
+
+/* ── Footer bar ──────────────────────────────────────────────── */
+.sapMBar.rakFooter,
+.sapMIBar.rakFooter {
+    background: var(--rak-color-white) !important;
+    border-top: 1px solid var(--rak-color-border-card) !important;
+    height: 60px !important;
+    min-height: 60px !important;
+    padding: 0 60px !important;
+}
+.rakNextBtn.sapMBtn .sapMBtnInner {
+    border-radius: var(--rak-radius-btn) !important;
+    background: var(--rak-color-primary) !important;
+    color: #fff !important;
+    border: none !important;
+    min-width: 120px !important;
+    height: 40px !important;
+    font-size: 15px !important;
+    font-weight: 500 !important;
+}
+.rakNextBtn.sapMBtn:not([disabled]) .sapMBtnInner:hover {
+    background: var(--rak-color-primary-dark) !important;
+}
+.rakNextBtn.sapMBtn[disabled] .sapMBtnInner {
+    background: #bdbdbd !important;
+    cursor: not-allowed !important;
+}
+
+/* ── Empty / no data ─────────────────────────────────────────── */
+.rakNoData { text-align: center; padding: 48px; color: var(--rak-color-text-mid); font-size: 14px; }
+
+/* ── Responsive breakpoints ──────────────────────────────────── */
+@media (max-width: 1024px) {
+    .rakContent { padding-left: 32px; padding-right: 32px; }
+    .sapMBar.rakHeader,
+    .sapMBar.rakFooter,
+    .sapMIBar.rakHeader,
+    .sapMIBar.rakFooter { padding: 0 32px !important; }
+}
+
+@media (max-width: 768px) {
+    .rakContent { padding-left: 16px; padding-right: 16px; }
+    .sapMBar.rakHeader,
+    .sapMBar.rakFooter,
+    .sapMIBar.rakHeader,
+    .sapMIBar.rakFooter { padding: 0 16px !important; }
+    /* Stack outer filter row vertically */
+    .rakFilters.sapMHBox {
+        flex-direction: column !important;
+        align-items: stretch !important;
+        gap: 8px !important;
+    }
+    /* Filter dropdowns wrap to 2-per-row */
+    .rakFilters__dropdowns.sapMHBox {
+        flex-wrap: wrap !important;
+        gap: 8px !important;
+    }
+    /* Prevent SAPUI5 FlexItem shrink collapse */
+    .rakFilters .sapMFlexItem,
+    .rakFilters__dropdowns .sapMFlexItem {
+        flex-shrink: 0 !important;
+        flex-grow: 1 !important;
+        flex-basis: calc(50% - 4px) !important;
+    }
+    /* Search field full width */
+    .rakSearch.sapMSF { width: 100% !important; }
+    .rakFilters > .sapMFlexItem:last-child { flex-basis: 100% !important; }
+    .rakStepper { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+    .rakCard__meta-inline.sapMText { white-space: normal !important; }
+    .rakCard__address.sapMText { white-space: normal !important; }
+}
+
+@media (max-width: 480px) {
+    .rakContent { padding-left: 12px; padding-right: 12px; }
+    .rakPermitHeading.sapMHBox { flex-wrap: wrap; gap: 8px; }
+    .rakPermitHeading__actions.sapMHBox { justify-content: flex-start; }
+    .rakCard__row1.sapMHBox { flex-wrap: wrap; gap: 4px; }
+    .rakCard__row3.sapMHBox { flex-wrap: wrap; gap: 4px; }
+}

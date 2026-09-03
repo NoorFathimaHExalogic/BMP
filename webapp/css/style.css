@@ -295,13 +295,23 @@
     text-overflow: ellipsis;
     white-space: nowrap;
 }
+.rakCard__detail-link-wrap.sapMHBox {
+    align-items: center !important;
+    gap: 4px !important;
+    flex-shrink: 0 !important;
+    margin-left: 12px !important;
+    cursor: pointer;
+}
+.rakCard__detail-icon.sapUiIcon {
+    font-size: 13px !important;
+    color: var(--rak-color-navy) !important;
+}
 .rakCard__detail-link.sapMLnk {
     font-size: 13px !important;
     font-weight: 400 !important;
     color: var(--rak-color-navy) !important;
     white-space: nowrap !important;
     flex-shrink: 0 !important;
-    margin-left: 12px !important;
 }
 
 /* Status badges — BRD domain values */

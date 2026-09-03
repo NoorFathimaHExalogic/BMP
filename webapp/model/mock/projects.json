@@ -65,7 +65,7 @@
       "roleCode": "CONTRACTOR",
       "createdOn": "2023-12-10",
       "statusCode": "COMPLETED",
-      "statusText": "Completed",
+      "statusText": "Complete",
       "address": "AL Muntaser Street, 4th Floor, Eastern Kitchen Building, 4311",
       "isBlocked": false,
       "selectable": true
@@ -79,7 +79,7 @@
       "roleCode": "OWNER",
       "createdOn": "2023-12-10",
       "statusCode": "COMPLETED",
-      "statusText": "Completed",
+      "statusText": "Complete",
       "address": "AL Muntaser Street, 4th Floor, Eastern Kitchen Building, 4311",
       "isBlocked": false,
       "selectable": true
@@ -116,12 +116,12 @@
   "totalCount": 8,
   "pageSize": 5,
   "statusOptions": [
-    { "key": "",                  "text": "All Statuses"        },
+    { "key": "",                  "text": "Status"              },
     { "key": "OPENED",            "text": "Opened"              },
     { "key": "PERMIT_ISSUED",     "text": "Permit Issued"       },
     { "key": "UNDER_CONSTRUCTION","text": "Under Construction"  },
     { "key": "PARTIALLY_COMPLETED","text": "Partially Completed"},
-    { "key": "COMPLETED",         "text": "Completed"           }
+    { "key": "COMPLETED",         "text": "Complete"            }
   ],
   "roleOptions": [
     { "key": "",           "text": "Project Role" },
