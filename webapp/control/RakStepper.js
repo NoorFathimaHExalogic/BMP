@@ -54,13 +54,20 @@ sap.ui.define(["sap/ui/core/Control"], function (Control) {
                     else                 oRm.class("rakStepper__circle--inactive");
                     oRm.attr("aria-hidden", "true");
                     oRm.openEnd();
-                    oRm.text(String(iStep));
+                    if (bCompleted) {
+                        oRm.openStart("span").class("rakStepper__check").openEnd();
+                        oRm.text("✓");
+                        oRm.close("span");
+                    } else {
+                        oRm.text(String(iStep));
+                    }
                     oRm.close("div");
 
                     // label
                     oRm.openStart("div");
                     oRm.class("rakStepper__label");
-                    if (bActive) oRm.class("rakStepper__label--active");
+                    if (bActive)    oRm.class("rakStepper__label--active");
+                    if (bCompleted) oRm.class("rakStepper__label--completed");
                     oRm.openEnd();
                     oRm.text(sLabel);
                     oRm.close("div");

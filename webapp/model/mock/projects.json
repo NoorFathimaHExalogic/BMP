@@ -95,6 +95,7 @@
       "statusCode": "OPENED",
       "statusText": "Opened",
       "address": "AL Muntaser Street, 4th Floor, Eastern Kitchen Building, 4311",
+      "landSector": 8,
       "isBlocked": false,
       "selectable": true
     },

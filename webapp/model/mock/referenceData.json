@@ -1,0 +1,23 @@
+{
+  "civilDefenceAreas": [
+    { "key": "",        "text": "Select"                },
+    { "key": "CDA-01",  "text": "Ras Al Khaimah City"  },
+    { "key": "CDA-02",  "text": "Al Jazirah Al Hamra"  },
+    { "key": "CDA-03",  "text": "Khatt"                },
+    { "key": "CDA-04",  "text": "Al Nakheel"           },
+    { "key": "CDA-05",  "text": "Digdaga"              },
+    { "key": "CDA-06",  "text": "Sha'am"               },
+    { "key": "CDA-07",  "text": "Al Rams"              },
+    { "key": "CDA-08",  "text": "Ghalilah"             },
+    { "key": "CDA-09",  "text": "Wadi Qor"             }
+  ],
+  "grantTypes": [
+    { "key": "",         "text": "Select"                         },
+    { "key": "GT-01",    "text": "Sheikh Zayed Housing Programme" },
+    { "key": "GT-02",    "text": "RAK Housing Authority Grant"    },
+    { "key": "GT-03",    "text": "Federal Housing Authority"      },
+    { "key": "GT-04",    "text": "Ministry of Infrastructure"     },
+    { "key": "GT-05",    "text": "Social Support Grant"           },
+    { "key": "GT-06",    "text": "Other Government Grant"         }
+  ]
+}
