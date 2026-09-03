@@ -1,0 +1,115 @@
+{
+  "projects": [
+    {
+      "projectId": "PRJ-2024-00142",
+      "projectNumber": "ZP02-2024-00142",
+      "parcelId": "AJM-PLT-00291",
+      "ownerId": "UAE-800-2219341",
+      "ownerName": "Mohammed Al Rashid",
+      "createdOn": "2024-03-15",
+      "statusCode": "DRAFT",
+      "statusText": "Draft",
+      "address": "Plot 291, Al Jazeera Al Hamra, Ras Al Khaimah",
+      "selectable": true
+    },
+    {
+      "projectId": "PRJ-2024-00098",
+      "projectNumber": "ZP02-2024-00098",
+      "parcelId": "NKH-PLT-00573",
+      "ownerId": "UAE-800-3341892",
+      "ownerName": "Fatima Al Nuaimi",
+      "createdOn": "2024-02-08",
+      "statusCode": "APPROVED",
+      "statusText": "Approved",
+      "address": "Plot 573, Nakheel, Ras Al Khaimah",
+      "selectable": true
+    },
+    {
+      "projectId": "PRJ-2024-00067",
+      "projectNumber": "ZP02-2024-00067",
+      "parcelId": "KHZ-PLT-00112",
+      "ownerId": "UAE-800-1102984",
+      "ownerName": "Sultan Al Qasimi Holdings LLC",
+      "createdOn": "2024-01-22",
+      "statusCode": "PENDING_REVIEW",
+      "statusText": "Pending Review",
+      "address": "Plot 112, Al Kharzan, Ras Al Khaimah",
+      "selectable": true
+    },
+    {
+      "projectId": "PRJ-2023-00984",
+      "projectNumber": "ZP02-2023-00984",
+      "parcelId": "SHA-PLT-00408",
+      "ownerId": "UAE-800-9902341",
+      "ownerName": "Ahmed Bin Saqr Real Estate",
+      "createdOn": "2023-11-30",
+      "statusCode": "REJECTED",
+      "statusText": "Rejected",
+      "address": "Plot 408, Al Sha'am, Ras Al Khaimah",
+      "selectable": false
+    },
+    {
+      "projectId": "PRJ-2024-00201",
+      "projectNumber": "ZP02-2024-00201",
+      "parcelId": "MNA-PLT-00784",
+      "ownerId": "UAE-800-4417823",
+      "ownerName": "Mariam Al Qasimi",
+      "createdOn": "2024-04-01",
+      "statusCode": "DRAFT",
+      "statusText": "Draft",
+      "address": "Plot 784, Al Mina, Ras Al Khaimah",
+      "selectable": true
+    },
+    {
+      "projectId": "PRJ-2023-00871",
+      "projectNumber": "ZP02-2023-00871",
+      "parcelId": "HYL-PLT-00056",
+      "ownerId": "UAE-800-6619234",
+      "ownerName": "Khalid Al Yamahi",
+      "createdOn": "2023-09-14",
+      "statusCode": "APPROVED",
+      "statusText": "Approved",
+      "address": "Plot 056, Al Hail, Ras Al Khaimah",
+      "selectable": true
+    },
+    {
+      "projectId": "PRJ-2024-00155",
+      "projectNumber": "ZP02-2024-00155",
+      "parcelId": "DFN-PLT-00321",
+      "ownerId": "UAE-800-7723419",
+      "ownerName": "Rashed Al Matrooshi",
+      "createdOn": "2024-03-20",
+      "statusCode": "PENDING_REVIEW",
+      "statusText": "Pending Review",
+      "address": "Plot 321, Dafan Al Nakheel, Ras Al Khaimah",
+      "selectable": true
+    },
+    {
+      "projectId": "PRJ-2023-00742",
+      "projectNumber": "ZP02-2023-00742",
+      "parcelId": "GRF-PLT-00193",
+      "ownerId": "UAE-800-5512876",
+      "ownerName": "Noura Al Falasi",
+      "createdOn": "2023-07-05",
+      "statusCode": "APPROVED",
+      "statusText": "Approved",
+      "address": "Plot 193, Al Gurfah, Ras Al Khaimah",
+      "selectable": true
+    }
+  ],
+  "totalCount": 8,
+  "pageSize": 5,
+  "statusOptions": [
+    { "key": "", "text": "All Statuses" },
+    { "key": "DRAFT", "text": "Draft" },
+    { "key": "PENDING_REVIEW", "text": "Pending Review" },
+    { "key": "APPROVED", "text": "Approved" },
+    { "key": "REJECTED", "text": "Rejected" }
+  ],
+  "roleOptions": [
+    { "key": "", "text": "All Roles" },
+    { "key": "OWNER", "text": "Owner" },
+    { "key": "AGENT", "text": "Authorized Agent" },
+    { "key": "CONSULTANT", "text": "Consultant" }
+  ]
+}

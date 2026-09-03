@@ -1,35 +1,257 @@
-/*
- * RAK ZP02 — SAPUI5 Custom CSS
- * Namespace: rak.zp02
- *
- * POLICY:
- *  - All custom overrides MUST be scoped to the application root
- *    (e.g. .rakZp02App > ...) to avoid polluting the global SAPUI5 theme.
- *  - Never override sap.m / sap.f base styles globally.
- *  - CSS custom properties (design tokens) are declared here and
- *    consumed by component-level overrides defined in each view's
- *    own <style> block or additional CSS files.
- *  - Phase 0: This file is intentionally near-empty.
- *    Visual customisation begins in Phase 1 (Step 1 implementation).
- *
- * DESIGN TOKENS (from Figma node 30:3069, file aq5xvEg4AvS44yaZH17ipr):
- *
- *   --rak-red:            #bf1313;   (Primary brand red, var name from Figma)
- *   --rak-red-selected:   #eb3642;   (Card selected border / accent)
- *   --rak-dark-blue:      #10233e;   (Header text, "Full Details" link)
- *   --rak-blue:           #004b90;
- *   --rak-text-dark:      #313131;
- *   --rak-text-muted:     #929292;
- *   --rak-border-light:   #d9d9d9;
- *   --rak-bg-page:        #f9f9f9;
- *   --rak-card-bg:        #ffffff;
- *   --rak-shadow-card:    0px 0px 7px 0px rgba(173, 173, 173, 0.25);
- *   --rak-shadow-header:  0px 1px 9px 0px rgba(0, 0, 0, 0.25);
- *
- * STATUS TAG TOKENS:
- *   --rak-tag-opened-bg:  #d6ecff;
- *   --rak-tag-issued-bg:  #e8d6ff;
- *   --rak-tag-complete-bg:#d6ffe4;
- *
- * Phase 1 scoped overrides will be added here with the prefix .rakZp02App
- */
+/* Poppins — locally served */
+@font-face {
+    font-family: 'Poppins';
+    src: url('../assets/fonts/Poppins-Regular.woff2') format('woff2');
+    font-weight: 400; font-style: normal; font-display: swap;
+}
+@font-face {
+    font-family: 'Poppins';
+    src: url('../assets/fonts/Poppins-Medium.woff2') format('woff2');
+    font-weight: 500; font-style: normal; font-display: swap;
+}
+@font-face {
+    font-family: 'Poppins';
+    src: url('../assets/fonts/Poppins-SemiBold.woff2') format('woff2');
+    font-weight: 600; font-style: normal; font-display: swap;
+}
+
+/* ── Design tokens ───────────────────────────────────────────── */
+:root {
+    --rak-color-primary:       #bf1313;
+    --rak-color-primary-dark:  #600;
+    --rak-color-navy:          #10233e;
+    --rak-color-text-dark:     #313131;
+    --rak-color-text-mid:      #616161;
+    --rak-color-border:        #c0c0c0;
+    --rak-color-border-card:   #d9d9d9;
+    --rak-color-bg:            #f5f5f5;
+    --rak-color-white:         #ffffff;
+    --rak-shadow-header: 0px 1px 9px 0px rgba(0,0,0,0.25);
+    --rak-shadow-card:   0px 0px 7px 0px rgba(173,173,173,0.25);
+    --rak-radius-card:   6px;
+    --rak-radius-btn:    47px;
+    --rak-radius-search: 24px;
+}
+
+/* ── Global font override ────────────────────────────────────── */
+.rakApp,
+.rakApp * {
+    font-family: 'Poppins', 'SAP-icons', Arial, sans-serif !important;
+}
+
+/* ── Page background ─────────────────────────────────────────── */
+.rakPage {
+    background: var(--rak-color-bg);
+    min-height: 100vh;
+}
+
+/* ── RAK Header bar ──────────────────────────────────────────── */
+.sapMBar.rakHeader,
+.sapMIBar.rakHeader {
+    background: var(--rak-color-white) !important;
+    box-shadow: var(--rak-shadow-header) !important;
+    height: 50px !important;
+    min-height: 50px !important;
+    border-bottom: none !important;
+    padding: 0 83px !important;
+}
+.rakHeader__logo-area {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex: 1;
+}
+.rakHeader__logo       { height: 36px; width: auto; display: block; }
+.rakHeader__divider    { height: 24px; width: 1px; background: #e0e0e0; margin: 0 4px; flex-shrink:0; }
+.rakHeader__wordmark   { height: 20px; width: auto; display: block; }
+.rakHeader__user-area  { display: flex; align-items: center; gap: 8px; cursor: pointer; }
+.rakHeader__user-name  { font-size: 14px; font-weight: 400; color: var(--rak-color-navy); }
+.rakHeader__avatar     { width: 32px; height: 32px; border-radius: 50%; display: block; }
+.rakHeader__chevron    { width: 12px; height: 12px; display: block; }
+
+/* ── Content container ───────────────────────────────────────── */
+.rakContent {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 60px;
+    box-sizing: border-box;
+}
+
+/* ── Permit heading ──────────────────────────────────────────── */
+.rakPermitHeading {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 24px 0 20px;
+}
+.rakPermitHeading__left  { display: flex; align-items: center; gap: 10px; }
+.rakPermitHeading__icon  { width: 30px; height: 30px; }
+.rakPermitHeading__title { font-size: 20px; font-weight: 600; color: var(--rak-color-navy); margin: 0; }
+.rakPermitHeading__actions { display: flex; align-items: center; gap: 24px; }
+.rakPermitHeading__action-btn {
+    display: flex; align-items: center; gap: 6px;
+    background: none; border: none; cursor: pointer;
+    font-size: 16px; font-weight: 400; color: var(--rak-color-navy);
+    font-family: 'Poppins', Arial, sans-serif; padding: 0;
+}
+.rakPermitHeading__action-btn img { width: 20px; height: 20px; }
+
+/* ── Step indicator ──────────────────────────────────────────── */
+.rakStepper {
+    display: flex;
+    align-items: flex-start;
+    margin-bottom: 28px;
+}
+.rakStepper__item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    flex-shrink: 0;
+}
+.rakStepper__circle {
+    width: 30px; height: 30px; border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 14px; font-weight: 500; box-sizing: border-box;
+}
+.rakStepper__circle--active   { background: var(--rak-color-primary); color: #fff; }
+.rakStepper__circle--inactive { background: #fff; border: 1px solid #616161; color: #616161; }
+.rakStepper__circle--more     { background: #fff; border: 1px solid var(--rak-color-navy); }
+.rakStepper__circle--more img { width: 16px; height: 16px; }
+.rakStepper__label {
+    margin-top: 6px; font-size: 11px; font-weight: 400; color: #616161;
+    text-align: center; max-width: 72px; line-height: 1.3;
+}
+.rakStepper__label--active { color: var(--rak-color-primary); font-weight: 500; }
+.rakStepper__label--more   { color: var(--rak-color-navy); }
+.rakStepper__connector {
+    flex: 1; height: 1px; background: #dbdcdd; margin-top: 15px; min-width: 16px;
+}
+
+/* ── Section card (white box) ────────────────────────────────── */
+.rakSectionCard {
+    background: var(--rak-color-white);
+    border-radius: var(--rak-radius-card);
+    padding: 24px 24px 16px;
+    margin-bottom: 80px;
+}
+.rakSection__title { font-size: 18px; font-weight: 600; color: var(--rak-color-text-dark); margin: 0 0 8px; }
+.rakSection__desc  { font-size: 14px; font-weight: 400; color: var(--rak-color-text-mid); margin: 0 0 20px; }
+
+/* ── Filter row ──────────────────────────────────────────────── */
+.rakFilters { display: flex; align-items: center; justify-content: space-between; margin-bottom: 16px; }
+.rakFilters__dropdowns { display: flex; gap: 24px; align-items: center; }
+
+/* SAP Select override */
+.rakSelect.sapMSlt {
+    border: 1px solid var(--rak-color-border) !important;
+    border-radius: var(--rak-radius-card) !important;
+    height: 40px !important;
+    min-height: 40px !important;
+    background: var(--rak-color-white) !important;
+}
+.rakSelect.sapMSlt .sapMSltLabel {
+    font-size: 14px !important;
+    color: var(--rak-color-text-dark) !important;
+}
+
+/* SAP SearchField override */
+.rakSearch.sapMSF {
+    border: 1px solid var(--rak-color-border) !important;
+    border-radius: var(--rak-radius-search) !important;
+    height: 40px !important; min-height: 40px !important;
+    background: var(--rak-color-white) !important;
+}
+
+/* ── Result count ────────────────────────────────────────────── */
+.rakResultCount { font-size: 14px; font-weight: 400; color: var(--rak-color-text-dark); margin-bottom: 12px; }
+
+/* ── Project card ────────────────────────────────────────────── */
+.rakProjectList .sapMLIB,
+li.rakCard,
+.rakCard {
+    background: var(--rak-color-white) !important;
+    border: 1px solid var(--rak-color-border-card) !important;
+    border-radius: var(--rak-radius-card) !important;
+    box-shadow: var(--rak-shadow-card) !important;
+    padding: 15px 25px !important;
+    margin-bottom: 16px !important;
+    cursor: pointer;
+    transition: border-color 0.15s;
+    box-sizing: border-box;
+    min-height: 114px;
+    display: flex !important;
+    flex-direction: column;
+    justify-content: space-between;
+}
+li.rakCard--selected,
+.rakProjectList .sapMLIB.rakCardSelected,
+.rakCard--selected { border: 1.5px solid #eb3642 !important; }
+li.rakCard--disabled,
+.rakCard--disabled { opacity: 0.6; cursor: not-allowed; }
+.rakProjectList .sapMLIBHoverable:hover { border-color: var(--rak-color-primary) !important; }
+/* Remove List default borders/backgrounds */
+.rakProjectList.sapMList { background: transparent !important; }
+.rakProjectList .sapMLIBShowSeparator { border-bottom: none !important; }
+.rakCard__row { display: flex; align-items: center; justify-content: space-between; }
+.rakCard__row + .rakCard__row { margin-top: 12px; }
+.rakCard__project-no { font-size: 16px; font-weight: 400; color: var(--rak-color-navy); }
+.rakCard__date       { font-size: 14px; font-weight: 400; color: var(--rak-color-navy); }
+.rakCard__meta-group { display: flex; align-items: flex-start; gap: 32px; }
+.rakCard__meta-item  { display: flex; flex-direction: column; gap: 2px; }
+.rakCard__meta-label { font-size: 14px; font-weight: 500; color: var(--rak-color-text-mid); }
+.rakCard__meta-value { font-size: 14px; font-weight: 400; color: var(--rak-color-text-mid); }
+.rakCard__address    { font-size: 14px; font-weight: 400; color: var(--rak-color-text-dark); flex: 1; }
+.rakCard__right      { display: flex; align-items: center; gap: 24px; flex-shrink: 0; }
+
+.rakCard__status {
+    display: inline-flex; align-items: center;
+    padding: 4px 12px; border-radius: 47px;
+    font-size: 12px; font-weight: 500; white-space: nowrap;
+}
+.rakCard__status--DRAFT          { background: #eef2ff; color: #4338ca; }
+.rakCard__status--PENDING_REVIEW { background: #fffbeb; color: #b45309; }
+.rakCard__status--APPROVED       { background: #f0fdf4; color: #16a34a; }
+.rakCard__status--REJECTED       { background: #fef2f2; color: #dc2626; }
+
+.rakCard__detail-link {
+    display: flex; align-items: center; gap: 6px;
+    font-size: 14px; font-weight: 400; color: var(--rak-color-navy); cursor: pointer;
+}
+.rakCard__detail-link img { width: 16px; height: 16px; }
+
+/* ── Pagination ──────────────────────────────────────────────── */
+.rakPagination { display: flex; align-items: center; justify-content: center; gap: 8px; padding: 24px 0 8px; }
+.rakPagination__btn {
+    width: 32px; height: 32px; border-radius: 30px;
+    border: 1px solid var(--rak-color-primary);
+    background: var(--rak-color-white);
+    display: flex; align-items: center; justify-content: center;
+    cursor: pointer; font-size: 13px; font-weight: 400; color: var(--rak-color-text-dark);
+}
+.rakPagination__btn--disabled { border-color: #a6a6a6; cursor: not-allowed; opacity: 0.5; }
+.rakPagination__btn--active   { background: var(--rak-color-primary); color: #fff; border-color: var(--rak-color-primary); }
+.rakPagination__btn img       { width: 12px; height: 12px; }
+
+/* ── Footer ──────────────────────────────────────────────────── */
+.sapMBar.rakFooter,
+.sapMIBar.rakFooter,
+.rakFooter {
+    background: var(--rak-color-white) !important;
+    border-top: 1px solid var(--rak-color-border-card) !important;
+    height: 60px !important;
+    min-height: 60px !important;
+    padding: 0 83px !important;
+}
+.rakFooter__next-btn {
+    background: var(--rak-color-primary);
+    color: #fff; border: none; border-radius: var(--rak-radius-btn);
+    padding: 0 32px; font-size: 16px; font-weight: 500;
+    font-family: 'Poppins', Arial, sans-serif;
+    cursor: pointer; height: 40px; min-width: 120px;
+    transition: background 0.15s;
+}
+.rakFooter__next-btn:hover    { background: var(--rak-color-primary-dark); }
+.rakFooter__next-btn:disabled { background: #a6a6a6; cursor: not-allowed; }
+
+/* ── Empty state ─────────────────────────────────────────────── */
+.rakNoData { text-align: center; padding: 48px; color: var(--rak-color-text-mid); font-size: 14px; }
