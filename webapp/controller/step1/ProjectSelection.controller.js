@@ -18,32 +18,41 @@ sap.ui.define([
         "Summary"
     ];
 
+    // ISO date → "Dec 10, 2023"
+    function formatDate(sISO) {
+        if (!sISO) { return ""; }
+        var d = new Date(sISO + "T00:00:00");
+        return d.toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" });
+    }
+
     return Controller.extend("rak.zp02.controller.step1.ProjectSelection", {
 
         onInit: function () {
-            window._rakStep1Ctrl = this;
             var oViewModel = new JSONModel({
                 selectedProjectId: null,
+                activeStep: 1,
+                stepLabels: STEP_LABELS,
                 currentPage: 1,
+                totalPages: 1,
+                totalCount: 0,
                 resultCount: 0,
+                isDirty: false,
                 filters: { role: "", status: "", date: "", search: "" },
                 roleOptions: [],
                 statusOptions: [],
                 dateOptions: [
-                    { key: "", text: "All Dates" },
+                    { key: "", text: "Creation Date" },
                     { key: "2024", text: "2024" },
                     { key: "2023", text: "2023" },
                     { key: "2022", text: "2022" }
                 ],
+                paginationPages: [],
                 displayedProjects: [],
-                allProjects: [],
-                permitHeadingHtml: this._buildPermitHeadingHtml(),
-                stepperHtml: this._buildStepperHtml(1),
-                sectionHeaderHtml: this._buildSectionHeaderHtml(),
-                paginationHtml: ""
+                allProjects: []
             });
 
             this.getView().setModel(oViewModel, "view");
+
             this.getOwnerComponent().getRouter()
                 .getRoute("project-selection")
                 .attachPatternMatched(this._onRouteMatched, this);
@@ -59,11 +68,12 @@ sap.ui.define([
                 ProjectService.getProjects(),
                 ProjectService.getFilterOptions()
             ]).then(function (results) {
-                var aAll = results[0];
+                var aAll  = results[0];
                 var oOpts = results[1];
-                oModel.setProperty("/allProjects", aAll);
+                oModel.setProperty("/allProjects",  aAll);
+                oModel.setProperty("/totalCount",   aAll.length);
                 oModel.setProperty("/statusOptions", oOpts.statusOptions);
-                oModel.setProperty("/roleOptions", oOpts.roleOptions);
+                oModel.setProperty("/roleOptions",   oOpts.roleOptions);
                 this._applyFilters();
             }.bind(this)).catch(function (err) {
                 MessageToast.show("Error loading projects: " + err.message);
@@ -71,88 +81,136 @@ sap.ui.define([
         },
 
         _applyFilters: function () {
-            var oModel = this.getView().getModel("view");
-            var oFilters = oModel.getProperty("/filters");
-            var aAll = oModel.getProperty("/allProjects");
+            var oModel    = this.getView().getModel("view");
+            var oFilters  = oModel.getProperty("/filters");
+            var aAll      = oModel.getProperty("/allProjects");
             var aFiltered = ProjectService.filterProjects(aAll, oFilters);
-            var iTotal = aFiltered.length;
-            var iPage = oModel.getProperty("/currentPage");
-            var iMaxPage = Math.max(1, Math.ceil(iTotal / PAGE_SIZE));
-            if (iPage > iMaxPage) { iPage = 1; oModel.setProperty("/currentPage", 1); }
-            var aPage = ProjectService.paginatePage(aFiltered, iPage, PAGE_SIZE);
+            var iTotal    = aFiltered.length;
+            var iPage     = oModel.getProperty("/currentPage");
+            var iMaxPage  = Math.max(1, Math.ceil(iTotal / PAGE_SIZE));
 
-            oModel.setProperty("/resultCount", iTotal);
+            if (iPage > iMaxPage) {
+                iPage = 1;
+                oModel.setProperty("/currentPage", 1);
+            }
+
+            var aPage = ProjectService.paginatePage(aFiltered, iPage, PAGE_SIZE).map(function (p) {
+                return Object.assign({}, p, { createdOnDisplay: formatDate(p.createdOn) });
+            });
+
+            oModel.setProperty("/resultCount",     iTotal);
+            oModel.setProperty("/totalPages",      iMaxPage);
             oModel.setProperty("/displayedProjects", aPage);
-            oModel.setProperty("/paginationHtml",
-                this._buildPaginationHtml(iPage, iMaxPage, iTotal));
+            oModel.setProperty("/paginationPages", this._buildPaginationPages(iPage, iMaxPage));
+
+            // Clear selection when page changes and selected project not on current page
+            var sSelected = oModel.getProperty("/selectedProjectId");
+            if (sSelected) {
+                var bOnPage = aPage.some(function (p) { return p.projectId === sSelected; });
+                if (!bOnPage) {
+                    oModel.setProperty("/selectedProjectId", null);
+                    this._clearCardSelection();
+                }
+            }
         },
+
+        _buildPaginationPages: function (iPage, iMaxPage) {
+            var aPages = [];
+            for (var i = 1; i <= iMaxPage; i++) {
+                aPages.push({ num: i, active: i === iPage });
+            }
+            return aPages;
+        },
+
+        /* ── Filter handlers ────────────────────────────────────────── */
 
         onFilterChange: function () {
             var oModel = this.getView().getModel("view");
-            var oSelRole   = this.byId("selRole");
-            var oSelStatus = this.byId("selStatus");
-            var oSelDate   = this.byId("selDate");
-            oModel.setProperty("/filters/role",   oSelRole   ? oSelRole.getSelectedKey()   : "");
-            oModel.setProperty("/filters/status", oSelStatus ? oSelStatus.getSelectedKey() : "");
-            oModel.setProperty("/filters/date",   oSelDate   ? oSelDate.getSelectedKey()   : "");
+            oModel.setProperty("/filters/role",   this.byId("selRole")   ? this.byId("selRole").getSelectedKey()   : "");
+            oModel.setProperty("/filters/status", this.byId("selStatus") ? this.byId("selStatus").getSelectedKey() : "");
+            oModel.setProperty("/filters/date",   this.byId("selDate")   ? this.byId("selDate").getSelectedKey()   : "");
             oModel.setProperty("/currentPage", 1);
             this._applyFilters();
         },
 
         onSearch: function (oEvent) {
-            var sVal = oEvent.getParameter("query") || "";
             var oModel = this.getView().getModel("view");
-            oModel.setProperty("/filters/search", sVal);
+            oModel.setProperty("/filters/search", oEvent.getParameter("query") || "");
             oModel.setProperty("/currentPage", 1);
             this._applyFilters();
         },
 
         onSearchLiveChange: function (oEvent) {
-            var sVal = oEvent.getParameter("newValue") || "";
             var oModel = this.getView().getModel("view");
-            oModel.setProperty("/filters/search", sVal);
+            oModel.setProperty("/filters/search", oEvent.getParameter("newValue") || "");
             oModel.setProperty("/currentPage", 1);
             this._applyFilters();
         },
 
+        /* ── Card press ─────────────────────────────────────────────── */
+
         onCardPress: function (oEvent) {
-            var oSource = oEvent.getSource();
-            var oCtx = oSource.getBindingContext("view");
+            var oSource  = oEvent.getSource();
+            var oCtx     = oSource.getBindingContext("view");
             if (!oCtx) { return; }
             var oProject = oCtx.getObject();
-            if (!oProject || !oProject.selectable) { return; }
+            if (!oProject) { return; }
 
-            var oModel = this.getView().getModel("view");
-            var sCurrent = oModel.getProperty("/selectedProjectId");
-
-            // Remove selection class from all items
-            var oList = this.byId("projectList");
-            if (oList) {
-                oList.getItems().forEach(function (item) {
-                    item.removeStyleClass("rakCardSelected");
+            // MSG-C09: Blocked parcel
+            if (oProject.isBlocked) {
+                var oBundle = this.getView().getModel("i18n").getResourceBundle();
+                MessageBox.error(oBundle.getText("msgC09BlockedParcel"), {
+                    title: oBundle.getText("msgC09BlockedParcelTitle")
                 });
+                return;
             }
+
+            var oModel   = this.getView().getModel("view");
+            var sCurrent = oModel.getProperty("/selectedProjectId");
+            this._clearCardSelection();
 
             if (sCurrent === oProject.projectId) {
                 oModel.setProperty("/selectedProjectId", null);
             } else {
                 oModel.setProperty("/selectedProjectId", oProject.projectId);
                 oSource.addStyleClass("rakCardSelected");
+                oModel.setProperty("/isDirty", true);
             }
         },
 
+        _clearCardSelection: function () {
+            var oList = this.byId("projectList");
+            if (oList) {
+                oList.getItems().forEach(function (item) {
+                    item.removeStyleClass("rakCardSelected");
+                });
+            }
+        },
+
+        /* ── Full Details ───────────────────────────────────────────── */
+
         onFullDetails: function (oEvent) {
             oEvent.stopPropagation && oEvent.stopPropagation();
-            MessageToast.show("Full Details — not available in mock mode.");
+            var oBundle = this.getView().getModel("i18n").getResourceBundle();
+            MessageBox.information(oBundle.getText("fullDetailsPlaceholder"), {
+                title: oBundle.getText("fullDetailsTitle")
+            });
         },
+
+        /* ── Save as Draft — MSG-C03 ────────────────────────────────── */
 
         onSaveAsDraft: function () {
-            MessageToast.show("Draft saved successfully.");
+            var oBundle = this.getView().getModel("i18n").getResourceBundle();
+            MessageToast.show(oBundle.getText("msgC03SaveDraftSuccess"));
+            this.getView().getModel("view").setProperty("/isDirty", false);
         },
 
+        /* ── Delete — MSG-C01 ───────────────────────────────────────── */
+
         onDelete: function () {
-            MessageBox.confirm("Are you sure you want to delete this application?", {
-                title: "Confirm Delete",
+            var oBundle = this.getView().getModel("i18n").getResourceBundle();
+            MessageBox.confirm(oBundle.getText("msgC01DeleteConfirm"), {
+                title: oBundle.getText("msgC01DeleteConfirmTitle"),
                 actions: [MessageBox.Action.OK, MessageBox.Action.CANCEL],
                 emphasizedAction: MessageBox.Action.CANCEL,
                 onClose: function (sAction) {
@@ -163,114 +221,57 @@ sap.ui.define([
             });
         },
 
+        /* ── Next ───────────────────────────────────────────────────── */
+
         onNext: function () {
             var sId = this.getView().getModel("view").getProperty("/selectedProjectId");
             if (!sId) {
-                MessageToast.show("Please select a project to continue.");
+                var oBundle = this.getView().getModel("i18n").getResourceBundle();
+                MessageToast.show(oBundle.getText("step1SelectionRequired"));
                 return;
             }
             this.getOwnerComponent().getRouter().navTo("permit-information");
         },
 
-        onPaginate: function (iPage) {
+        /* ── Pagination handlers (no global references) ─────────────── */
+
+        onPageFirst: function () {
+            this._goToPage(1);
+        },
+
+        onPagePrev: function () {
+            var iCurrent = this.getView().getModel("view").getProperty("/currentPage");
+            if (iCurrent > 1) { this._goToPage(iCurrent - 1); }
+        },
+
+        onPageNext: function () {
+            var oModel    = this.getView().getModel("view");
+            var iCurrent  = oModel.getProperty("/currentPage");
+            var iMaxPage  = oModel.getProperty("/totalPages");
+            if (iCurrent < iMaxPage) { this._goToPage(iCurrent + 1); }
+        },
+
+        onPageLast: function () {
+            this._goToPage(this.getView().getModel("view").getProperty("/totalPages"));
+        },
+
+        onPageNumPress: function (oEvent) {
+            var oCtx = oEvent.getSource().getBindingContext("view");
+            if (!oCtx) { return; }
+            this._goToPage(oCtx.getProperty("num"));
+        },
+
+        _goToPage: function (iPage) {
             var oModel = this.getView().getModel("view");
             oModel.setProperty("/currentPage", iPage);
             this._applyFilters();
         },
 
-        /* ── HTML builders ──────────────────────────────────────────────── */
+        /* ── Formatter ──────────────────────────────────────────────── */
 
-        _buildPermitHeadingHtml: function () {
-            return "<div class='rakContent rakPermitHeading'>" +
-                "<div class='rakPermitHeading__left'>" +
-                "<img class='rakPermitHeading__icon' src='assets/figma/step1/icon-permit-muni-30.svg' alt='' />" +
-                "<h2 class='rakPermitHeading__title'>New Building Permit</h2>" +
-                "</div>" +
-                "<div class='rakPermitHeading__actions'>" +
-                "<button class='rakPermitHeading__action-btn' onclick=\"window._rakStep1Ctrl.onSaveAsDraft()\">" +
-                "<img src='assets/figma/step1/icon-20px-a.svg' alt='' />Save as Draft</button>" +
-                "<button class='rakPermitHeading__action-btn' onclick=\"window._rakStep1Ctrl.onDelete()\">" +
-                "<img src='assets/figma/step1/icon-20px-b.svg' alt='' />Delete</button>" +
-                "</div></div>";
-        },
-
-        _buildStepperHtml: function (iActiveStep) {
-            var aStepNums = [1, 2, 3, 4, 5, 6];
-            var sHtml = "<div class='rakContent' style='padding-top:8px;padding-bottom:4px;'>" +
-                        "<div class='rakStepper' style='display:flex;align-items:flex-start;width:100%;'>";
-
-            aStepNums.forEach(function (iStep, idx) {
-                var sCircleClass = iStep === iActiveStep
-                    ? "rakStepper__circle rakStepper__circle--active"
-                    : "rakStepper__circle rakStepper__circle--inactive";
-                var sLabelClass = iStep === iActiveStep
-                    ? "rakStepper__label rakStepper__label--active"
-                    : "rakStepper__label";
-                var sLabel = STEP_LABELS[iStep - 1] || ("Step " + iStep);
-
-                sHtml += "<div class='rakStepper__item' style='display:flex;flex-direction:column;align-items:center;flex-shrink:0;'>" +
-                    "<div class='" + sCircleClass + "' style='width:30px;height:30px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:500;box-sizing:border-box;" +
-                    (iStep === iActiveStep ? "background:#bf1313;color:#fff;" : "background:#fff;border:1px solid #616161;color:#616161;") + "'>" + iStep + "</div>" +
-                    "<div class='" + sLabelClass + "' style='margin-top:6px;font-size:11px;text-align:center;max-width:72px;line-height:1.3;" +
-                    (iStep === iActiveStep ? "color:#bf1313;font-weight:500;" : "color:#616161;") + "'>" + sLabel + "</div>" +
-                    "</div>";
-
-                if (idx < aStepNums.length - 1) {
-                    sHtml += "<div class='rakStepper__connector' style='flex:1;height:1px;background:#dbdcdd;margin-top:15px;min-width:16px;'></div>";
-                }
-            });
-
-            // "2 More steps" indicator
-            sHtml += "<div class='rakStepper__connector' style='flex:1;height:1px;background:#dbdcdd;margin-top:15px;min-width:16px;'></div>" +
-                "<div class='rakStepper__item' style='display:flex;flex-direction:column;align-items:center;flex-shrink:0;'>" +
-                "<div style='width:30px;height:30px;border-radius:50%;background:#fff;border:1px solid #10233e;display:flex;align-items:center;justify-content:center;box-sizing:border-box;'>" +
-                "<img src='assets/figma/step1/icon-right-arrow.svg' alt='more' style='width:14px;height:14px' />" +
-                "</div>" +
-                "<div style='margin-top:6px;font-size:11px;text-align:center;max-width:72px;line-height:1.3;color:#10233e;'>2 More<br>steps</div>" +
-                "</div>";
-
-            sHtml += "</div></div>";
-            return sHtml;
-        },
-
-        _buildSectionHeaderHtml: function () {
-            return "<div class='rakContent' style='background:#fff;border-radius:6px;padding:24px 24px 0;margin-bottom:0'>" +
-                "<h3 class='rakSection__title'>Select Project</h3>" +
-                "<p class='rakSection__desc'>Select the project for which you want to apply for a building permit. " +
-                "You may only select projects where you are listed as the owner or authorized agent.</p>" +
-                "</div>";
-        },
-
-        _buildPaginationHtml: function (iPage, iMaxPage, iTotal) {
-            if (iTotal === 0) { return ""; }
-
-            var sCtrl = "window._rakStep1Ctrl";
-            var sDisFirst = iPage === 1 ? " rakPagination__btn--disabled" : "";
-            var sDisLast  = iPage === iMaxPage ? " rakPagination__btn--disabled" : "";
-
-            var sHtml = "<div class='rakPagination'>" +
-                "<button class='rakPagination__btn" + sDisFirst + "'" +
-                (iPage > 1 ? " onclick=\"" + sCtrl + ".onPaginate(1)\"" : "") + ">" +
-                "<img src='assets/figma/step1/icon-pagination-first.svg' alt='First' /></button>" +
-                "<button class='rakPagination__btn" + sDisFirst + "'" +
-                (iPage > 1 ? " onclick=\"" + sCtrl + ".onPaginate(" + (iPage - 1) + ")\"" : "") + ">" +
-                "&lt;</button>";
-
-            for (var i = 1; i <= iMaxPage; i++) {
-                var sActive = i === iPage ? " rakPagination__btn--active" : "";
-                sHtml += "<button class='rakPagination__btn" + sActive + "'" +
-                    " onclick=\"" + sCtrl + ".onPaginate(" + i + ")\">" + i + "</button>";
-            }
-
-            sHtml += "<button class='rakPagination__btn" + sDisLast + "'" +
-                (iPage < iMaxPage ? " onclick=\"" + sCtrl + ".onPaginate(" + (iPage + 1) + ")\"" : "") + ">" +
-                "&gt;</button>" +
-                "<button class='rakPagination__btn" + sDisLast + "'" +
-                (iPage < iMaxPage ? " onclick=\"" + sCtrl + ".onPaginate(" + iMaxPage + ")\"" : "") + ">" +
-                "<img src='assets/figma/step1/icon-pagination-last.svg' alt='Last' /></button>" +
-                "</div>";
-
-            return sHtml;
+        formatResultCount: function (iResult, iTotal) {
+            if (iResult === undefined || iResult === null) { return ""; }
+            return iResult + " of " + (iTotal || 0) + " Projects found";
         }
 
     });

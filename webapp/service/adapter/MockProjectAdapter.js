@@ -9,11 +9,14 @@ sap.ui.define(["sap/ui/model/json/JSONModel"], function (JSONModel) {
         }
         _cache = new Promise(function (resolve, reject) {
             var oModel = new JSONModel();
-            oModel.loadData(sap.ui.require.toUrl("rak/zp02/model/mock/projects.json"), null, false);
+            // Append timestamp to bypass HTTP cache during development
+            var sUrl = sap.ui.require.toUrl("rak/zp02/model/mock/projects.json") + "?v=" + Date.now();
+            oModel.loadData(sUrl, null, false);
             var oData = oModel.getData();
             if (oData && oData.projects) {
                 resolve(oData);
             } else {
+                _cache = null;
                 reject(new Error("MockProjectAdapter: failed to load projects.json"));
             }
         });
