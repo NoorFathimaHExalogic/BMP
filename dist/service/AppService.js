@@ -1,0 +1,2 @@
+sap.ui.define(["rak/zp02/service/adapter/MockAdapter"],function(e){"use strict";var t={_adapter:e,getAppConfig:function(){return this._adapter.getAppConfig()}};return t});
+//# sourceMappingURL=AppService.js.map

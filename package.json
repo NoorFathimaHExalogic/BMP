@@ -1,0 +1,20 @@
+{
+  "name": "rak-zp02-ui5",
+  "version": "0.1.0",
+  "description": "RAK ZP02 — New Building Permit — SAPUI5 Frontend",
+  "private": true,
+  "scripts": {
+    "start": "ui5 serve --open index.html",
+    "start:noopen": "ui5 serve",
+    "build": "ui5 build --all",
+    "lint": "eslint webapp"
+  },
+  "devDependencies": {
+    "@ui5/cli": "^4.0.0"
+  },
+  "ui5": {
+    "dependencies": [
+      "@sapui5/distribution-metadata"
+    ]
+  }
+}

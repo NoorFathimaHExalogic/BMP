@@ -1,0 +1,35 @@
+/*
+ * RAK ZP02 — SAPUI5 Custom CSS
+ * Namespace: rak.zp02
+ *
+ * POLICY:
+ *  - All custom overrides MUST be scoped to the application root
+ *    (e.g. .rakZp02App > ...) to avoid polluting the global SAPUI5 theme.
+ *  - Never override sap.m / sap.f base styles globally.
+ *  - CSS custom properties (design tokens) are declared here and
+ *    consumed by component-level overrides defined in each view's
+ *    own <style> block or additional CSS files.
+ *  - Phase 0: This file is intentionally near-empty.
+ *    Visual customisation begins in Phase 1 (Step 1 implementation).
+ *
+ * DESIGN TOKENS (from Figma node 30:3069, file aq5xvEg4AvS44yaZH17ipr):
+ *
+ *   --rak-red:            #bf1313;   (Primary brand red, var name from Figma)
+ *   --rak-red-selected:   #eb3642;   (Card selected border / accent)
+ *   --rak-dark-blue:      #10233e;   (Header text, "Full Details" link)
+ *   --rak-blue:           #004b90;
+ *   --rak-text-dark:      #313131;
+ *   --rak-text-muted:     #929292;
+ *   --rak-border-light:   #d9d9d9;
+ *   --rak-bg-page:        #f9f9f9;
+ *   --rak-card-bg:        #ffffff;
+ *   --rak-shadow-card:    0px 0px 7px 0px rgba(173, 173, 173, 0.25);
+ *   --rak-shadow-header:  0px 1px 9px 0px rgba(0, 0, 0, 0.25);
+ *
+ * STATUS TAG TOKENS:
+ *   --rak-tag-opened-bg:  #d6ecff;
+ *   --rak-tag-issued-bg:  #e8d6ff;
+ *   --rak-tag-complete-bg:#d6ffe4;
+ *
+ * Phase 1 scoped overrides will be added here with the prefix .rakZp02App
+ */

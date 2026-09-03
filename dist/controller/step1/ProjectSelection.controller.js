@@ -1,0 +1,2 @@
+sap.ui.define(["sap/ui/core/mvc/Controller"],function(e){"use strict";return e.extend("rak.zp02.controller.step1.ProjectSelection",{onInit:function(){},onNavBack:function(){this.getOwnerComponent().getRouter().navTo("home")}})});
+//# sourceMappingURL=ProjectSelection.controller.js.map

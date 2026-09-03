@@ -1,0 +1,1 @@
+{"version":3,"file":"AppService.js","names":["sap","ui","define","MockAdapter","AppService","_adapter","getAppConfig","this"],"sources":["AppService-dbg.js"],"mappings":"AAAAA,IAAIC,GAAGC,OAAO,CACV,wCACD,SAAUC,GACT,aAQA,IAAIC,EAAa,CAEbC,SAAUF,EAMVG,aAAc,WACV,OAAOC,KAAKF,SAASC,cACzB,GAIJ,OAAOF,CACX","ignoreList":[]}

@@ -1,0 +1,43 @@
+<mvc:View
+    xmlns:mvc="sap.ui.core.mvc"
+    xmlns="sap.m"
+    xmlns:l="sap.ui.layout"
+    controllerName="rak.zp02.controller.step1.ProjectSelection"
+    displayBlock="true">
+
+    <!-- PHASE 1 PLACEHOLDER — Do not implement Step 1 UI here yet -->
+    <!-- Implementation begins after Phase 0 foundation approval -->
+
+    <Page
+        id="projectSelectionPage"
+        showHeader="false"
+        backgroundDesign="Solid">
+
+        <content>
+            <l:VerticalLayout
+                width="100%"
+                class="sapUiMediumMarginTop sapUiMediumMarginBeginEnd">
+
+                <Title
+                    text="Step 1 — Select Project"
+                    level="H2"
+                    class="sapUiSmallMarginBottom" />
+
+                <Text
+                    text="[PLACEHOLDER] Phase 1 implementation — Project Selection screen not yet built." />
+
+                <Text
+                    text="Route: project-selection"
+                    class="sapUiTinyMarginTop" />
+
+                <Button
+                    text="Back to Foundation Screen"
+                    press=".onNavBack"
+                    class="sapUiSmallMarginTop" />
+
+            </l:VerticalLayout>
+        </content>
+
+    </Page>
+
+</mvc:View>

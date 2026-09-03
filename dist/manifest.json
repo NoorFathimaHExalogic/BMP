@@ -1,0 +1,197 @@
+{
+	"_version": "1.60.0",
+	"sap.app": {
+		"id": "rak.zp02",
+		"type": "application",
+		"title": "{{appTitle}}",
+		"description": "{{appDescription}}",
+		"applicationVersion": {
+			"version": "0.1.0"
+		},
+		"dataSources": {},
+		"i18n": {
+			"bundleUrl": "i18n/i18n.properties",
+			"supportedLocales": [
+				"",
+				"ar",
+				"en"
+			]
+		}
+	},
+	"sap.ui": {
+		"technology": "UI5",
+		"icons": {
+			"icon": "",
+			"favIcon": ""
+		},
+		"deviceTypes": {
+			"desktop": true,
+			"tablet": true,
+			"phone": false
+		},
+		"supportedThemes": [
+			"sap_horizon",
+			"sap_horizon_dark",
+			"sap_fiori_3"
+		]
+	},
+	"sap.ui5": {
+		"rootView": {
+			"viewName": "rak.zp02.view.App",
+			"type": "XML",
+			"async": true,
+			"id": "appView"
+		},
+		"dependencies": {
+			"minUI5Version": "1.120.0",
+			"libs": {
+				"sap.ui.core": {},
+				"sap.m": {},
+				"sap.f": {},
+				"sap.ui.layout": {}
+			}
+		},
+		"contentDensities": {
+			"compact": true,
+			"cozy": true
+		},
+		"models": {
+			"i18n": {
+				"type": "sap.ui.model.resource.ResourceModel",
+				"settings": {
+					"bundleName": "rak.zp02.i18n.i18n",
+					"supportedLocales": [
+						"en",
+						"ar"
+					],
+					"fallbackLocale": "en"
+				}
+			},
+			"app": {
+				"type": "sap.ui.model.json.JSONModel",
+				"uri": "model/mock/app.json"
+			}
+		},
+		"routing": {
+			"config": {
+				"routerClass": "sap.m.routing.Router",
+				"viewType": "XML",
+				"viewPath": "rak.zp02.view",
+				"controlId": "appShell",
+				"controlAggregation": "pages",
+				"bypassed": {
+					"target": "notFound"
+				},
+				"async": true
+			},
+			"routes": [
+				{
+					"name": "home",
+					"pattern": "",
+					"target": [
+						"home"
+					]
+				},
+				{
+					"name": "project-selection",
+					"pattern": "project-selection",
+					"target": [
+						"projectSelection"
+					]
+				},
+				{
+					"name": "permit-information",
+					"pattern": "permit-information",
+					"target": [
+						"permitInformation"
+					]
+				},
+				{
+					"name": "fences-buildings",
+					"pattern": "fences-buildings",
+					"target": [
+						"fencesBuildings"
+					]
+				},
+				{
+					"name": "business-partners",
+					"pattern": "business-partners",
+					"target": [
+						"businessPartners"
+					]
+				},
+				{
+					"name": "attachments",
+					"pattern": "attachments",
+					"target": [
+						"attachments"
+					]
+				},
+				{
+					"name": "summary",
+					"pattern": "summary",
+					"target": [
+						"summary"
+					]
+				},
+				{
+					"name": "payment",
+					"pattern": "payment",
+					"target": [
+						"payment"
+					]
+				},
+				{
+					"name": "confirmation",
+					"pattern": "confirmation",
+					"target": [
+						"confirmation"
+					]
+				}
+			],
+			"targets": {
+				"home": {
+					"viewName": "Home",
+					"viewId": "home"
+				},
+				"projectSelection": {
+					"viewName": "step1.ProjectSelection",
+					"viewId": "projectSelection"
+				},
+				"permitInformation": {
+					"viewName": "step2.PermitInformation",
+					"viewId": "permitInformation"
+				},
+				"fencesBuildings": {
+					"viewName": "step3.FencesBuildings",
+					"viewId": "fencesBuildings"
+				},
+				"businessPartners": {
+					"viewName": "step4.BusinessPartners",
+					"viewId": "businessPartners"
+				},
+				"attachments": {
+					"viewName": "step5.Attachments",
+					"viewId": "attachments"
+				},
+				"summary": {
+					"viewName": "step6.Summary",
+					"viewId": "summary"
+				},
+				"payment": {
+					"viewName": "step7.Payment",
+					"viewId": "payment"
+				},
+				"confirmation": {
+					"viewName": "step8.Confirmation",
+					"viewId": "confirmation"
+				},
+				"notFound": {
+					"viewName": "NotFound",
+					"viewId": "notFound"
+				}
+			}
+		},
+		"flexBundle": false
+	}
+}

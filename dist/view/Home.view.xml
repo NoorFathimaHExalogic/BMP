@@ -1,0 +1,58 @@
+<mvc:View
+    xmlns:mvc="sap.ui.core.mvc"
+    xmlns="sap.m"
+    xmlns:l="sap.ui.layout"
+    controllerName="rak.zp02.controller.Home"
+    displayBlock="true">
+
+    <Page
+        id="homePage"
+        showHeader="false"
+        backgroundDesign="Solid">
+
+        <content>
+            <l:VerticalLayout
+                width="100%"
+                class="sapUiMediumMarginTop sapUiMediumMarginBeginEnd">
+
+                <Title
+                    text="RAK ZP02"
+                    level="H1"
+                    titleStyle="H1"
+                    class="sapUiSmallMarginBottom" />
+
+                <Title
+                    text="SAPUI5 Frontend Foundation"
+                    level="H2"
+                    titleStyle="H3"
+                    class="sapUiSmallMarginBottom" />
+
+                <Text
+                    text="Phase 0 — Architecture Verification"
+                    class="sapUiSmallMarginBottom" />
+
+                <Text
+                    text="{i18n>appTitle}"
+                    class="sapUiTinyMarginTop" />
+
+                <Text
+                    text="Environment: {app>/environment}"
+                    class="sapUiTinyMarginTop" />
+
+                <Text
+                    text="Language: {app>/currentLanguage}"
+                    class="sapUiTinyMarginTop sapUiSmallMarginBottom" />
+
+                <Button
+                    id="testBtn"
+                    text="Go to Step 1 — Project Selection"
+                    type="Emphasized"
+                    press=".onNavigateToProjectSelection"
+                    class="sapUiSmallMarginTop" />
+
+            </l:VerticalLayout>
+        </content>
+
+    </Page>
+
+</mvc:View>

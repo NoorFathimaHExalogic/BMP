@@ -1,0 +1,2 @@
+sap.ui.define(["sap/ui/model/json/JSONModel"],function(e){"use strict";var t={getAppConfig:function(){return new Promise(function(t,n){var a=new e;a.loadData("model/mock/app.json");a.attachRequestCompleted(function(){t(a.getData())});a.attachRequestFailed(function(e){n(e)})})}};return t});
+//# sourceMappingURL=MockAdapter.js.map
