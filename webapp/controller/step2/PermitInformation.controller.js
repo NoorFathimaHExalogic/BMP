@@ -32,26 +32,30 @@ sap.ui.define([
         };
     }
 
+    function _emptyForm() {
+        return {
+            etisalatNocNo:     "",
+            eweNocNo:          "",
+            civilDefenceArea:  "",
+            grantProgramIndex: 0,
+            grantType:         "",
+            grantExpiryDate:   ""
+        };
+    }
+
     return Controller.extend("rak.zp02.controller.step2.PermitInformation", {
 
         onInit: function () {
             var oViewModel = new JSONModel({
                 activeStep:        2,
                 stepLabels:        STEP_LABELS,
-                project:           { ownerName: "", projectNumber: "", address: "" },
+                project:           { ownerName: "", projectNumber: "", address: "", projectId: "", landSector: null },
                 showEtisalatNoc:   true,
                 showGrantFields:   false,
                 civilDefenceAreas: [],
                 grantTypes:        [],
-                form: {
-                    etisalatNocNo:    "",
-                    eweNocNo:         "",
-                    civilDefenceArea: "",
-                    grantProgramIndex: 0,
-                    grantType:        "",
-                    grantExpiryDate:  ""
-                },
-                errors: _emptyErrors()
+                form:              _emptyForm(),
+                errors:            _emptyErrors()
             });
 
             this.getView().setModel(oViewModel, "view");
@@ -62,40 +66,39 @@ sap.ui.define([
         },
 
         _onRouteMatched: function () {
-            this._loadContext();
+            var oAppState = this.getOwnerComponent().getModel("appState");
+            var oProject  = oAppState ? oAppState.getProperty("/selectedProject") : null;
+
+            // Guard: no project selected → redirect to Step 1
+            if (!oProject) {
+                this.getOwnerComponent().getRouter().navTo("project-selection");
+                return;
+            }
+
+            this._loadContext(oProject);
             this._loadReferenceData();
         },
 
-        _loadContext: function () {
-            var oAppState  = this.getOwnerComponent().getModel("appState");
-            var oProject   = oAppState ? oAppState.getProperty("/selectedProject") : null;
+        _loadContext: function (oProject) {
             var oViewModel = this.getView().getModel("view");
 
-            if (oProject) {
-                oViewModel.setProperty("/project", {
-                    ownerName:     oProject.ownerName    || "",
-                    projectNumber: oProject.projectNumber || "",
-                    address:       oProject.address       || "",
-                    projectId:     oProject.projectId     || "",
-                    landSector:    oProject.landSector    || null
-                });
-                // Sector 8 or 9 → Etisalat/Du NOC is not mandatory (hide field)
-                var iSector = oProject.landSector;
-                var bShow   = !(iSector === 8 || iSector === 9);
-                oViewModel.setProperty("/showEtisalatNoc", bShow);
+            oViewModel.setProperty("/project", {
+                ownerName:     oProject.ownerName     || "",
+                projectNumber: oProject.projectNumber || "",
+                address:       oProject.address       || "",
+                projectId:     oProject.projectId     || "",
+                landSector:    oProject.landSector != null ? oProject.landSector : null
+            });
 
-                // Reset form on each entry
-                oViewModel.setProperty("/form", {
-                    etisalatNocNo:     "",
-                    eweNocNo:          "",
-                    civilDefenceArea:  "",
-                    grantProgramIndex: 0,
-                    grantType:         "",
-                    grantExpiryDate:   ""
-                });
-                oViewModel.setProperty("/showGrantFields", false);
-                oViewModel.setProperty("/errors", _emptyErrors());
-            }
+            // Sector 8 or 9 → Etisalat/Du NOC not mandatory — hide field
+            var vSector = oProject.landSector;
+            var bShow   = !(vSector === 8 || vSector === 9 || vSector === "8" || vSector === "9");
+            oViewModel.setProperty("/showEtisalatNoc", bShow);
+
+            // Reset form and errors on each entry
+            oViewModel.setProperty("/form",          _emptyForm());
+            oViewModel.setProperty("/showGrantFields", false);
+            oViewModel.setProperty("/errors",         _emptyErrors());
         },
 
         _loadReferenceData: function () {
@@ -131,7 +134,6 @@ sap.ui.define([
         /* ── Live clear on field change ───────────────────────────── */
 
         onFieldChange: function () {
-            // Clear all error states on any field interaction (re-validate on Next)
             this.getView().getModel("view").setProperty("/errors", _emptyErrors());
         },
 
@@ -146,43 +148,56 @@ sap.ui.define([
             var oErrors    = _emptyErrors();
             var bValid     = true;
 
-            // MSG-V01: Etisalat/Du NOC required (only if field is shown)
+            // MSG-V01: Etisalat/Du NOC required (only for non-sector-8/9 land)
             if (bShowEtis && !(oForm.etisalatNocNo || "").trim()) {
                 oErrors.etisalatNocState = "Error";
                 oErrors.etisalatNocMsg   = oBundle.getText("msgV01EtisalatNocRequired");
                 bValid = false;
             }
 
-            // MSG-V02: EWE NOC required
-            if (!(oForm.eweNocNo || "").trim()) {
+            // EWE NOC: required (MSG-V02), then format (MSG-V03)
+            var sEwe = (oForm.eweNocNo || "").trim();
+            if (!sEwe) {
                 oErrors.eweNocState = "Error";
-                oErrors.eweNocMsg   = oBundle.getText("msgV02EweNocRequired");
+                oErrors.eweNocMsg   = oBundle.getText("msgV02Required");
                 bValid = false;
-            } else if ((oForm.eweNocNo || "").trim().length !== 14) {
-                // MSG-V03: EWE NOC must be exactly 14 characters
+            } else if (sEwe.length !== 14) {
                 oErrors.eweNocState = "Error";
                 oErrors.eweNocMsg   = oBundle.getText("msgV03EweNocFormat");
                 bValid = false;
             }
 
-            // MSG-V05: Civil Defence Area required
+            // Civil Defence Area required (MSG-V02)
             if (!(oForm.civilDefenceArea || "").trim()) {
                 oErrors.civilDefenceState = "Error";
-                oErrors.civilDefenceMsg   = oBundle.getText("msgV05CivilDefenceRequired");
+                oErrors.civilDefenceMsg   = oBundle.getText("msgV02Required");
                 bValid = false;
             }
 
             // Grant program conditional validation
             if (bGrant) {
+                // Grant Type required (MSG-V02)
                 if (!(oForm.grantType || "").trim()) {
                     oErrors.grantTypeState = "Error";
-                    oErrors.grantTypeMsg   = oBundle.getText("msgV06GrantTypeRequired");
+                    oErrors.grantTypeMsg   = oBundle.getText("msgV02Required");
                     bValid = false;
                 }
-                if (!(oForm.grantExpiryDate || "").trim()) {
+
+                // Program Expiry Date: required + must not be in the past (MSG-V05)
+                var sExpiry = (oForm.grantExpiryDate || "").trim();
+                if (!sExpiry) {
                     oErrors.grantExpiryState = "Error";
-                    oErrors.grantExpiryMsg   = oBundle.getText("msgV07GrantExpiryRequired");
+                    oErrors.grantExpiryMsg   = oBundle.getText("msgV02Required");
                     bValid = false;
+                } else {
+                    var dExpiry = new Date(sExpiry + "T00:00:00");
+                    var dToday  = new Date();
+                    dToday.setHours(0, 0, 0, 0);
+                    if (isNaN(dExpiry.getTime()) || dExpiry < dToday) {
+                        oErrors.grantExpiryState = "Error";
+                        oErrors.grantExpiryMsg   = oBundle.getText("msgV05InvalidDate");
+                        bValid = false;
+                    }
                 }
             }
 

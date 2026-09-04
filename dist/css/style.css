@@ -275,7 +275,7 @@
     color: var(--rak-color-text-mid) !important;
 }
 .rakCard__date-sep.sapMText {
-    color: transparent !important;
+    color: var(--rak-color-text-mid) !important;
     white-space: pre !important;
 }
 .rakCard__meta-inline.sapMText {
@@ -413,6 +413,185 @@
 
 /* ── Empty / no data ─────────────────────────────────────────── */
 .rakNoData { text-align: center; padding: 48px; color: var(--rak-color-text-mid); font-size: 14px; }
+
+/* ── Stepper completed step — green (Figma Step 2 spec) ─────── */
+.rakStepper__circle--completed { background: #53a56e !important; border: none !important; color: #fff !important; }
+.rakStepper__check { font-size: 14px; font-weight: 700; line-height: 1; }
+.rakStepper__label--completed { color: #53a56e !important; font-weight: 500 !important; }
+
+/* ── Back button (Step 2 footer) ─────────────────────────────── */
+.rakBackBtn.sapMBtn .sapMBtnInner {
+    border-radius: var(--rak-radius-btn) !important;
+    background: transparent !important;
+    color: var(--rak-color-primary) !important;
+    border: 1.5px solid var(--rak-color-primary) !important;
+    min-width: 120px !important;
+    height: 40px !important;
+    font-size: 15px !important;
+    font-weight: 500 !important;
+}
+.rakBackBtn.sapMBtn:not([disabled]) .sapMBtnInner:hover {
+    background: #fef2f2 !important;
+}
+
+/* ── Step 2 — Persistent context header ───────────────────────── */
+.rakContextBar.sapMHBox {
+    background: var(--rak-color-white);
+    border-bottom: 1px solid var(--rak-color-border-card);
+    padding: 8px 0;
+    margin-bottom: 0;
+}
+.rakContextBar__text.sapMText {
+    font-size: 13px !important;
+    font-weight: 500 !important;
+    color: var(--rak-color-text-mid) !important;
+}
+.rakContextBar__value.sapMText {
+    font-size: 13px !important;
+    font-weight: 600 !important;
+    color: var(--rak-color-navy) !important;
+}
+.rakContextBar__sep.sapMText {
+    font-size: 13px !important;
+    color: var(--rak-color-border) !important;
+    padding: 0 10px !important;
+}
+
+/* ── Step 2 — Form card ──────────────────────────────────────── */
+.rakFormCard.sapMVBox {
+    background: var(--rak-color-white);
+    border-radius: var(--rak-radius-card);
+    padding: 40px 48px 48px;
+    margin-bottom: 0;
+    box-sizing: border-box;
+    width: 100%;
+}
+
+/* ── Step 2 — Form field label ───────────────────────────────── */
+.rakFormLabel.sapMLabel {
+    font-size: 14px !important;
+    font-weight: 600 !important;
+    color: var(--rak-color-text-dark) !important;
+    margin-bottom: 6px !important;
+    display: block !important;
+}
+.rakFormLabel--required.sapMLabel::after {
+    content: ' *';
+    color: var(--rak-color-primary);
+    font-weight: 700;
+}
+.rakFormLabel__info.sapUiIcon {
+    font-size: 14px !important;
+    color: var(--rak-color-text-mid) !important;
+    margin-left: 4px !important;
+    cursor: default !important;
+    vertical-align: middle !important;
+}
+
+/* ── Step 2 — Input fields ───────────────────────────────────── */
+.rakFormInput.sapMInputBase {
+    border: 1px solid var(--rak-color-border) !important;
+    border-radius: var(--rak-radius-card) !important;
+    height: 40px !important;
+    background: var(--rak-color-white) !important;
+    width: 100% !important;
+    box-sizing: border-box !important;
+}
+.rakFormInput.sapMInputBase.sapMInputBaseError {
+    border-color: var(--rak-color-primary) !important;
+}
+.rakFormInput.sapMInputBase .sapMInputBaseInner {
+    font-size: 14px !important;
+    color: var(--rak-color-text-dark) !important;
+    padding: 0 12px !important;
+}
+
+/* ── Step 2 — Select dropdowns ───────────────────────────────── */
+.rakFormSelect.sapMSlt {
+    border: 1px solid var(--rak-color-border) !important;
+    border-radius: var(--rak-radius-card) !important;
+    height: 40px !important;
+    background: var(--rak-color-white) !important;
+    width: 100% !important;
+    box-sizing: border-box !important;
+}
+.rakFormSelect.sapMSlt.sapMSltState-Error {
+    border-color: var(--rak-color-primary) !important;
+}
+.rakFormSelect.sapMSlt .sapMSltLabel {
+    font-size: 14px !important;
+    color: var(--rak-color-text-dark) !important;
+}
+
+/* ── Step 2 — Radio button containers ───────────────────────── */
+.rakRadioBox.sapMRB {
+    border: 1px solid var(--rak-color-border) !important;
+    border-radius: var(--rak-radius-card) !important;
+    height: 40px !important;
+    min-width: 100px !important;
+    padding: 0 16px !important;
+    display: flex !important;
+    align-items: center !important;
+    background: var(--rak-color-white) !important;
+    box-sizing: border-box !important;
+}
+.rakRadioBox.sapMRB.sapMRBSel {
+    border-color: var(--rak-color-primary) !important;
+}
+.rakRadioBox.sapMRB .sapMRBBLabel {
+    font-size: 14px !important;
+    color: var(--rak-color-text-dark) !important;
+}
+
+/* ── Step 2 — Date picker ────────────────────────────────────── */
+.rakFormDate.sapMDP {
+    border: 1px solid var(--rak-color-border) !important;
+    border-radius: var(--rak-radius-card) !important;
+    height: 40px !important;
+    background: var(--rak-color-white) !important;
+    width: 100% !important;
+    box-sizing: border-box !important;
+}
+.rakFormDate.sapMDP.sapMInputBaseError {
+    border-color: var(--rak-color-primary) !important;
+}
+
+/* ── Step 2 — Field row layout ───────────────────────────────── */
+.rakFormRow.sapMHBox {
+    gap: 24px;
+    margin-bottom: 24px;
+    align-items: flex-end;
+    flex-wrap: wrap;
+}
+.rakFormField.sapMVBox {
+    min-width: 200px;
+    flex: 1;
+}
+.rakFormLabelRow.sapMHBox {
+    margin-bottom: 6px;
+    align-items: center;
+    gap: 2px;
+}
+.rakFormError.sapMText {
+    font-size: 12px !important;
+    color: var(--rak-color-primary) !important;
+    margin-top: 4px !important;
+    min-height: 16px !important;
+    display: block !important;
+}
+
+/* ── Step 2 — RadioButtonGroup horizontal layout ─────────────── */
+.sapMRbG[id*="rbgGrant"] {
+    display: flex !important;
+    flex-direction: row !important;
+    gap: 12px !important;
+    flex-wrap: wrap !important;
+}
+
+/* ── Step 2 — Grant fields conditional area ──────────────────── */
+.rakGrantArea.sapMVBox {
+    margin-top: 0;
+}
 
 /* ── Responsive breakpoints ──────────────────────────────────── */
 @media (max-width: 1024px) {

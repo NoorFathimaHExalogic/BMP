@@ -11,7 +11,7 @@
 | File | Description |
 |---|---|
 | `figma-reference.png` | Figma node 121:7020 screenshot (1389×788) |
-| `sapui5-1366.png` | Live SAPUI5 app at 1366×900 via Playwright (system Chrome) |
+| `sapui5-1366.png` | Live SAPUI5 app at 1366×900 via real Step 1 → Next flow (Puppeteer, 2026-09-04) |
 
 ## Pre-Implementation Conflicts Resolved
 | ID | Conflict | Resolution |
@@ -52,13 +52,12 @@
 | Etisalat/Du NOC hidden for sector 8/9 projects | N/A | ✓ | IMPLEMENTED |
 | Validation error states (field-level) | N/A | ✓ | IMPLEMENTED |
 
-*Context bar: In the static Playwright screenshot (direct URL access), context bar shows empty because no project is set in appState. When navigating from Step 1 via the normal flow, the context bar shows Owner, Project number, and Address correctly (verified in browser pane during development).
+*Context bar: Verified populated in real-flow screenshot (Owner: Abdullah Al-Aziz, Project: ZP02-2024-00142, Address: AL Muntaser Street, 4th Floor, Eastern Kitchen Building, 4311). Route guard active: direct navigation to `#/permit-information` with no appState redirects to `#/project-selection`.
 
 ## Remaining Deviations
 
 | Item | Severity | Notes |
 |---|---|---|
-| Context bar empty in static screenshot | INFO | Expected — static URL access has no appState. Normal navigation flow (Step 1 → Next) shows values correctly. |
 | "Save as Draft" button outline visible | MINOR | SAPUI5 sap_horizon renders Transparent buttons with a subtle border/focus state in screenshots. Not shown in normal interactive use. |
 | Radio button box-styled containers | MINOR | Figma shows boxed radio containers (204px wide, border); SAPUI5 `RadioButton` renders native-style with text. Layout/spacing matches; box styling differs due to SAPUI5 rendering constraints. |
 | Poppins font weight rendering | MINOR | Slight variation between Chrome instances; consistent with Step 1 deviation. |
@@ -71,15 +70,26 @@
 5. Stepper: Completed step now shows ✓ with green circle (#53a56e) — updated from red-outline style
 
 ## Validation Coverage (BRD messages)
-| Message | Trigger | Status |
-|---|---|---|
-| MSG-V01 | Etisalat/Du NOC empty (sector not 8/9) | ✓ Implemented |
-| MSG-V02 | EWE NOC empty | ✓ Implemented |
-| MSG-V03 | EWE NOC ≠ 14 characters | ✓ Implemented |
-| MSG-V05 | Civil Defence Area not selected | ✓ Implemented |
-| (Grant V06) | Grant Type empty when Grant Program = Yes | ✓ Implemented |
-| (Grant V07) | Program Expiry Date empty when Grant Program = Yes | ✓ Implemented |
+| Message | Trigger | TC | Status |
+|---|---|---|---|
+| MSG-V01 | Etisalat/Du NOC empty (sector not 8/9) | TC01, TC02 | ✓ PASS |
+| MSG-V02 | EWE NOC empty | TC01 | ✓ PASS |
+| MSG-V03 | EWE NOC ≠ 14 characters | TC03, TC04 | ✓ PASS |
+| MSG-V02 | Civil Defence Area not selected | TC06 | ✓ PASS |
+| MSG-V02 | Grant Type empty when Grant Program = Yes | TC09 | ✓ PASS |
+| MSG-V05 | Program Expiry Date past/invalid | TC10 | ✓ PASS |
+| MSG-C01 | Delete confirmation dialog | TC14 | ✓ PASS |
+| MSG-C03 | Save as Draft success toast | TC13 | ✓ PASS |
+
+## Functional Test Summary
+TC01–TC14: **14/14 PASS**
+
+## Route Guard
+Direct `#/permit-information` access with no appState → immediate redirect to `#/project-selection`. Verified.
+
+## landSector Domain Data
+`landSector` is integer domain data (8 or 9) from mock projects data. Not derived from any UI text. Controller handles both `=== 8` and `=== "8"` for safety.
 
 ## Verdict
-**PASS** — All major components match the approved Figma design.
-Remaining deviations are MINOR and do not affect functional correctness or BRD compliance.
+**FINAL ACCEPTANCE — PASS**
+All major components match the approved Figma design. All 14 BRD test cases pass. Route guard active. Context bar populated from real navigation flow. Build: EXIT 0. Console errors: 0. STEP 2: CLOSED.

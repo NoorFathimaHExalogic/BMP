@@ -1,8 +1,9 @@
 sap.ui.define([
     "sap/ui/core/UIComponent",
     "sap/ui/Device",
+    "sap/ui/model/json/JSONModel",
     "rak/zp02/model/models"
-], function (UIComponent, Device, models) {
+], function (UIComponent, Device, JSONModel, models) {
     "use strict";
 
     return UIComponent.extend("rak.zp02.Component", {
@@ -15,6 +16,11 @@ sap.ui.define([
             UIComponent.prototype.init.apply(this, arguments);
 
             this.setModel(models.createDeviceModel(), "device");
+
+            // Shared application state across steps
+            this.setModel(new JSONModel({
+                selectedProject: null
+            }), "appState");
 
             this.getRouter().initialize();
         },

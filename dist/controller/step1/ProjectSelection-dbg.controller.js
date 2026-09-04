@@ -224,11 +224,17 @@ sap.ui.define([
         /* ── Next ───────────────────────────────────────────────────── */
 
         onNext: function () {
-            var sId = this.getView().getModel("view").getProperty("/selectedProjectId");
+            var oViewModel = this.getView().getModel("view");
+            var sId = oViewModel.getProperty("/selectedProjectId");
             if (!sId) {
                 var oBundle = this.getView().getModel("i18n").getResourceBundle();
                 MessageToast.show(oBundle.getText("step1SelectionRequired"));
                 return;
+            }
+            var aAll = oViewModel.getProperty("/allProjects");
+            var oProject = aAll.find(function (p) { return p.projectId === sId; });
+            if (oProject) {
+                this.getOwnerComponent().getModel("appState").setProperty("/selectedProject", oProject);
             }
             this.getOwnerComponent().getRouter().navTo("permit-information");
         },
