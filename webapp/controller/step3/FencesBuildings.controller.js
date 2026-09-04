@@ -644,6 +644,13 @@ sap.ui.define([
             if (!(oForm.fenceTypeCode || "").trim()) {
                 oErrors.fenceType = oBundle.getText("msgV02Required");
                 bValid = false;
+            } else {
+                var aExisting = oViewModel.getProperty("/fences") || [];
+                var bDuplicate = aExisting.some(function (f) { return f.fenceTypeCode === oForm.fenceTypeCode; });
+                if (bDuplicate) {
+                    oErrors.fenceType = oBundle.getText("msgV02Required");
+                    bValid = false;
+                }
             }
 
             if (!(oForm.length || "").trim()) {

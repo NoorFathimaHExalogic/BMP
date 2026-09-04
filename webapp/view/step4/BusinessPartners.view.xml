@@ -1,0 +1,14 @@
+<mvc:View
+    controllerName="rak.zp02.controller.step4.BusinessPartners"
+    xmlns:mvc="sap.ui.core.mvc"
+    xmlns="sap.m"
+    displayBlock="true">
+    <Page showHeader="false">
+        <content>
+            <VBox class="sapUiMediumMargin">
+                <Title text="Business Partners" level="H2"/>
+                <Text text="Step 4 — Business Partners. This step will be implemented in a future phase."/>
+            </VBox>
+        </content>
+    </Page>
+</mvc:View>
