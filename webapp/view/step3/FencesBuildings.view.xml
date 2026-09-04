@@ -1,0 +1,462 @@
+<mvc:View
+    xmlns:mvc="sap.ui.core.mvc"
+    xmlns="sap.m"
+    xmlns:core="sap.ui.core"
+    xmlns:rak="rak.zp02.control"
+    controllerName="rak.zp02.controller.step3.FencesBuildings"
+    displayBlock="true">
+
+    <Page id="pageStep3" enableScrolling="true" class="rakPage rakApp">
+
+        <!-- RAK Application Header -->
+        <customHeader>
+            <Bar class="rakHeader sapMBarMiddle">
+                <contentLeft>
+                    <core:HTML content="&lt;div class='rakHeader__logo-area'&gt;&lt;img class='rakHeader__logo' src='assets/figma/step1/rak-municipality-logo.svg' alt='RAK Municipality' /&gt;&lt;div class='rakHeader__divider'&gt;&lt;/div&gt;&lt;img class='rakHeader__wordmark' src='assets/figma/step1/rak-digital-wordmark.svg' alt='RAK Digital' /&gt;&lt;/div&gt;" />
+                </contentLeft>
+                <contentRight>
+                    <core:HTML content="&lt;div class='rakHeader__user-area'&gt;&lt;img class='rakHeader__avatar' src='assets/figma/step1/icon-user-avatar-small.svg' alt='User' /&gt;&lt;span class='rakHeader__user-name'&gt;Abdullah Al-Aziz&lt;/span&gt;&lt;img class='rakHeader__chevron' src='assets/figma/step1/icon-chevron-down-small.svg' alt='' /&gt;&lt;/div&gt;" />
+                </contentRight>
+            </Bar>
+        </customHeader>
+
+        <!-- Footer: Back + Next -->
+        <footer>
+            <Bar class="rakFooter sapMBarMiddle">
+                <contentLeft>
+                    <Button id="btnBack" text="{i18n>actionBack}" press=".onBack" type="Transparent" class="rakBackBtn" />
+                </contentLeft>
+                <contentRight>
+                    <Button id="btnNext" text="{i18n>actionNext}" press=".onNext" type="Emphasized" class="rakNextBtn" />
+                </contentRight>
+            </Bar>
+        </footer>
+
+        <!-- Add Building Dialog -->
+        <dependents>
+            <Dialog id="addBuildingDlg"
+                    title="{view>/dialog/title}"
+                    contentWidth="640px"
+                    draggable="false"
+                    resizable="false"
+                    verticalScrolling="true"
+                    class="rakDlg">
+                <subHeader>
+                    <Bar class="rakDlgSubHeader">
+                        <contentLeft>
+                            <Text text="{view>/dialog/stepIndicator}" class="rakDlgStepIndicator" />
+                        </contentLeft>
+                    </Bar>
+                </subHeader>
+                <content>
+
+                    <!-- STEP 1: General Information -->
+                    <VBox id="dlgStep1" visible="{= ${view>/dialog/currentStep} === 1 }" class="rakDlgStepContent">
+                        <VBox class="rakFormField">
+                            <Label text="{i18n>step3LabelBuildingType}" class="rakFormLabel rakFormLabel--required" labelFor="selBuildingType" />
+                            <Select id="selBuildingType"
+                                    selectedKey="{view>/dialog/draft/buildingTypeCode}"
+                                    items="{view>/buildingTypes}"
+                                    change=".onBuildingTypeChange"
+                                    valueState="{= ${view>/dialog/errors/buildingType} ? 'Error' : 'None' }"
+                                    class="rakFormSelect rakFormSelect--full">
+                                <core:Item key="{view>key}" text="{view>text}" />
+                            </Select>
+                            <Text text="{view>/dialog/errors/buildingType}" class="rakFormError"
+                                  visible="{= !!${view>/dialog/errors/buildingType} }" />
+                        </VBox>
+
+                        <VBox class="rakFormField">
+                            <Label text="{i18n>step3LabelUsageType}" class="rakFormLabel rakFormLabel--required" labelFor="mcbUsageType" />
+                            <MultiComboBox id="mcbUsageType"
+                                           selectedKeys="{view>/dialog/draft/usageTypeKeys}"
+                                           enabled="{view>/dialog/usageTypeEnabled}"
+                                           placeholder="{i18n>step3PlaceholderSelect}"
+                                           valueState="{= ${view>/dialog/errors/usageType} ? 'Error' : 'None' }"
+                                           selectionChange=".onDialogFieldChange"
+                                           class="rakFormInput rakFormInput--full"
+                                           items="{view>/usageTypeOptions}">
+                                <core:Item key="{view>key}" text="{view>text}" />
+                            </MultiComboBox>
+                            <Text text="{view>/dialog/errors/usageType}" class="rakFormError"
+                                  visible="{= !!${view>/dialog/errors/usageType} }" />
+                        </VBox>
+
+                        <HBox class="rakFormRow">
+                            <VBox class="rakFormField">
+                                <Label text="{i18n>step3LabelTypicalBuildings}" class="rakFormLabel rakFormLabel--required" />
+                                <StepInput id="stpNumberOfTypical"
+                                           value="{view>/dialog/draft/numberOfTypicalBuildings}"
+                                           min="1" max="99" step="1"
+                                           class="rakStepInput"
+                                           change=".onDialogFieldChange" />
+                            </VBox>
+                            <VBox class="rakFormField">
+                                <Label text="{i18n>step3LabelBuildingName}" class="rakFormLabel" labelFor="inpBuildingName" />
+                                <Input id="inpBuildingName"
+                                       value="{view>/dialog/draft/buildingName}"
+                                       placeholder="{i18n>step3PlaceholderBuildingName}"
+                                       class="rakFormInput" />
+                            </VBox>
+                        </HBox>
+                    </VBox>
+
+                    <!-- STEP 2: Floor Composition -->
+                    <VBox id="dlgStep2" visible="{= ${view>/dialog/currentStep} === 2 }" class="rakDlgStepContent">
+
+                        <HBox class="rakFormRow">
+                            <VBox class="rakFormField">
+                                <Label text="{i18n>step3LabelBasement}" class="rakFormLabel" />
+                                <StepInput value="{view>/dialog/draft/floors/basement}" min="0" max="99" step="1" class="rakStepInput" />
+                            </VBox>
+                            <VBox class="rakFormField">
+                                <Label text="{i18n>step3LabelLowerGround}" class="rakFormLabel" />
+                                <StepInput value="{view>/dialog/draft/floors/lowerGround}" min="0" max="99" step="1" class="rakStepInput" />
+                            </VBox>
+                        </HBox>
+
+                        <HBox class="rakFormRow">
+                            <VBox class="rakFormField">
+                                <Label text="{i18n>step3LabelGroundUpper}" class="rakFormLabel" />
+                                <Input value="{view>/dialog/draft/floors/groundUpper}" editable="false" class="rakFormInput rakFormInput--readonly" />
+                            </VBox>
+                            <VBox class="rakFormField">
+                                <Label text="{i18n>step3LabelMezzanine}" class="rakFormLabel" />
+                                <StepInput value="{view>/dialog/draft/floors/mezzanine}" min="0" max="99" step="1" class="rakStepInput" />
+                            </VBox>
+                        </HBox>
+
+                        <HBox class="rakFormRow">
+                            <VBox class="rakFormField">
+                                <Label text="{i18n>step3LabelTypical}" class="rakFormLabel rakFormLabel--required" />
+                                <StepInput id="stpTypical"
+                                           value="{view>/dialog/draft/floors/typical}"
+                                           min="1" max="99" step="1"
+                                           change=".onTypicalFloorsChange"
+                                           class="rakStepInput" />
+                            </VBox>
+                            <VBox class="rakFormField">
+                                <Label text="{i18n>step3LabelUnique}" class="rakFormLabel" />
+                                <StepInput id="stpUnique"
+                                           value="{view>/dialog/draft/floors/unique}"
+                                           min="0" max="{view>/dialog/draft/floors/typical}"
+                                           step="1"
+                                           enabled="{view>/dialog/uniqueEnabled}"
+                                           class="rakStepInput" />
+                            </VBox>
+                        </HBox>
+
+                        <HBox class="rakFormRow">
+                            <VBox class="rakFormField">
+                                <Label text="{i18n>step3LabelRoof}" class="rakFormLabel" />
+                                <StepInput value="{view>/dialog/draft/floors/roof}" min="0" max="99" step="1" class="rakStepInput" />
+                            </VBox>
+                            <VBox class="rakFormField">
+                                <Label text="{i18n>step3LabelPodium}" class="rakFormLabel" />
+                                <StepInput value="{view>/dialog/draft/floors/podium}" min="0" max="99" step="1" class="rakStepInput" />
+                            </VBox>
+                        </HBox>
+
+                        <HBox class="rakFormRow">
+                            <VBox class="rakFormField">
+                                <Label text="{i18n>step3LabelPenthouse}" class="rakFormLabel" />
+                                <StepInput value="{view>/dialog/draft/floors/penthouse}" min="0" max="99" step="1" class="rakStepInput" />
+                            </VBox>
+                            <VBox class="rakFormField">
+                                <Label text="{i18n>step3LabelHelipads}" class="rakFormLabel" />
+                                <StepInput value="{view>/dialog/draft/floors/helipads}" min="0" max="99" step="1" class="rakStepInput" />
+                            </VBox>
+                        </HBox>
+
+                        <HBox class="rakFormRow">
+                            <VBox class="rakFormField">
+                                <Label text="{i18n>step3LabelService}" class="rakFormLabel" />
+                                <StepInput value="{view>/dialog/draft/floors/service}" min="0" max="99" step="1" class="rakStepInput" />
+                            </VBox>
+                            <VBox class="rakFormField" />
+                        </HBox>
+
+                    </VBox>
+
+                    <!-- STEP 3: Structural Details -->
+                    <VBox id="dlgStep3" visible="{= ${view>/dialog/currentStep} === 3 }" class="rakDlgStepContent">
+
+                        <HBox class="rakFormRow">
+                            <VBox class="rakFormField">
+                                <Label text="{i18n>step3LabelBuildingHeight}" class="rakFormLabel rakFormLabel--required" labelFor="inpBuildingHeight" />
+                                <Input id="inpBuildingHeight"
+                                       value="{view>/dialog/draft/structural/buildingHeight}"
+                                       placeholder="0.00"
+                                       class="rakFormInput"
+                                       valueState="{= ${view>/dialog/errors/buildingHeight} ? 'Error' : 'None' }"
+                                       liveChange=".onDialogFieldChange" />
+                                <Text text="{view>/dialog/errors/buildingHeight}" class="rakFormError"
+                                      visible="{= !!${view>/dialog/errors/buildingHeight} }" />
+                            </VBox>
+                            <VBox class="rakFormField">
+                                <Label text="{i18n>step3LabelExpansionJoints}" class="rakFormLabel rakFormLabel--required" />
+                                <StepInput value="{view>/dialog/draft/structural/expansionJoints}" min="0" max="99" step="1" class="rakStepInput" />
+                            </VBox>
+                        </HBox>
+
+                        <HBox class="rakFormRow">
+                            <VBox class="rakFormField">
+                                <Label text="{i18n>step3LabelBuildingShape}" class="rakFormLabel rakFormLabel--required" />
+                                <Select selectedKey="{view>/dialog/draft/structural/buildingShapeCode}"
+                                        items="{view>/buildingShapes}"
+                                        change=".onDialogFieldChange"
+                                        valueState="{= ${view>/dialog/errors/buildingShape} ? 'Error' : 'None' }"
+                                        class="rakFormSelect">
+                                    <core:Item key="{view>key}" text="{view>text}" />
+                                </Select>
+                                <Text text="{view>/dialog/errors/buildingShape}" class="rakFormError"
+                                      visible="{= !!${view>/dialog/errors/buildingShape} }" />
+                            </VBox>
+                            <VBox class="rakFormField">
+                                <Label text="{i18n>step3LabelFoundationType}" class="rakFormLabel rakFormLabel--required" />
+                                <Select selectedKey="{view>/dialog/draft/structural/foundationTypeCode}"
+                                        items="{view>/foundationTypes}"
+                                        change=".onDialogFieldChange"
+                                        valueState="{= ${view>/dialog/errors/foundationType} ? 'Error' : 'None' }"
+                                        class="rakFormSelect">
+                                    <core:Item key="{view>key}" text="{view>text}" />
+                                </Select>
+                                <Text text="{view>/dialog/errors/foundationType}" class="rakFormError"
+                                      visible="{= !!${view>/dialog/errors/foundationType} }" />
+                            </VBox>
+                        </HBox>
+
+                        <HBox class="rakFormRow">
+                            <VBox class="rakFormField">
+                                <Label text="{i18n>step3LabelSlabSystem}" class="rakFormLabel rakFormLabel--required" />
+                                <Select selectedKey="{view>/dialog/draft/structural/slabSystemCode}"
+                                        items="{view>/slabSystems}"
+                                        change=".onDialogFieldChange"
+                                        valueState="{= ${view>/dialog/errors/slabSystem} ? 'Error' : 'None' }"
+                                        class="rakFormSelect">
+                                    <core:Item key="{view>key}" text="{view>text}" />
+                                </Select>
+                                <Text text="{view>/dialog/errors/slabSystem}" class="rakFormError"
+                                      visible="{= !!${view>/dialog/errors/slabSystem} }" />
+                            </VBox>
+                            <VBox class="rakFormField" />
+                        </HBox>
+
+                        <VBox class="rakFormField">
+                            <Label text="{i18n>step3LabelStructuralFeatures}" class="rakFormLabel" />
+                            <VBox class="rakCheckboxGroup">
+                                <CheckBox text="{i18n>step3LabelTransferElements}"  selected="{view>/dialog/draft/structural/featTransferElements}" />
+                                <CheckBox text="{i18n>step3LabelFloorNonTypicality}" selected="{view>/dialog/draft/structural/featFloorNonTypicality}" />
+                                <CheckBox text="{i18n>step3LabelFrames}"             selected="{view>/dialog/draft/structural/featFrames}" />
+                                <CheckBox text="{i18n>step3LabelThirdPartyDesign}"  selected="{view>/dialog/draft/structural/featThirdPartyDesign}" />
+                                <CheckBox text="{i18n>step3LabelOutriggers}"         selected="{view>/dialog/draft/structural/featOutriggers}" />
+                            </VBox>
+                        </VBox>
+
+                    </VBox>
+
+                </content>
+                <buttons>
+                    <Button id="dlgBtnCancel"   text="{i18n>actionBack}"          press=".onDialogCancel"   type="Default"    class="rakDlgCancelBtn" />
+                    <Button id="dlgBtnPrev"      text="{i18n>step3ActionPrevious}" press=".onDialogPrevious" type="Default"    enabled="{= ${view>/dialog/currentStep} > 1 }" />
+                    <Button id="dlgBtnNext"      text="{i18n>actionNext}"          press=".onDialogNext"     type="Emphasized" visible="{= ${view>/dialog/currentStep} &lt; 3 }" />
+                    <Button id="dlgBtnSave"      text="{i18n>step3SaveBuilding}"   press=".onDialogSave"     type="Emphasized" visible="{= ${view>/dialog/currentStep} === 3 }" />
+                </buttons>
+            </Dialog>
+        </dependents>
+
+        <content>
+
+            <!-- Permit heading -->
+            <HBox class="rakPermitHeading rakContent" alignItems="Center" justifyContent="SpaceBetween">
+                <items>
+                    <HBox alignItems="Center" class="rakPermitHeading__left">
+                        <items>
+                            <Image src="assets/figma/step1/icon-permit-muni-30.svg" width="24px" height="24px" class="rakPermitHeading__icon" alt="New Building Permit" />
+                            <Title text="New Building Permit" titleStyle="H4" class="rakPermitHeading__title" />
+                        </items>
+                    </HBox>
+                    <HBox alignItems="Center" class="rakPermitHeading__actions">
+                        <items>
+                            <Button id="btnSaveDraft" text="{i18n>actionSaveAsDraft}" icon="sap-icon://save"   press=".onSaveAsDraft" type="Transparent" class="rakPermitAction" />
+                            <Button id="btnDelete"    text="{i18n>actionDelete}"      icon="sap-icon://delete" press=".onDelete"      type="Transparent" class="rakPermitAction" />
+                        </items>
+                    </HBox>
+                </items>
+            </HBox>
+
+            <!-- Stepper: Steps 1+2 completed, Step 3 active -->
+            <rak:RakStepper id="rakStepper" activeStep="{view>/activeStep}" stepLabels="{view>/stepLabels}" extraSteps="2" class="rakContent rakStepperWrap" />
+
+            <!-- Persistent context bar -->
+            <HBox class="rakContextBar rakContent" alignItems="Center" wrap="Wrap">
+                <items>
+                    <Text text="{i18n>step2ContextOwner}: " class="rakContextBar__text" />
+                    <Text text="{view>/project/ownerName}"   class="rakContextBar__value" />
+                    <Text text=" | " class="rakContextBar__sep" />
+                    <Text text="{i18n>step2ContextProject}: " class="rakContextBar__text" />
+                    <Text text="{view>/project/projectNumber}" class="rakContextBar__value" />
+                    <Text text=" | " class="rakContextBar__sep" />
+                    <Text text="{view>/project/address}" class="rakContextBar__value" />
+                </items>
+            </HBox>
+
+            <!-- ═══════════════════════════════════════════════════════
+                 BUILDING LIST SECTION
+                 ═══════════════════════════════════════════════════════ -->
+            <VBox class="rakFormCard rakContent rakSection">
+                <items>
+
+                    <HBox class="rakSection__header" alignItems="Center" justifyContent="SpaceBetween">
+                        <items>
+                            <Title text="{i18n>step3LabelBuildingList}" titleStyle="H5" class="rakSection__title" />
+                            <Button id="btnAddBuilding" text="{i18n>step3ActionAddBuilding}" press=".onAddBuilding"
+                                    type="Emphasized" class="rakNextBtn rakAddBtn" />
+                        </items>
+                    </HBox>
+
+                    <Table id="buildingTable"
+                           items="{view>/buildings}"
+                           noDataText="{i18n>step3NoBuildings}"
+                           class="rakListTable">
+                        <columns>
+                            <Column><Text text="{i18n>step3ColBuildingName}" class="rakTableColHeader" /></Column>
+                            <Column><Text text="{i18n>step3ColBuildingType}" class="rakTableColHeader" /></Column>
+                            <Column><Text text="{i18n>step3ColTypesFloors}" class="rakTableColHeader" /></Column>
+                            <Column hAlign="End" width="60px"><Text text="" /></Column>
+                        </columns>
+                        <items>
+                            <ColumnListItem>
+                                <cells>
+                                    <Text text="{view>displayName}" />
+                                    <Text text="{view>buildingTypeText}" />
+                                    <Text text="{view>floorSummary}" />
+                                    <HBox justifyContent="End">
+                                        <Button icon="sap-icon://overflow" type="Transparent" press=".onBuildingActionsPress" tooltip="Actions" />
+                                    </HBox>
+                                </cells>
+                            </ColumnListItem>
+                        </items>
+                    </Table>
+
+                    <!-- MSG-F03: inline step-level error strip -->
+                    <MessageStrip id="buildingErrorStrip"
+                                  text="{view>/stepError}"
+                                  type="Error"
+                                  showIcon="true"
+                                  visible="{= !!${view>/stepError} }"
+                                  class="rakErrorStrip" />
+
+                </items>
+            </VBox>
+
+            <!-- ═══════════════════════════════════════════════════════
+                 FENCE/WALL LIST SECTION
+                 ═══════════════════════════════════════════════════════ -->
+            <VBox class="rakFormCard rakContent rakSection">
+                <items>
+
+                    <HBox class="rakSection__header" alignItems="Center" justifyContent="SpaceBetween">
+                        <items>
+                            <Title text="{i18n>step3LabelFenceWallList}" titleStyle="H5" class="rakSection__title" />
+                            <Button id="btnAddFence" text="{i18n>step3ActionAddFence}" press=".onAddFencePress"
+                                    type="Default" enabled="{view>/fenceAddEnabled}" class="rakBackBtn rakAddBtn" />
+                        </items>
+                    </HBox>
+
+                    <!-- Inline Add Fence form (shown when fenceFormVisible=true) -->
+                    <VBox id="fenceFormArea" visible="{view>/fenceFormVisible}" class="rakFenceForm">
+                        <HBox class="rakFormRow" alignItems="End" wrap="Wrap">
+                            <items>
+                                <VBox class="rakFormField">
+                                    <Label text="{i18n>step3LabelFenceType}" class="rakFormLabel rakFormLabel--required" />
+                                    <Select id="selFenceType"
+                                            selectedKey="{view>/fenceForm/fenceTypeCode}"
+                                            items="{view>/availableFenceTypes}"
+                                            change=".onFenceFormFieldChange"
+                                            valueState="{= ${view>/fenceErrors/fenceType} ? 'Error' : 'None' }"
+                                            class="rakFormSelect">
+                                        <core:Item key="{view>key}" text="{view>text}" />
+                                    </Select>
+                                    <Text text="{view>/fenceErrors/fenceType}" class="rakFormError"
+                                          visible="{= !!${view>/fenceErrors/fenceType} }" />
+                                </VBox>
+                                <VBox class="rakFormField">
+                                    <Label text="{i18n>step3LabelLength}" class="rakFormLabel rakFormLabel--required" />
+                                    <Input id="inpFenceLength"
+                                           value="{view>/fenceForm/length}"
+                                           placeholder="0.00"
+                                           class="rakFormInput"
+                                           valueState="{= ${view>/fenceErrors/length} ? 'Error' : 'None' }"
+                                           liveChange=".onFenceFormFieldChange" />
+                                    <Text text="{view>/fenceErrors/length}" class="rakFormError"
+                                          visible="{= !!${view>/fenceErrors/length} }" />
+                                </VBox>
+                                <VBox class="rakFormField">
+                                    <Label text="{i18n>step3LabelHeight}" class="rakFormLabel rakFormLabel--required" />
+                                    <Input id="inpFenceHeight"
+                                           value="{view>/fenceForm/height}"
+                                           placeholder="0.00"
+                                           class="rakFormInput"
+                                           valueState="{= ${view>/fenceErrors/height} ? 'Error' : 'None' }"
+                                           liveChange=".onFenceFormFieldChange" />
+                                    <Text text="{view>/fenceErrors/height}" class="rakFormError"
+                                          visible="{= !!${view>/fenceErrors/height} }" />
+                                </VBox>
+                                <VBox class="rakFormField">
+                                    <Label text="{i18n>step3LabelNoOfGates}" class="rakFormLabel rakFormLabel--required" />
+                                    <Input id="inpFenceGates"
+                                           value="{view>/fenceForm/numberOfGates}"
+                                           placeholder="0"
+                                           class="rakFormInput"
+                                           valueState="{= ${view>/fenceErrors/numberOfGates} ? 'Error' : 'None' }"
+                                           liveChange=".onFenceFormFieldChange" />
+                                    <Text text="{view>/fenceErrors/numberOfGates}" class="rakFormError"
+                                          visible="{= !!${view>/fenceErrors/numberOfGates} }" />
+                                </VBox>
+                                <VBox class="rakFormField rakFenceForm__actions" justifyContent="End">
+                                    <HBox alignItems="End" class="rakFenceFormBtns">
+                                        <Button text="{i18n>step3ActionAddFenceConfirm}" press=".onAddFenceConfirm" type="Emphasized" class="rakNextBtn" />
+                                        <Button text="{i18n>step3ActionCancelFence}"    press=".onAddFenceCancel"  type="Transparent" class="rakCancelBtn" />
+                                    </HBox>
+                                </VBox>
+                            </items>
+                        </HBox>
+                    </VBox>
+
+                    <Table id="fenceTable"
+                           items="{view>/fences}"
+                           noDataText="{i18n>step3NoFences}"
+                           class="rakListTable">
+                        <columns>
+                            <Column><Text text="{i18n>step3ColFenceType}"  class="rakTableColHeader" /></Column>
+                            <Column width="100px"><Text text="{i18n>step3ColLength}"    class="rakTableColHeader" /></Column>
+                            <Column width="100px"><Text text="{i18n>step3ColHeight}"    class="rakTableColHeader" /></Column>
+                            <Column width="120px"><Text text="{i18n>step3ColNoGates}"   class="rakTableColHeader" /></Column>
+                            <Column hAlign="End" width="60px"><Text text="" /></Column>
+                        </columns>
+                        <items>
+                            <ColumnListItem>
+                                <cells>
+                                    <Text text="{view>fenceTypeText}" wrapping="false" />
+                                    <Text text="{view>length}" />
+                                    <Text text="{view>height}" />
+                                    <Text text="{view>numberOfGates}" />
+                                    <HBox justifyContent="End">
+                                        <Button icon="sap-icon://overflow" type="Transparent" press=".onFenceActionsPress" tooltip="Delete" />
+                                    </HBox>
+                                </cells>
+                            </ColumnListItem>
+                        </items>
+                    </Table>
+
+                </items>
+            </VBox>
+
+            <!-- Footer spacer -->
+            <core:HTML content="&lt;div style='height:80px'&gt;&lt;/div&gt;" />
+
+        </content>
+    </Page>
+
+</mvc:View>

@@ -641,3 +641,240 @@
     .rakCard__row1.sapMHBox { flex-wrap: wrap; gap: 4px; }
     .rakCard__row3.sapMHBox { flex-wrap: wrap; gap: 4px; }
 }
+
+/* ══════════════════════════════════════════════════════════════
+   STEP 3 — Fences & Buildings
+   ══════════════════════════════════════════════════════════════ */
+
+/* ── Section spacing ──────────────────────────────────────────── */
+.rakSection.sapMVBox {
+    margin-top: 20px;
+}
+
+/* ── Section header row ───────────────────────────────────────── */
+.rakSection__header.sapMHBox {
+    margin-bottom: 16px;
+    width: 100%;
+}
+.rakSection__header .rakSection__title.sapMTitle {
+    font-size: 16px !important;
+    font-weight: 600 !important;
+    color: var(--rak-color-text-dark) !important;
+    margin: 0 !important;
+}
+
+/* ── Add button variants ──────────────────────────────────────── */
+.rakAddBtn.sapMBtn .sapMBtnInner {
+    min-width: 120px !important;
+    height: 40px !important;
+    font-size: 14px !important;
+    font-weight: 500 !important;
+    border-radius: var(--rak-radius-btn) !important;
+}
+
+/* ── Building/Fence list table ───────────────────────────────── */
+.rakListTable.sapMTable {
+    width: 100% !important;
+    background: transparent !important;
+}
+.rakListTable.sapMTable .sapMTableTH {
+    background: #fafafa !important;
+    border-bottom: 1px solid var(--rak-color-border-card) !important;
+}
+.rakListTable.sapMTable .sapMTableTH .sapMText {
+    font-size: 13px !important;
+    font-weight: 600 !important;
+    color: var(--rak-color-text-mid) !important;
+}
+.rakListTable.sapMTable .sapMLIBShowSeparator {
+    border-bottom: 1px solid var(--rak-color-border-card) !important;
+}
+.rakListTable.sapMTable .sapMListTblRow > .sapMListTblCell {
+    padding: 10px 16px !important;
+    font-size: 14px !important;
+    color: var(--rak-color-text-dark) !important;
+}
+.rakTableColHeader.sapMText {
+    font-size: 13px !important;
+    font-weight: 600 !important;
+    color: var(--rak-color-text-mid) !important;
+}
+
+/* ── Error strip ──────────────────────────────────────────────── */
+.rakErrorStrip.sapMMessageStrip {
+    margin-top: 8px !important;
+    border-radius: var(--rak-radius-card) !important;
+}
+
+/* ── StepInput overrides ──────────────────────────────────────── */
+.rakStepInput.sapMStepInput {
+    border: 1px solid var(--rak-color-border) !important;
+    border-radius: var(--rak-radius-card) !important;
+    height: 40px !important;
+    width: 100% !important;
+    box-sizing: border-box !important;
+    background: var(--rak-color-white) !important;
+}
+.rakStepInput.sapMStepInput .sapMInputBaseInner {
+    font-size: 14px !important;
+    color: var(--rak-color-text-dark) !important;
+    text-align: center !important;
+}
+.rakStepInput.sapMStepInput[disabled] {
+    background: #f5f5f5 !important;
+    opacity: 0.6 !important;
+}
+
+/* ── Full-width form variants ─────────────────────────────────── */
+.rakFormInput--full.sapMInputBase {
+    width: 100% !important;
+}
+.rakFormSelect--full.sapMSlt {
+    width: 100% !important;
+}
+.rakFormInput--readonly.sapMInputBase {
+    background: #f0f0f0 !important;
+    color: var(--rak-color-text-mid) !important;
+}
+.rakFormInput--readonly.sapMInputBase .sapMInputBaseInner {
+    color: var(--rak-color-text-mid) !important;
+    cursor: not-allowed !important;
+}
+
+/* ── MultiComboBox ────────────────────────────────────────────── */
+.rakFormInput.sapMMultiComboBox {
+    border: 1px solid var(--rak-color-border) !important;
+    border-radius: var(--rak-radius-card) !important;
+    min-height: 40px !important;
+    background: var(--rak-color-white) !important;
+    width: 100% !important;
+    box-sizing: border-box !important;
+}
+
+/* ── Structural Features checkbox group ───────────────────────── */
+.rakCheckboxGroup.sapMVBox {
+    gap: 10px;
+    padding: 12px 0 4px;
+}
+.rakCheckboxGroup .sapMCb {
+    margin: 0 !important;
+}
+.rakCheckboxGroup .sapMCbLabel {
+    font-size: 14px !important;
+    color: var(--rak-color-text-dark) !important;
+}
+
+/* ── Fence inline form area ───────────────────────────────────── */
+.rakFenceForm.sapMVBox {
+    background: #f9f9f9;
+    border: 1px solid var(--rak-color-border-card);
+    border-radius: var(--rak-radius-card);
+    padding: 16px 20px 12px;
+    margin-bottom: 16px;
+}
+.rakFenceForm .rakFormRow.sapMHBox {
+    gap: 16px;
+    flex-wrap: wrap;
+    align-items: flex-end;
+    margin-bottom: 0;
+}
+.rakFenceForm .rakFormField.sapMVBox {
+    min-width: 140px;
+    flex: 1;
+}
+.rakFenceForm__actions.sapMVBox {
+    flex: 0 0 auto !important;
+    min-width: unset !important;
+}
+.rakFenceFormBtns.sapMHBox {
+    gap: 8px;
+    flex-wrap: nowrap;
+}
+
+/* ── Cancel button (transparent) ─────────────────────────────── */
+.rakCancelBtn.sapMBtn .sapMBtnInner {
+    color: var(--rak-color-primary) !important;
+    border: none !important;
+    background: transparent !important;
+    font-size: 14px !important;
+    font-weight: 500 !important;
+    height: 40px !important;
+    padding: 0 12px !important;
+}
+.rakCancelBtn.sapMBtn:not([disabled]) .sapMBtnInner:hover {
+    background: #fef2f2 !important;
+}
+
+/* ── Dialog styles ────────────────────────────────────────────── */
+.rakDlg.sapMDialog {
+    border-radius: var(--rak-radius-card) !important;
+    overflow: hidden !important;
+}
+.rakDlg.sapMDialog .sapMDialogHeader .sapMBar {
+    background: var(--rak-color-white) !important;
+    border-bottom: 1px solid var(--rak-color-border-card) !important;
+}
+.rakDlg.sapMDialog .sapMDialogTitle .sapMTitle {
+    font-size: 18px !important;
+    font-weight: 500 !important;
+    color: var(--rak-color-navy) !important;
+    font-family: 'Poppins', Arial, sans-serif !important;
+}
+.rakDlgSubHeader .sapMBar {
+    background: #f5f5f5 !important;
+    border-bottom: 1px solid var(--rak-color-border-card) !important;
+    padding: 0 16px !important;
+    height: 36px !important;
+    min-height: 36px !important;
+}
+.rakDlgStepIndicator.sapMText {
+    font-size: 13px !important;
+    font-weight: 600 !important;
+    color: var(--rak-color-text-mid) !important;
+}
+.rakDlgStepContent.sapMVBox {
+    padding: 20px 24px;
+    gap: 4px;
+}
+.rakDlg .rakFormRow.sapMHBox {
+    margin-bottom: 16px;
+}
+.rakDlg .rakFormField.sapMVBox {
+    min-width: 180px;
+}
+.rakDlgCancelBtn.sapMBtn .sapMBtnInner {
+    color: var(--rak-color-primary) !important;
+    border: 1.5px solid var(--rak-color-primary) !important;
+    background: transparent !important;
+    border-radius: var(--rak-radius-btn) !important;
+    min-width: 100px !important;
+    height: 38px !important;
+    font-size: 14px !important;
+    font-weight: 500 !important;
+}
+
+/* ── Responsive: Step 3 ───────────────────────────────────────── */
+@media (max-width: 768px) {
+    .rakFenceForm .rakFormRow.sapMHBox {
+        flex-direction: column !important;
+        gap: 12px !important;
+    }
+    .rakFenceForm .rakFormField.sapMVBox {
+        min-width: unset !important;
+        width: 100% !important;
+    }
+    .rakSection__header.sapMHBox {
+        flex-wrap: wrap !important;
+        gap: 8px !important;
+    }
+}
+
+@media (max-width: 480px) {
+    .rakDlg.sapMDialog {
+        width: 95vw !important;
+        max-width: 95vw !important;
+    }
+    .rakDlgStepContent.sapMVBox {
+        padding: 12px 16px;
+    }
+}

@@ -8,10 +8,10 @@ sap.ui.define([], function () {
         return new Promise(function (resolve, reject) {
             var sUrl = sap.ui.require.toUrl("rak/zp02/model/mock/referenceData.json");
             jQuery.ajax({
-                url: sUrl,
+                url:      sUrl,
                 dataType: "json",
-                success: function (data) { _cache = data; resolve(data); },
-                error:   function (xhr, s, e) { reject(new Error(e || s)); }
+                success:  function (data) { _cache = data; resolve(data); },
+                error:    function (xhr, s, e) { reject(new Error(e || s)); }
             });
         });
     }
@@ -22,6 +22,27 @@ sap.ui.define([], function () {
         },
         getGrantTypes: function () {
             return _load().then(function (d) { return d.grantTypes || []; });
+        },
+        getBuildingTypes: function () {
+            return _load().then(function (d) { return d.buildingTypes || []; });
+        },
+        getUsageTypes: function (sBuildingTypeCode) {
+            return _load().then(function (d) {
+                var oMap = d.usageTypesMap || {};
+                return oMap[sBuildingTypeCode] || [];
+            });
+        },
+        getBuildingShapes: function () {
+            return _load().then(function (d) { return d.buildingShapes || []; });
+        },
+        getFoundationTypes: function () {
+            return _load().then(function (d) { return d.foundationTypes || []; });
+        },
+        getSlabSystems: function () {
+            return _load().then(function (d) { return d.slabSystems || []; });
+        },
+        getFenceTypes: function () {
+            return _load().then(function (d) { return d.fenceTypes || []; });
         }
     };
 });
