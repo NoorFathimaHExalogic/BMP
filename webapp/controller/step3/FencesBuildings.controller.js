@@ -315,6 +315,10 @@ sap.ui.define([
             }
 
             this.byId("addBuildingDlg").open();
+
+            // FL08 guards: registered once per open; the delegate re-arms them
+            // each time the Floor Composition step renders.
+            this._attachFloorNumericGuards();
         },
 
         onDialogCancel: function () {
@@ -361,6 +365,71 @@ sap.ui.define([
             ];
             oViewModel.setProperty("/dialog/currentStep",  nStep);
             oViewModel.setProperty("/dialog/stepIndicator", aIndicators[nStep - 1]);
+        },
+
+        /**
+         * FL08 — show MSG-V04 ("Please enter numbers only.") when a non-numeric
+         * character is typed into any editable floor field.
+         *
+         * The floor fields are sap.m.StepInput, whose inner sap.m.NumericInput
+         * silently swallows non-numeric keystrokes, so without this the invalid
+         * attempt produces no feedback at all. A render delegate is used because
+         * the Floor Composition step is visibility-bound and has no DOM until
+         * the user reaches step 2.
+         */
+        _attachFloorNumericGuards: function () {
+            var oStep2 = this.byId("dlgStep2");
+            if (!oStep2) { return; }
+
+            var sMsg = this.getView().getModel("i18n").getResourceBundle().getText("msgV04NumbersOnly");
+            var that = this;
+
+            (function walk(oCtrl) {
+                if (!oCtrl) { return; }
+                if (oCtrl.isA && oCtrl.isA("sap.m.StepInput")) {
+                    if (!oCtrl._rakNumericDelegate) {
+                        oCtrl._rakNumericDelegate = {
+                            onAfterRendering: function () { that._guardNumericInput(oCtrl, sMsg); }
+                        };
+                        oCtrl.addEventDelegate(oCtrl._rakNumericDelegate);
+                    }
+                    that._guardNumericInput(oCtrl, sMsg);   // already rendered case
+                }
+                var mAgg = oCtrl.mAggregations || {};
+                Object.keys(mAgg).forEach(function (sKey) {
+                    var vAgg = mAgg[sKey];
+                    if (Array.isArray(vAgg)) { vAgg.forEach(walk); }
+                    else if (vAgg && vAgg.getMetadata) { walk(vAgg); }
+                });
+            })(oStep2);
+        },
+
+        _guardNumericInput: function (oStepInput, sMsg) {
+            var oDom = oStepInput.getDomRef();
+            if (!oDom) { return; }
+            var oInput = oDom.querySelector("input");
+            if (!oInput || oInput.rakNumericGuard) { return; }
+            oInput.rakNumericGuard = true;
+
+            // Must be keydown in the capture phase: sap.m.NumericInput calls
+            // preventDefault() on keydown for invalid characters, so keypress
+            // never fires for exactly the input this test cares about.
+            oInput.addEventListener("keydown", function (oEvt) {
+                if (oEvt.ctrlKey || oEvt.metaKey || oEvt.altKey) { return; }
+                // Single printable character that is not a digit → invalid entry.
+                if (oEvt.key && oEvt.key.length === 1 && !/[0-9]/.test(oEvt.key)) {
+                    oStepInput.setValueState("Error");
+                    oStepInput.setValueStateText(sMsg);
+                }
+            }, true);
+
+            // Clear the numbers-only error as soon as the field holds valid digits.
+            oInput.addEventListener("input", function () {
+                if (/^\d*$/.test(oInput.value) && oStepInput.getValueStateText() === sMsg) {
+                    oStepInput.setValueState("None");
+                    oStepInput.setValueStateText("");
+                }
+            });
         },
 
         /* ══════════════════════════════════════════════════════════════
