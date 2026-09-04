@@ -43,6 +43,12 @@ sap.ui.define([], function () {
         },
         getFenceTypes: function () {
             return _load().then(function (d) { return d.fenceTypes || []; });
+        },
+        getSpecialities: function () {
+            return _load().then(function (d) { return d.specialities || []; });
+        },
+        getContractorIdentificationTypes: function () {
+            return _load().then(function (d) { return d.contractorIdentificationTypes || []; });
         }
     };
 });

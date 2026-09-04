@@ -19,7 +19,13 @@ sap.ui.define([
 
             // Shared application state across steps
             this.setModel(new JSONModel({
-                selectedProject: null
+                selectedProject: null,
+                step4: {
+                    engineers:         [],
+                    contractor:        null,
+                    eweConsultant:     null,
+                    eweSameAsApplicant: false
+                }
             }), "appState");
 
             this.getRouter().initialize();

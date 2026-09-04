@@ -98,5 +98,15 @@
     { "key": "FW-01", "text": "Boundary Wall (Reinforced Concrete & Concrete Blocks)"     },
     { "key": "FW-02", "text": "Metal Fence (Metal Chain-link, rods and columns)"          },
     { "key": "FW-03", "text": "Retaining Wall (Reinforced Concrete Wall)"                 }
+  ],
+  "specialities": [
+    { "key": "ARCHITECT",  "text": "Architect"  },
+    { "key": "ELECTRICAL", "text": "Electrical" },
+    { "key": "MECHANICAL", "text": "Mechanical" },
+    { "key": "STRUCTURAL", "text": "Structural" }
+  ],
+  "contractorIdentificationTypes": [
+    { "key": "CONTRACTOR_NAME", "text": "Contractor Name" },
+    { "key": "TRADE_LICENSE",   "text": "Trade Licence"   }
   ]
 }

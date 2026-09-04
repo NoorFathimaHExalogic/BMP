@@ -8,6 +8,8 @@ sap.ui.define(["rak/zp02/service/adapter/MockReferenceDataAdapter"], function (A
         getBuildingShapes:    function ()                  { return Adapter.getBuildingShapes();                   },
         getFoundationTypes:   function ()                  { return Adapter.getFoundationTypes();                  },
         getSlabSystems:       function ()                  { return Adapter.getSlabSystems();                      },
-        getFenceTypes:        function ()                  { return Adapter.getFenceTypes();                       }
+        getFenceTypes:        function ()                  { return Adapter.getFenceTypes();                       },
+        getSpecialities:      function ()                  { return Adapter.getSpecialities();                     },
+        getContractorIdentificationTypes: function ()      { return Adapter.getContractorIdentificationTypes();    }
     };
 });

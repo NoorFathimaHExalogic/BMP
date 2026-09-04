@@ -1,0 +1,18 @@
+<mvc:View
+    controllerName="rak.zp02.controller.step5.Attachments"
+    xmlns="sap.m"
+    xmlns:mvc="sap.ui.core.mvc">
+
+    <Page id="attachmentsPage" title="Attachments" showHeader="false">
+        <VBox class="sapUiMediumMargin">
+            <Title text="Attachments" level="H2" />
+            <Text text="Step 5 — Attachments will be implemented in a future phase." />
+        </VBox>
+        <footer>
+            <Toolbar>
+                <Button text="Back" press=".onBack" />
+            </Toolbar>
+        </footer>
+    </Page>
+
+</mvc:View>
