@@ -394,9 +394,14 @@ sap.ui.define([
             var sPath    = oContext.getPath();
             var idx      = parseInt(sPath.replace("/engineers/", ""), 10);
             var oViewModel = this.getView().getModel("view");
+            var sEngineerId = oViewModel.getProperty("/engineers/" + idx + "/engineerId");
 
-            // Allow empty (not yet entered) or valid format
-            if (sVal && !MOBILE_REGEX.test(sVal)) {
+            if (sEngineerId && !sVal) {
+                // Engineer selected + mobile cleared → required (MSG-V01)
+                oViewModel.setProperty("/engineers/" + idx + "/mobileError",
+                    this._getText("msgV02Required"));
+            } else if (sVal && !MOBILE_REGEX.test(sVal)) {
+                // Non-empty but wrong format (MSG-V03)
                 oViewModel.setProperty("/engineers/" + idx + "/mobileError",
                     this._getText("msgV03Format"));
             } else {
@@ -596,6 +601,21 @@ sap.ui.define([
             var bEweVisible = oViewModel.getProperty("/eweResultVisible");
             var oErrors     = { architect: "", structural: "", eweConsultant: "" };
             var bValid      = true;
+            var that        = this;
+
+            // Per-row: mobile required and valid when engineer is assigned
+            aEngineers.forEach(function (row, idx) {
+                if (!row.engineerId) { return; }
+                if (!row.mobile) {
+                    oViewModel.setProperty("/engineers/" + idx + "/mobileError",
+                        that._getText("msgV02Required"));
+                    bValid = false;
+                } else if (!MOBILE_REGEX.test(row.mobile)) {
+                    oViewModel.setProperty("/engineers/" + idx + "/mobileError",
+                        that._getText("msgV03Format"));
+                    bValid = false;
+                }
+            });
 
             var bArch = aEngineers.some(function (row) {
                 return row.specialityKey === "ARCHITECT" && !!row.engineerId;
