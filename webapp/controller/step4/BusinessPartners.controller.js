@@ -399,7 +399,7 @@ sap.ui.define([
             if (sEngineerId && !sVal) {
                 // Engineer selected + mobile cleared → required (MSG-V01)
                 oViewModel.setProperty("/engineers/" + idx + "/mobileError",
-                    this._getText("msgV02Required"));
+                    this._getText("msgV01Required"));
             } else if (sVal && !MOBILE_REGEX.test(sVal)) {
                 // Non-empty but wrong format (MSG-V03)
                 oViewModel.setProperty("/engineers/" + idx + "/mobileError",
@@ -608,7 +608,7 @@ sap.ui.define([
                 if (!row.engineerId) { return; }
                 if (!row.mobile) {
                     oViewModel.setProperty("/engineers/" + idx + "/mobileError",
-                        that._getText("msgV02Required"));
+                        that._getText("msgV01Required"));
                     bValid = false;
                 } else if (!MOBILE_REGEX.test(row.mobile)) {
                     oViewModel.setProperty("/engineers/" + idx + "/mobileError",
