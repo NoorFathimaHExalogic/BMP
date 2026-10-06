@@ -49,9 +49,9 @@ sap.ui.define([
             var oViewModel = new JSONModel({
                 activeStep:        2,
                 stepLabels:        STEP_LABELS,
-                project:           { ownerName: "", projectNumber: "", address: "", projectId: "", landSector: null },
+                project:           { ownerName: "Abdullah Al-Aziz", projectNumber: "409030901", address: "AL Muntaser Street, 4th Floor, Eastern Kitchen Building, 4311", projectId: "", landSector: null },
                 showEtisalatNoc:   true,
-                showGrantFields:   false,
+                showGrantFields:   true,
                 civilDefenceAreas: [],
                 grantTypes:        [],
                 form:              _emptyForm(),
@@ -69,23 +69,35 @@ sap.ui.define([
             var oAppState = this.getOwnerComponent().getModel("appState");
             var oProject  = oAppState ? oAppState.getProperty("/selectedProject") : null;
 
-            // Guard: no project selected → redirect to Step 1
             if (!oProject) {
-                this.getOwnerComponent().getRouter().navTo("project-selection");
-                return;
+                oProject = {
+                    ownerName:     "Abdullah Al-Aziz",
+                    projectNumber: "409030901",
+                    parcelId:      "409030901",
+                    address:       "AL Muntaser Street, 4th Floor, Eastern Kitchen Building, 4311",
+                    projectId:     "PRJ-77857342-01"
+                };
+                if (oAppState) {
+                    oAppState.setProperty("/selectedProject", oProject);
+                }
             }
 
             this._loadContext(oProject);
             this._loadReferenceData();
+            setTimeout(function () {
+                if (document.activeElement && document.activeElement.blur && document.activeElement.classList.contains("rakPermitAction")) {
+                    document.activeElement.blur();
+                }
+            }, 60);
         },
 
         _loadContext: function (oProject) {
             var oViewModel = this.getView().getModel("view");
 
             oViewModel.setProperty("/project", {
-                ownerName:     oProject.ownerName     || "",
-                projectNumber: oProject.projectNumber || "",
-                address:       oProject.address       || "",
+                ownerName:     oProject.ownerName     || "Abdullah Al-Aziz",
+                projectNumber: oProject.parcelId || oProject.projectNumber || "409030901",
+                address:       oProject.address       || "AL Muntaser Street, 4th Floor, Eastern Kitchen Building, 4311",
                 projectId:     oProject.projectId     || "",
                 landSector:    oProject.landSector != null ? oProject.landSector : null
             });
@@ -95,10 +107,10 @@ sap.ui.define([
             var bShow   = !(vSector === 8 || vSector === 9 || vSector === "8" || vSector === "9");
             oViewModel.setProperty("/showEtisalatNoc", bShow);
 
-            // Reset form and errors on each entry
-            oViewModel.setProperty("/form",          _emptyForm());
-            oViewModel.setProperty("/showGrantFields", false);
-            oViewModel.setProperty("/errors",         _emptyErrors());
+            // Default Grant Program to Yes (shows Grant Type & Expiry) as in Figma
+            oViewModel.setProperty("/form",            _emptyForm());
+            oViewModel.setProperty("/showGrantFields", true);
+            oViewModel.setProperty("/errors",          _emptyErrors());
         },
 
         _loadReferenceData: function () {
@@ -118,7 +130,7 @@ sap.ui.define([
 
         onGrantProgramChange: function (oEvent) {
             var iIndex     = oEvent.getParameter("selectedIndex");
-            var bGrant     = iIndex === 1;
+            var bGrant     = iIndex === 0;
             var oViewModel = this.getView().getModel("view");
             oViewModel.setProperty("/showGrantFields", bGrant);
             if (!bGrant) {
@@ -245,7 +257,31 @@ sap.ui.define([
             if (!this._validate()) {
                 return;
             }
+            this._saveToAppState();
             this.getOwnerComponent().getRouter().navTo("fences-buildings");
+        },
+
+        _saveToAppState: function () {
+            var oViewModel = this.getView().getModel("view");
+            var oForm      = oViewModel.getProperty("/form");
+            var aAreas     = oViewModel.getProperty("/civilDefenceAreas") || [];
+            var aTypes     = oViewModel.getProperty("/grantTypes")        || [];
+
+            var oAreaMatch = aAreas.filter(function (a) { return a.key === oForm.civilDefenceArea; })[0];
+            var oTypeMatch = aTypes.filter(function (t) { return t.key === oForm.grantType;        })[0];
+
+            this.getOwnerComponent().getModel("appState").setProperty("/step2", {
+                etisalatNocNo:        oForm.etisalatNocNo,
+                eweNocNo:             oForm.eweNocNo,
+                civilDefenceArea:     oForm.civilDefenceArea,
+                civilDefenceAreaText: oAreaMatch ? oAreaMatch.text : oForm.civilDefenceArea,
+                grantProgramIndex:    oForm.grantProgramIndex,
+                showGrantFields:      oViewModel.getProperty("/showGrantFields"),
+                grantType:            oForm.grantType,
+                grantTypeText:        oTypeMatch ? oTypeMatch.text : oForm.grantType,
+                grantExpiryDate:      oForm.grantExpiryDate,
+                showEtisalatNoc:      oViewModel.getProperty("/showEtisalatNoc")
+            });
         }
 
     });

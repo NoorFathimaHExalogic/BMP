@@ -1,4 +1,4 @@
-<mvc:View
+﻿<mvc:View
     xmlns:mvc="sap.ui.core.mvc"
     xmlns="sap.m"
     controllerName="rak.zp02.controller.App"

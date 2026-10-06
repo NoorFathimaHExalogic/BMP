@@ -20,11 +20,38 @@ sap.ui.define([
             // Shared application state across steps
             this.setModel(new JSONModel({
                 selectedProject: null,
+                applicant: {
+                    name: "Ahmad Al-Rashidi"
+                },
+                step2: null,
+                step3: {
+                    buildings: [],
+                    fences: []
+                },
                 step4: {
                     engineers:         [],
                     contractor:        null,
                     eweConsultant:     null,
                     eweSameAsApplicant: false
+                },
+                step5: null,
+                step6: null,
+                step7: {
+                    selectedPaymentMethod: null,
+                    paymentStatus: "IDLE"
+                },
+                step8: {
+                    requestId:   null,
+                    buildingIds: [],
+                    fenceIds:    [],
+                    generatedAt: null
+                },
+                step9: {
+                    groups: {
+                        drawings:   { comment: "", files: [], status: "DRAFT" },
+                        barjeel:    { comment: "", files: [], status: "DRAFT" },
+                        structural: { comment: "", files: [], status: "DRAFT" }
+                    }
                 }
             }), "appState");
 

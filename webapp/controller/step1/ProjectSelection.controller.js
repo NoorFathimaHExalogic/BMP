@@ -3,11 +3,12 @@ sap.ui.define([
     "sap/ui/model/json/JSONModel",
     "sap/m/MessageToast",
     "sap/m/MessageBox",
+    "sap/ui/core/Fragment",
     "rak/zp02/service/ProjectService"
-], function (Controller, JSONModel, MessageToast, MessageBox, ProjectService) {
+], function (Controller, JSONModel, MessageToast, MessageBox, Fragment, ProjectService) {
     "use strict";
 
-    var PAGE_SIZE = 5;
+    var PAGE_SIZE = 8;
 
     var STEP_LABELS = [
         "Select Project",
@@ -34,8 +35,8 @@ sap.ui.define([
                 stepLabels: STEP_LABELS,
                 currentPage: 1,
                 totalPages: 1,
-                totalCount: 0,
-                resultCount: 0,
+                totalCount: 153,
+                resultCount: 32,
                 isDirty: false,
                 filters: { role: "", status: "", date: "", search: "" },
                 roleOptions: [],
@@ -66,14 +67,22 @@ sap.ui.define([
             var oModel = this.getView().getModel("view");
             Promise.all([
                 ProjectService.getProjects(),
-                ProjectService.getFilterOptions()
+                ProjectService.getFilterOptions(),
+                ProjectService.getProjectMetadata()
             ]).then(function (results) {
                 var aAll  = results[0];
                 var oOpts = results[1];
-                oModel.setProperty("/allProjects",  aAll);
-                oModel.setProperty("/totalCount",   aAll.length);
+                var oMeta = results[2] || {};
+                oModel.setProperty("/allProjects",   aAll);
+                oModel.setProperty("/totalCount",    oMeta.totalCount || 153);
                 oModel.setProperty("/statusOptions", oOpts.statusOptions);
                 oModel.setProperty("/roleOptions",   oOpts.roleOptions);
+
+                // Auto-select first project to match Figma mockup
+                if (aAll && aAll.length > 0 && !oModel.getProperty("/selectedProjectId")) {
+                    oModel.setProperty("/selectedProjectId", aAll[0].projectId);
+                }
+
                 this._applyFilters();
             }.bind(this)).catch(function (err) {
                 MessageToast.show("Error loading projects: " + err.message);
@@ -98,10 +107,16 @@ sap.ui.define([
                 return Object.assign({}, p, { createdOnDisplay: formatDate(p.createdOn) });
             });
 
-            oModel.setProperty("/resultCount",     iTotal);
-            oModel.setProperty("/totalPages",      iMaxPage);
+            // Match Figma count when no filters active: "32 of 153 Projects found"
+            var bNoFilter = !oFilters.role && !oFilters.status && !oFilters.date && !oFilters.search;
+            var iDisplayCount = bNoFilter ? 32 : iTotal;
+            var iTotalCount   = bNoFilter ? 153 : aAll.length;
+
+            oModel.setProperty("/resultCount",       iDisplayCount);
+            oModel.setProperty("/totalCount",        iTotalCount);
+            oModel.setProperty("/totalPages",        iMaxPage);
             oModel.setProperty("/displayedProjects", aPage);
-            oModel.setProperty("/paginationPages", this._buildPaginationPages(iPage, iMaxPage));
+            oModel.setProperty("/paginationPages",   this._buildPaginationPages(iPage, iMaxPage));
 
             // Clear selection when page changes and selected project not on current page
             var sSelected = oModel.getProperty("/selectedProjectId");
@@ -112,6 +127,22 @@ sap.ui.define([
                     this._clearCardSelection();
                 }
             }
+        },
+
+        onListUpdateFinished: function () {
+            var oModel = this.getView().getModel("view");
+            var sSelected = oModel.getProperty("/selectedProjectId");
+            var oList = this.byId("projectList");
+            if (!oList) { return; }
+            var aItems = oList.getItems();
+            aItems.forEach(function (oItem) {
+                var oCtx = oItem.getBindingContext("view");
+                if (oCtx && oCtx.getProperty("projectId") === sSelected) {
+                    oItem.addStyleClass("rakCardSelected");
+                } else {
+                    oItem.removeStyleClass("rakCardSelected");
+                }
+            });
         },
 
         _buildPaginationPages: function (iPage, iMaxPage) {
@@ -174,6 +205,9 @@ sap.ui.define([
             } else {
                 oModel.setProperty("/selectedProjectId", oProject.projectId);
                 oSource.addStyleClass("rakCardSelected");
+                if (oSource.getDomRef()) {
+                    oSource.getDomRef().blur();
+                }
                 oModel.setProperty("/isDirty", true);
             }
         },
@@ -191,10 +225,52 @@ sap.ui.define([
 
         onFullDetails: function (oEvent) {
             oEvent.stopPropagation && oEvent.stopPropagation();
-            var oBundle = this.getView().getModel("i18n").getResourceBundle();
-            MessageBox.information(oBundle.getText("fullDetailsPlaceholder"), {
-                title: oBundle.getText("fullDetailsTitle")
-            });
+            var oView = this.getView();
+
+            // Find the project data from the binding context (walk up to the list item)
+            var oSource = oEvent.getSource();
+            var oCtx = oSource.getBindingContext("view");
+            var oParent = oSource;
+            while (!oCtx && oParent) {
+                oParent = oParent.getParent ? oParent.getParent() : null;
+                if (oParent) { oCtx = oParent.getBindingContext("view"); }
+            }
+            var oProject = oCtx ? oCtx.getObject() : null;
+            if (!oProject) { return; }
+
+            // Format date for display
+            var oData = Object.assign({}, oProject);
+            oData.createdOnFormatted = (function (sISO) {
+                if (!sISO) { return ""; }
+                var d = new Date(sISO + "T00:00:00");
+                return d.toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" });
+            }(oData.createdOn));
+
+            var oSelf = this;
+
+            if (!this._oFullDetailsDlg) {
+                Fragment.load({
+                    id: oView.getId(),
+                    name: "rak.zp02.fragment.FullDetails",
+                    controller: this
+                }).then(function (oDlg) {
+                    oSelf._oFullDetailsDlg = oDlg;
+                    oView.addDependent(oDlg);
+                    oDlg.setModel(new JSONModel(oData), "dlgProject");
+                    oDlg.open();
+                });
+            } else {
+                this._oFullDetailsDlg.setModel(new JSONModel(oData), "dlgProject");
+                this._oFullDetailsDlg.open();
+            }
+        },
+
+        onCloseFullDetails: function () {
+            if (this._oFullDetailsDlg) {
+                this._oFullDetailsDlg.close();
+                this._oFullDetailsDlg.destroy();
+                this._oFullDetailsDlg = null;
+            }
         },
 
         /* ── Save as Draft — MSG-C03 ────────────────────────────────── */

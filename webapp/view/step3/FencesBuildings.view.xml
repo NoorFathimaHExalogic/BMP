@@ -1,4 +1,4 @@
-<mvc:View
+﻿<mvc:View
     xmlns:mvc="sap.ui.core.mvc"
     xmlns="sap.m"
     xmlns:core="sap.ui.core"
@@ -12,10 +12,17 @@
         <customHeader>
             <Bar class="rakHeader sapMBarMiddle">
                 <contentLeft>
-                    <core:HTML content="&lt;div class='rakHeader__logo-area'&gt;&lt;img class='rakHeader__logo' src='assets/figma/step1/rak-municipality-logo.svg' alt='RAK Municipality' /&gt;&lt;div class='rakHeader__divider'&gt;&lt;/div&gt;&lt;img class='rakHeader__wordmark' src='assets/figma/step1/rak-digital-wordmark.svg' alt='RAK Digital' /&gt;&lt;/div&gt;" />
+                    <core:HTML content="&lt;img class='rakHeader__logo' src='assets/figma/step1/rak-municipality-logo.svg' alt='RAK Municipality' /&gt;" />
                 </contentLeft>
                 <contentRight>
-                    <core:HTML content="&lt;div class='rakHeader__user-area'&gt;&lt;img class='rakHeader__avatar' src='assets/figma/step1/icon-user-avatar-small.svg' alt='User' /&gt;&lt;span class='rakHeader__user-name'&gt;Abdullah Al-Aziz&lt;/span&gt;&lt;img class='rakHeader__chevron' src='assets/figma/step1/icon-chevron-down-small.svg' alt='' /&gt;&lt;/div&gt;" />
+                    <HBox class="rakHeader__user-area" alignItems="Center">
+                        <items>
+                            <Image src="assets/figma/step1/icon-user-avatar-small.svg" class="rakHeader__avatar" width="32px" height="32px" alt="User" />
+                            <Text text="Abdullah Al-Aziz" class="rakHeader__user-name" />
+                            <Image src="assets/figma/step1/icon-chevron-down-small.svg" class="rakHeader__chevron" width="12px" height="12px" alt="" />
+                        </items>
+                    </HBox>
+                    <core:HTML content="&lt;div class='rakHeader__divider'&gt;&lt;/div&gt;&lt;img class='rakHeader__wordmark-right' src='assets/figma/step1/rak-digital-wordmark-red.svg' alt='RAK Digital' /&gt;" />
                 </contentRight>
             </Bar>
         </customHeader>
@@ -24,10 +31,10 @@
         <footer>
             <Bar class="rakFooter sapMBarMiddle">
                 <contentLeft>
-                    <Button id="btnBack" text="{i18n>actionBack}" press=".onBack" type="Transparent" class="rakBackBtn" />
+                    <Button id="btnBack" text="{i18n>actionBack}" icon="sap-icon://navigation-left-arrow" press=".onBack" type="Transparent" class="rakBackBtn" />
                 </contentLeft>
                 <contentRight>
-                    <Button id="btnNext" text="{i18n>actionNext}" press=".onNext" type="Emphasized" class="rakNextBtn" />
+                    <Button id="btnNext" text="{i18n>actionNext}" icon="sap-icon://navigation-right-arrow" iconFirst="false" press=".onNext" type="Emphasized" class="rakNextBtn" />
                 </contentRight>
             </Bar>
         </footer>
@@ -272,52 +279,51 @@
                 <items>
                     <HBox alignItems="Center" class="rakPermitHeading__left">
                         <items>
-                            <Image src="assets/figma/step1/icon-permit-muni-30.svg" width="24px" height="24px" class="rakPermitHeading__icon" alt="New Building Permit" />
+                            <Image src="assets/figma/step1/icon-permit-muni-tight.svg" width="30px" height="30px" class="rakPermitHeading__icon" alt="New Building Permit" />
                             <Title text="New Building Permit" titleStyle="H4" class="rakPermitHeading__title" />
                         </items>
                     </HBox>
                     <HBox alignItems="Center" class="rakPermitHeading__actions">
                         <items>
-                            <Button id="btnSaveDraft" text="{i18n>actionSaveAsDraft}" icon="sap-icon://save"   press=".onSaveAsDraft" type="Transparent" class="rakPermitAction" />
-                            <Button id="btnDelete"    text="{i18n>actionDelete}"      icon="sap-icon://delete" press=".onDelete"      type="Transparent" class="rakPermitAction" />
+                            <Button id="btnSaveDraft" text="{i18n>actionSaveAsDraft}" icon="assets/figma/step1/icon-20px-b.svg" press=".onSaveAsDraft" type="Transparent" class="rakPermitAction" />
+                            <Button id="btnDelete"    text="{i18n>actionDelete}"      icon="assets/figma/step1/icon-20px-a.svg" press=".onDelete"      type="Transparent" class="rakPermitAction" />
                         </items>
                     </HBox>
                 </items>
             </HBox>
 
-            <!-- Stepper: Steps 1+2 completed, Step 3 active -->
-            <rak:RakStepper id="rakStepper" activeStep="{view>/activeStep}" stepLabels="{view>/stepLabels}" extraSteps="2" class="rakContent rakStepperWrap" />
-
-            <!-- Persistent context bar -->
+            <!-- Persistent project context bar (above stepper) -->
             <HBox class="rakContextBar rakContent" alignItems="Center" wrap="Wrap">
                 <items>
-                    <Text text="{i18n>step2ContextOwner}: " class="rakContextBar__text" />
-                    <Text text="{view>/project/ownerName}"   class="rakContextBar__value" />
+                    <Text text="{i18n>step2ContextOwner}" class="rakContextBar__text" />
+                    <Text text=" " class="rakContextBar__text" />
+                    <Text text="{view>/project/ownerName}" class="rakContextBar__value" />
                     <Text text=" | " class="rakContextBar__sep" />
-                    <Text text="{i18n>step2ContextProject}: " class="rakContextBar__text" />
+                    <Text text="{i18n>step2ContextProject}" class="rakContextBar__text" />
+                    <Text text=" " class="rakContextBar__text" />
                     <Text text="{view>/project/projectNumber}" class="rakContextBar__value" />
                     <Text text=" | " class="rakContextBar__sep" />
                     <Text text="{view>/project/address}" class="rakContextBar__value" />
                 </items>
             </HBox>
 
-            <!-- ═══════════════════════════════════════════════════════
+            <!-- Stepper: Steps 1+2 completed, Step 3 active -->
+            <rak:RakStepper id="rakStepper" activeStep="{view>/activeStep}" stepLabels="{view>/stepLabels}" extraSteps="2" class="rakContent rakStepperWrap" />
+
+            <!-- â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
                  BUILDING LIST SECTION
-                 ═══════════════════════════════════════════════════════ -->
-            <VBox class="rakFormCard rakContent rakSection">
+                 â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• -->
+            <VBox class="rakContent rakSection" style="padding-top: 16px;">
                 <items>
 
-                    <HBox class="rakSection__header" alignItems="Center" justifyContent="SpaceBetween">
-                        <items>
-                            <Title text="{i18n>step3LabelBuildingList}" titleStyle="H5" class="rakSection__title" />
-                            <Button id="btnAddBuilding" text="{i18n>step3ActionAddBuilding}" press=".onAddBuilding"
-                                    type="Emphasized" class="rakNextBtn rakAddBtn" />
-                        </items>
-                    </HBox>
+                    <Title text="{i18n>step3LabelBuildingList}" class="rakSection__title sapUiTinyMarginBottom" />
+                    <Button id="btnAddBuilding" text="{i18n>step3ActionAddBuilding}" press=".onAddBuilding"
+                            class="rakBtn--solid-red sapUiSmallMarginBottom" />
 
                     <Table id="buildingTable"
                            items="{view>/buildings}"
                            noDataText="{i18n>step3NoBuildings}"
+                           visible="{= ${view>/buildings}.length > 0 }"
                            class="rakListTable">
                         <columns>
                             <Column><Text text="{i18n>step3ColBuildingName}" class="rakTableColHeader" /></Column>
@@ -350,19 +356,18 @@
                 </items>
             </VBox>
 
-            <!-- ═══════════════════════════════════════════════════════
+            <core:HTML content="&lt;div class='rakContent'&gt;&lt;hr style='border:none; border-top:1px solid #e0e0e0; margin: 12px 0 24px 0;' /&gt;&lt;/div&gt;" />
+
+            <!-- â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
                  FENCE/WALL LIST SECTION
-                 ═══════════════════════════════════════════════════════ -->
-            <VBox class="rakFormCard rakContent rakSection">
+                 â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• -->
+            <VBox class="rakContent rakSection" style="padding-bottom: 40px;">
                 <items>
 
-                    <HBox class="rakSection__header" alignItems="Center" justifyContent="SpaceBetween">
-                        <items>
-                            <Title text="{i18n>step3LabelFenceWallList}" titleStyle="H5" class="rakSection__title" />
-                            <Button id="btnAddFence" text="{i18n>step3ActionAddFence}" press=".onAddFencePress"
-                                    type="Default" enabled="{view>/fenceAddEnabled}" class="rakBackBtn rakAddBtn" />
-                        </items>
-                    </HBox>
+                    <Title text="{i18n>step3LabelFenceWallList}" class="rakSection__title sapUiTinyMarginBottom" />
+                    <Text text="{i18n>step3FenceWallDescription}" wrapping="true" class="rakSectionDesc sapUiSmallMarginBottom" />
+                    <Button id="btnAddFence" text="Add Fence/Wall" press=".onAddFencePress"
+                            enabled="{view>/fenceAddEnabled}" class="rakBtn--outline-red sapUiSmallMarginBottom" />
 
                     <!-- Inline Add Fence form (shown when fenceFormVisible=true) -->
                     <VBox id="fenceFormArea" visible="{view>/fenceFormVisible}" class="rakFenceForm">

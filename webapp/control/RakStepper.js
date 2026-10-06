@@ -34,6 +34,9 @@ sap.ui.define(["sap/ui/core/Control"], function (Control) {
                     if (idx > 0) {
                         oRm.openStart("div");
                         oRm.class("rakStepper__connector");
+                        if (iStep <= iActive) {
+                            oRm.class("rakStepper__connector--completed");
+                        }
                         oRm.attr("aria-hidden", "true");
                         oRm.openEnd();
                         oRm.close("div");
@@ -55,7 +58,10 @@ sap.ui.define(["sap/ui/core/Control"], function (Control) {
                     oRm.attr("aria-hidden", "true");
                     oRm.openEnd();
                     if (bCompleted) {
-                        oRm.openStart("span").class("rakStepper__check").openEnd();
+                        oRm.openStart("span").class("rakStepper__num").openEnd();
+                        oRm.text(String(iStep));
+                        oRm.close("span");
+                        oRm.openStart("span").class("rakStepper__badge").openEnd();
                         oRm.text("✓");
                         oRm.close("span");
                     } else {
@@ -103,9 +109,7 @@ sap.ui.define(["sap/ui/core/Control"], function (Control) {
                     oRm.class("rakStepper__label");
                     oRm.class("rakStepper__label--more");
                     oRm.openEnd();
-                    oRm.text(iExtra + " More");
-                    oRm.voidStart("br").voidEnd();
-                    oRm.text("steps");
+                    oRm.text(iExtra + " More steps");
                     oRm.close("div");
 
                     oRm.close("div"); // item

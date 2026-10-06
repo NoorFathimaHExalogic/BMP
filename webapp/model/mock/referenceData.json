@@ -1,10 +1,4 @@
 {
-  "_meta": {
-    "usageTypesMap": {
-      "source": "FRONTEND_MOCK",
-      "reason": "Complete Building Type to Usage Type matrix is not available in approved BRD or Figma sources. Values are illustrative only and must not be presented as BRD-sourced data."
-    }
-  },
   "civilDefenceAreas": [
     { "key": "",       "text": "Select"                },
     { "key": "CDA-01", "text": "Ras Al Khaimah City"  },

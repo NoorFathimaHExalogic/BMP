@@ -40,7 +40,8 @@
         "sap.ui.core": {},
         "sap.m": {},
         "sap.f": {},
-        "sap.ui.layout": {}
+        "sap.ui.layout": {},
+        "sap.ui.unified": {}
       }
     },
     "contentDensities": {
@@ -123,6 +124,11 @@
           "name": "confirmation",
           "pattern": "confirmation",
           "target": ["confirmation"]
+        },
+        {
+          "name": "drawing-upload",
+          "pattern": "drawing-upload",
+          "target": ["drawingUpload"]
         }
       ],
       "targets": {
@@ -161,6 +167,10 @@
         "confirmation": {
           "viewName": "step8.Confirmation",
           "viewId": "confirmation"
+        },
+        "drawingUpload": {
+          "viewName": "step9.DrawingUpload",
+          "viewId": "drawingUpload"
         },
         "notFound": {
           "viewName": "NotFound",

@@ -28,10 +28,6 @@
                     class="sapUiSmallMarginBottom" />
 
                 <Text
-                    text="Phase 0 — Architecture Verification"
-                    class="sapUiSmallMarginBottom" />
-
-                <Text
                     text="{i18n>appTitle}"
                     class="sapUiTinyMarginTop" />
 
@@ -45,7 +41,7 @@
 
                 <Button
                     id="testBtn"
-                    text="Go to Step 1 — Project Selection"
+                    text="Go to Step 1 - Project Selection"
                     type="Emphasized"
                     press=".onNavigateToProjectSelection"
                     class="sapUiSmallMarginTop" />

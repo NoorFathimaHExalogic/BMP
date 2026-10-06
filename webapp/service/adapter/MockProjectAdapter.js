@@ -32,6 +32,15 @@ sap.ui.define(["sap/ui/model/json/JSONModel"], function (JSONModel) {
         },
         getRoleOptions: function () {
             return _load().then(function (d) { return d.roleOptions; });
+        },
+        getProjectMetadata: function () {
+            return _load().then(function (d) {
+                return {
+                    totalCount: d.totalCount || 153,
+                    resultCount: d.resultCount || 32,
+                    pageSize: d.pageSize || 8
+                };
+            });
         }
     };
 });

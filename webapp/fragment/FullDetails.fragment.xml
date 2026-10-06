@@ -1,0 +1,98 @@
+<core:FragmentDefinition
+    xmlns="sap.m"
+    xmlns:core="sap.ui.core">
+
+    <Dialog id="dlgFullDetails"
+            class="rakFullDetailsDlg"
+            contentWidth="820px"
+            contentHeight="560px"
+            resizable="false"
+            draggable="true">
+
+        <customHeader>
+            <Bar class="rakDlgHeader">
+                <contentLeft>
+                    <core:HTML content="&lt;div class='rakDlgHeader__inner'&gt;&lt;svg width='22' height='22' viewBox='10 9.5 10 11' fill='none' xmlns='http://www.w3.org/2000/svg'&gt;&lt;path d='M16.8886 12.016H13.1114V18.7915H14.3676L15 18.0831H13.8021V12.7244H16.1989V18.0831H15L15.6334 18.7915H16.8886V12.016Z' fill='white'/&gt;&lt;path d='M18.3676 10.5H11.6324L11 19.5H12.5353L13.1114 18.7915L11.7735 18.7915L12.3231 11.2085H17.6769L18.2106 18.7915L16.8886 18.7915L17.4647 19.5H19L18.3676 10.5Z' fill='white'/&gt;&lt;path d='M14.6552 17.2854H15.3448V13.5297H14.6552V17.2854Z' fill='white'/&gt;&lt;/svg&gt;&lt;span class='rakDlgHeader__title'&gt;Project Details&lt;/span&gt;&lt;/div&gt;" />
+                </contentLeft>
+                <contentRight>
+                    <Button icon="sap-icon://decline"
+                            type="Transparent"
+                            class="rakDlgCloseBtn"
+                            press=".onCloseFullDetails" />
+                </contentRight>
+            </Bar>
+        </customHeader>
+
+        <content>
+            <IconTabBar id="fullDetailsTabBar"
+                        class="rakFullDetailsTabBar"
+                        stretchContentHeight="true"
+                        backgroundDesign="Transparent">
+                <items>
+
+                    <!-- ── Map ──────────────────────────────────── -->
+                    <IconTabFilter text="Map" key="map">
+                        <content>
+                            <core:HTML content="&lt;div class='rakFDMap'&gt;&lt;div class='rakFDMap__bg'&gt;&lt;svg width='100%' height='100%' viewBox='0 0 820 400' xmlns='http://www.w3.org/2000/svg'&gt;&lt;rect width='820' height='400' fill='#e8e8e8'/&gt;&lt;rect x='0' y='80' width='820' height='18' fill='#d4d4d4'/&gt;&lt;rect x='0' y='200' width='820' height='14' fill='#d4d4d4'/&gt;&lt;rect x='0' y='310' width='820' height='12' fill='#d4d4d4'/&gt;&lt;rect x='100' y='0' width='14' height='400' fill='#d4d4d4'/&gt;&lt;rect x='280' y='0' width='10' height='400' fill='#d4d4d4'/&gt;&lt;rect x='480' y='0' width='18' height='400' fill='#d4d4d4'/&gt;&lt;rect x='660' y='0' width='10' height='400' fill='#d4d4d4'/&gt;&lt;rect x='120' y='100' width='140' height='80' fill='#cfcfcf' rx='2'/&gt;&lt;rect x='300' y='110' width='160' height='60' fill='#cfcfcf' rx='2'/&gt;&lt;rect x='510' y='90' width='120' height='90' fill='#cfcfcf' rx='2'/&gt;&lt;rect x='120' y='220' width='100' height='70' fill='#cfcfcf' rx='2'/&gt;&lt;rect x='300' y='230' width='150' height='60' fill='#cfcfcf' rx='2'/&gt;&lt;rect x='680' y='110' width='110' height='80' fill='#cfcfcf' rx='2'/&gt;&lt;/svg&gt;&lt;/div&gt;&lt;div class='rakFDMap__pin' style='left:410px;top:190px'&gt;&lt;svg width='28' height='36' viewBox='0 0 28 36' fill='none' xmlns='http://www.w3.org/2000/svg'&gt;&lt;path d='M14 0C6.268 0 0 6.268 0 14c0 10.5 14 22 14 22s14-11.5 14-22C28 6.268 21.732 0 14 0z' fill='%23c41230'/&gt;&lt;circle cx='14' cy='14' r='5' fill='white'/&gt;&lt;/svg&gt;&lt;/div&gt;&lt;div class='rakFDMap__popup'&gt;AL Mubtaser Street,&lt;br/&gt;4th Floor, Eastern,&lt;br/&gt;Kitchen Building, 4311&lt;/div&gt;&lt;/div&gt;" />
+                        </content>
+                    </IconTabFilter>
+
+                    <!-- ── General ───────────────────────────────── -->
+                    <IconTabFilter text="General" key="general">
+                        <content>
+                            <ScrollContainer height="100%" vertical="true" class="rakFDScroll">
+                                <core:HTML content="&lt;div class='rakFDSection'&gt;&lt;div class='rakFDSectionTitle'&gt;Location Information&lt;/div&gt;&lt;div class='rakFDGrid4'&gt;&lt;div class='rakFDCell'&gt;&lt;span class='rakFDLabel'&gt;Area Name&lt;/span&gt;&lt;span class='rakFDValue'&gt;Al Haa, Village&lt;/span&gt;&lt;/div&gt;&lt;div class='rakFDCell'&gt;&lt;span class='rakFDLabel'&gt;Plot Area&lt;/span&gt;&lt;span class='rakFDValue'&gt;307.80&lt;/span&gt;&lt;/div&gt;&lt;div class='rakFDCell'&gt;&lt;span class='rakFDLabel'&gt;Address&lt;/span&gt;&lt;span class='rakFDValue'&gt;AL Muntaser Street, 4th Floor, Eastern Kitchen Building, 431&lt;/span&gt;&lt;/div&gt;&lt;div class='rakFDCell'&gt;&lt;span class='rakFDLabel'&gt;Ownership Type&lt;/span&gt;&lt;span class='rakFDValue'&gt;Issuance of Grand Ownership&lt;/span&gt;&lt;/div&gt;&lt;/div&gt;&lt;div class='rakFDSectionTitle' style='margin-top:24px'&gt;Other Active Projects&lt;/div&gt;&lt;table class='rakFDTable'&gt;&lt;thead&gt;&lt;tr&gt;&lt;th&gt;Project number&lt;/th&gt;&lt;th&gt;Owner&lt;/th&gt;&lt;th&gt;Parcel ID&lt;/th&gt;&lt;th&gt;Arc. Objects&lt;/th&gt;&lt;th&gt;Permits&lt;/th&gt;&lt;/tr&gt;&lt;/thead&gt;&lt;tbody&gt;&lt;tr&gt;&lt;td&gt;77857342&lt;/td&gt;&lt;td&gt;Abdullah Al-Aziz&lt;/td&gt;&lt;td&gt;409030901&lt;/td&gt;&lt;td&gt;0&lt;/td&gt;&lt;td&gt;0&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;77857342&lt;/td&gt;&lt;td&gt;Abdullah Al-Aziz&lt;/td&gt;&lt;td&gt;409030901&lt;/td&gt;&lt;td&gt;0&lt;/td&gt;&lt;td&gt;0&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;77857342&lt;/td&gt;&lt;td&gt;Abdullah Al-Aziz&lt;/td&gt;&lt;td&gt;409030901&lt;/td&gt;&lt;td&gt;0&lt;/td&gt;&lt;td&gt;0&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;77857342&lt;/td&gt;&lt;td&gt;Abdullah Al-Aziz&lt;/td&gt;&lt;td&gt;409030901&lt;/td&gt;&lt;td&gt;0&lt;/td&gt;&lt;td&gt;0&lt;/td&gt;&lt;/tr&gt;&lt;/tbody&gt;&lt;/table&gt;&lt;/div&gt;" />
+                            </ScrollContainer>
+                        </content>
+                    </IconTabFilter>
+
+                    <!-- ── Business Partners ─────────────────────── -->
+                    <IconTabFilter text="Business Partners" key="biz">
+                        <content>
+                            <ScrollContainer height="100%" vertical="true" class="rakFDScroll">
+                                <core:HTML content="&lt;div class='rakFDSection'&gt;&lt;div class='rakFDSectionTitle'&gt;Business Partners Relationships&lt;/div&gt;&lt;table class='rakFDTable'&gt;&lt;thead&gt;&lt;tr&gt;&lt;th&gt;Role&lt;/th&gt;&lt;th&gt;BP Number&lt;/th&gt;&lt;th&gt;Name&lt;/th&gt;&lt;/tr&gt;&lt;/thead&gt;&lt;tbody&gt;&lt;tr&gt;&lt;td&gt;Owner&lt;/td&gt;&lt;td&gt;3000000012&lt;/td&gt;&lt;td&gt;Ahmed Mohammed Al Sayed&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;Owner&lt;/td&gt;&lt;td&gt;3000000012&lt;/td&gt;&lt;td&gt;Ahmed Mohammed Al Sayed&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;Mortgage Holder&lt;/td&gt;&lt;td&gt;3000000012&lt;/td&gt;&lt;td&gt;Ahmed Mohammed Al Sayed&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;Consultant&lt;/td&gt;&lt;td&gt;3000000012&lt;/td&gt;&lt;td&gt;Ahmed Mohammed Al Sayed&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;Contractor&lt;/td&gt;&lt;td&gt;3000000012&lt;/td&gt;&lt;td&gt;Ahmed Mohammed Al Sayed&lt;/td&gt;&lt;/tr&gt;&lt;/tbody&gt;&lt;/table&gt;&lt;/div&gt;" />
+                            </ScrollContainer>
+                        </content>
+                    </IconTabFilter>
+
+                    <!-- ── Land ──────────────────────────────────── -->
+                    <IconTabFilter text="Land" key="land">
+                        <content>
+                            <ScrollContainer height="100%" vertical="true" class="rakFDScroll">
+                                <core:HTML content="&lt;div class='rakFDSection'&gt;&lt;div class='rakFDGrid4'&gt;&lt;div class='rakFDCell'&gt;&lt;span class='rakFDLabel'&gt;Land Usage&lt;/span&gt;&lt;span class='rakFDValue rakFDValue--bold'&gt;Residential ad Commercial&lt;/span&gt;&lt;/div&gt;&lt;div class='rakFDCell'&gt;&lt;span class='rakFDLabel'&gt;Land Type&lt;/span&gt;&lt;span class='rakFDValue rakFDValue--bold'&gt;Governmental&lt;/span&gt;&lt;/div&gt;&lt;div class='rakFDCell'&gt;&lt;span class='rakFDLabel'&gt;Parcel Status&lt;/span&gt;&lt;span class='rakFDValue rakFDValue--bold'&gt;Active&lt;/span&gt;&lt;/div&gt;&lt;div class='rakFDCell'&gt;&lt;span class='rakFDLabel'&gt;Block Number&lt;/span&gt;&lt;span class='rakFDValue rakFDValue--bold'&gt;11&lt;/span&gt;&lt;/div&gt;&lt;/div&gt;&lt;div class='rakFDGrid4' style='margin-top:20px'&gt;&lt;div class='rakFDCell'&gt;&lt;span class='rakFDLabel'&gt;Built Up Ratio&lt;/span&gt;&lt;span class='rakFDValue rakFDValue--bold'&gt;60%&lt;/span&gt;&lt;/div&gt;&lt;div class='rakFDCell'&gt;&lt;span class='rakFDLabel'&gt;Maximum Building Height&lt;/span&gt;&lt;span class='rakFDValue rakFDValue--bold'&gt;0.00&lt;/span&gt;&lt;/div&gt;&lt;div class='rakFDCell'&gt;&lt;span class='rakFDLabel'&gt;Gate Level&lt;/span&gt;&lt;span class='rakFDValue rakFDValue--bold'&gt;0&lt;/span&gt;&lt;/div&gt;&lt;div class='rakFDCell'&gt;&lt;span class='rakFDLabel'&gt;Demarcation&lt;/span&gt;&lt;span class='rakFDValue rakFDValue--bold'&gt;Yes&lt;/span&gt;&lt;/div&gt;&lt;/div&gt;&lt;div class='rakFDCell' style='margin-top:20px'&gt;&lt;span class='rakFDLabel'&gt;Parcel Area Measurement&lt;/span&gt;&lt;span class='rakFDValue rakFDValue--bold'&gt;3050.2 Sqm&lt;/span&gt;&lt;/div&gt;&lt;div class='rakFDDownload'&gt;&lt;svg width='20' height='20' viewBox='0 0 24 24' fill='none' xmlns='http://www.w3.org/2000/svg'&gt;&lt;path d='M12 16l-6-6h4V4h4v6h4l-6 6z' fill='%23c41230'/&gt;&lt;path d='M20 18H4v2h16v-2z' fill='%23c41230'/&gt;&lt;/svg&gt;&lt;div&gt;&lt;span class='rakFDDownload__label'&gt;Download reference document&lt;/span&gt;&lt;a class='rakFDDownload__link' href='#'&gt;Development Control Regulations (DCR)&lt;/a&gt;&lt;/div&gt;&lt;/div&gt;&lt;/div&gt;" />
+                            </ScrollContainer>
+                        </content>
+                    </IconTabFilter>
+
+                    <!-- ── Buildings ─────────────────────────────── -->
+                    <IconTabFilter text="Buildings" key="buildings">
+                        <content>
+                            <ScrollContainer height="100%" vertical="true" class="rakFDScroll">
+                                <core:HTML content="&lt;div class='rakFDSection'&gt;&lt;table class='rakFDTable'&gt;&lt;thead&gt;&lt;tr&gt;&lt;th&gt;Building ID&lt;/th&gt;&lt;th&gt;Building Name&lt;/th&gt;&lt;th&gt;Building Type&lt;/th&gt;&lt;th&gt;Area (sqm)&lt;/th&gt;&lt;th&gt;No. of Floors&lt;/th&gt;&lt;/tr&gt;&lt;/thead&gt;&lt;tbody&gt;&lt;tr&gt;&lt;td&gt;BLD-20-12876&lt;/td&gt;&lt;td&gt;Bavti, villa 674&lt;/td&gt;&lt;td&gt;Service Block&lt;/td&gt;&lt;td&gt;120&lt;/td&gt;&lt;td&gt;32&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;BLD-20-12876&lt;/td&gt;&lt;td&gt;Bavti, villa 674&lt;/td&gt;&lt;td&gt;Service Block&lt;/td&gt;&lt;td&gt;90&lt;/td&gt;&lt;td&gt;12&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;BLD-20-12876&lt;/td&gt;&lt;td&gt;Bavti, villa 674&lt;/td&gt;&lt;td&gt;Service Block&lt;/td&gt;&lt;td&gt;20&lt;/td&gt;&lt;td&gt;16&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;BLD-20-12876&lt;/td&gt;&lt;td&gt;Bavti, villa 674&lt;/td&gt;&lt;td&gt;Service Block&lt;/td&gt;&lt;td&gt;32&lt;/td&gt;&lt;td&gt;24&lt;/td&gt;&lt;/tr&gt;&lt;/tbody&gt;&lt;/table&gt;&lt;/div&gt;" />
+                            </ScrollContainer>
+                        </content>
+                    </IconTabFilter>
+
+                    <!-- ── Documents ─────────────────────────────── -->
+                    <IconTabFilter text="Documents" key="documents">
+                        <content>
+                            <ScrollContainer height="100%" vertical="true" class="rakFDScroll">
+                                <core:HTML content="&lt;div class='rakFDSection'&gt;&lt;table class='rakFDTable'&gt;&lt;thead&gt;&lt;tr&gt;&lt;th&gt;Document Name&lt;/th&gt;&lt;th&gt;Number&lt;/th&gt;&lt;th&gt;Department&lt;/th&gt;&lt;th&gt;Issued &amp;#8597;&lt;/th&gt;&lt;th&gt;Expires &amp;#8593;&lt;/th&gt;&lt;/tr&gt;&lt;/thead&gt;&lt;tbody&gt;&lt;tr&gt;&lt;td&gt;&lt;span class='rakFDDocRow'&gt;&lt;span class='rakFDDocIcon'&gt;&#128196;&lt;/span&gt;Parking shade permit &lt;span class='rakFDDocExt'&gt;&amp;#8599;&lt;/span&gt;&lt;/span&gt;&lt;/td&gt;&lt;td&gt;9876567890&lt;/td&gt;&lt;td&gt;Municipality&lt;/td&gt;&lt;td&gt;Aug 23, 2022&lt;/td&gt;&lt;td&gt;Aug 23, 2024&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;span class='rakFDDocRow'&gt;&lt;span class='rakFDDocIcon'&gt;&#128196;&lt;/span&gt;Fisherman Licenses &lt;span class='rakFDDocExt'&gt;&amp;#8599;&lt;/span&gt;&lt;/span&gt;&lt;/td&gt;&lt;td&gt;9876567890&lt;/td&gt;&lt;td&gt;EPDA&lt;/td&gt;&lt;td&gt;Aug 23, 2022&lt;/td&gt;&lt;td&gt;Aug 23, 2024&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;span class='rakFDDocRow'&gt;&lt;span class='rakFDDocIcon'&gt;&#128196;&lt;/span&gt;Zeita Resturant &lt;span class='rakFDDocExt'&gt;&amp;#8599;&lt;/span&gt;&lt;/span&gt;&lt;/td&gt;&lt;td&gt;9876567890&lt;/td&gt;&lt;td&gt;DED&lt;/td&gt;&lt;td&gt;Aug 23, 2022&lt;/td&gt;&lt;td&gt;Aug 23, 2024&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;span class='rakFDDocRow'&gt;&lt;span class='rakFDDocIcon'&gt;&#128196;&lt;/span&gt;Property Deed &lt;span class='rakFDDocExt'&gt;&amp;#8599;&lt;/span&gt;&lt;/span&gt;&lt;/td&gt;&lt;td&gt;9876567890&lt;/td&gt;&lt;td&gt;Municipality&lt;/td&gt;&lt;td&gt;Aug 23, 2022&lt;/td&gt;&lt;td&gt;Aug 23, 2024&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;span class='rakFDDocRow'&gt;&lt;span class='rakFDDocIcon'&gt;&#128196;&lt;/span&gt;Plan approval &lt;span class='rakFDDocExt'&gt;&amp;#8599;&lt;/span&gt;&lt;/span&gt;&lt;/td&gt;&lt;td&gt;9876567890&lt;/td&gt;&lt;td&gt;Municipality&lt;/td&gt;&lt;td&gt;Aug 23, 2022&lt;/td&gt;&lt;td&gt;Aug 23, 2024&lt;/td&gt;&lt;/tr&gt;&lt;/tbody&gt;&lt;/table&gt;&lt;/div&gt;" />
+                            </ScrollContainer>
+                        </content>
+                    </IconTabFilter>
+
+                </items>
+            </IconTabBar>
+        </content>
+
+        <endButton>
+            <Button text="Close"
+                    type="Default"
+                    class="rakDlgCloseOutlineBtn"
+                    press=".onCloseFullDetails" />
+        </endButton>
+
+    </Dialog>
+
+</core:FragmentDefinition>

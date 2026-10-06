@@ -1,18 +1,329 @@
-<mvc:View
+﻿<mvc:View
     controllerName="rak.zp02.controller.step5.Attachments"
     xmlns="sap.m"
-    xmlns:mvc="sap.ui.core.mvc">
+    xmlns:mvc="sap.ui.core.mvc"
+    xmlns:core="sap.ui.core"
+    xmlns:layout="sap.ui.layout"
+    xmlns:unified="sap.ui.unified"
+    xmlns:rak="rak.zp02.control"
+    displayBlock="true">
 
-    <Page id="attachmentsPage" title="Attachments" showHeader="false">
-        <VBox class="sapUiMediumMargin">
-            <Title text="Attachments" level="H2" />
-            <Text text="Step 5 — Attachments will be implemented in a future phase." />
-        </VBox>
+    <Page id="attachmentsPage" enableScrolling="true" class="rakPage rakApp">
+
+        <customHeader>
+            <Bar class="rakHeader sapMBarMiddle">
+                <contentLeft>
+                    <core:HTML content="&lt;img class='rakHeader__logo' src='assets/figma/step1/rak-municipality-logo.svg' alt='RAK Municipality' /&gt;" />
+                </contentLeft>
+                <contentRight>
+                    <HBox class="rakHeader__user-area" alignItems="Center">
+                        <items>
+                            <Image src="assets/figma/step1/icon-user-avatar-small.svg" class="rakHeader__avatar" width="32px" height="32px" alt="User" />
+                            <Text text="Abdullah Al-Aziz" class="rakHeader__user-name" />
+                            <Image src="assets/figma/step1/icon-chevron-down-small.svg" class="rakHeader__chevron" width="12px" height="12px" alt="" />
+                        </items>
+                    </HBox>
+                    <core:HTML content="&lt;div class='rakHeader__divider'&gt;&lt;/div&gt;&lt;img class='rakHeader__wordmark-right' src='assets/figma/step1/rak-digital-wordmark-red.svg' alt='RAK Digital' /&gt;" />
+                </contentRight>
+            </Bar>
+        </customHeader>
+
         <footer>
-            <Toolbar>
-                <Button text="Back" press=".onBack" />
-            </Toolbar>
+            <Bar class="rakFooter sapMBarMiddle">
+                <contentLeft>
+                    <Button id="btnBack" text="{i18n>actionBack}" icon="sap-icon://navigation-left-arrow" press=".onBack" type="Transparent" class="rakBackBtn" />
+                </contentLeft>
+                <contentRight>
+                    <Button id="btnNext" text="{i18n>actionNext}" icon="sap-icon://navigation-right-arrow" iconFirst="false" press=".onNext" type="Emphasized" class="rakNextBtn" />
+                </contentRight>
+            </Bar>
         </footer>
+
+        <content>
+            <VBox class="rakContent">
+
+                <!-- Permit heading row -->
+                <HBox class="rakPermitHeading rakContent" alignItems="Center" justifyContent="SpaceBetween">
+                    <HBox class="rakPermitHeading__left" alignItems="Center">
+                        <Image src="assets/figma/step1/icon-permit-muni-tight.svg" width="30px" height="30px" class="rakPermitHeading__icon" />
+                        <Title text="New Building Permit" titleStyle="H4" class="rakPermitHeading__title" />
+                    </HBox>
+                    <HBox class="rakPermitHeading__actions" alignItems="Center">
+                        <Button id="btnSaveDraft" text="{i18n>actionSaveAsDraft}" press=".onSaveDraft" type="Transparent" icon="assets/figma/step1/icon-20px-b.svg" class="rakPermitAction" />
+                        <Button id="btnDelete" text="{i18n>actionDelete}" press=".onDelete" type="Transparent" icon="assets/figma/step1/icon-20px-a.svg" class="rakPermitAction" />
+                    </HBox>
+                </HBox>
+
+                <!-- Context bar -->
+                <HBox class="rakContextBar rakContent" alignItems="Center" wrap="Wrap">
+                    <items>
+                        <Text text="{i18n>step2ContextOwner}" class="rakContextBar__text" />
+                        <Text text=" " class="rakContextBar__text" />
+                        <Text text="{view>/project/ownerName}" class="rakContextBar__value" />
+                        <Text text=" | " class="rakContextBar__sep" />
+                        <Text text="{i18n>step2ContextProject}" class="rakContextBar__text" />
+                        <Text text=" " class="rakContextBar__text" />
+                        <Text text="{view>/project/projectNumber}" class="rakContextBar__value" />
+                        <Text text=" | " class="rakContextBar__sep" />
+                        <Text text="{view>/project/address}" class="rakContextBar__value" />
+                    </items>
+                </HBox>
+
+                <!-- Stepper -->
+                <rak:RakStepper
+                    activeStep="{view>/activeStep}"
+                    stepLabels="{view>/stepLabels}"
+                    extraSteps="2"
+                    class="rakContent rakStepperWrap" />
+
+                <!-- Section heading -->
+                <VBox class="sapUiMediumMarginTop sapUiSmallMarginBottom">
+                    <Title text="{i18n>step5SectionTitle}" level="H2" class="rakPageTitle" />
+                    <Text text="{i18n>step5MaxFileSizeNote}" class="rakSubNote sapUiTinyMarginTop" />
+                </VBox>
+
+                <!-- Dynamic document list -->
+                <List
+                    id="docList"
+                    items="{view>/docItems}"
+                    showSeparators="None"
+                    noDataText=" ">
+                    <items>
+                        <CustomListItem class="rakDocListItem">
+                            <!-- Category header row -->
+                            <VBox visible="{= ${view>type} === 'CATEGORY' }">
+                                <Title text="{view>label}" level="H4" class="rakDocCategoryHeader sapUiSmallMarginTop" />
+                            </VBox>
+                            <!-- Document row -->
+                            <VBox visible="{= ${view>type} === 'DOC' }" class="rakDocRow sapUiTinyMarginBottom">
+                                <HBox alignItems="Start" justifyContent="SpaceBetween">
+                                    <HBox alignItems="Center">
+                                        <Text text="{view>name}" class="rakDocName" />
+                                        <Text
+                                            text=" *"
+                                            class="rakDocMandatoryMark"
+                                            visible="{view>isMandatory}" />
+                                    </HBox>
+                                    <!-- System retrieved badge -->
+                                    <HBox
+                                        visible="{= ${view>providingMechanism} === 'SYSTEM' }"
+                                        alignItems="Center"
+                                        class="rakDocSystemBadge">
+                                        <core:Icon src="sap-icon://accept" class="rakDocSystemIcon" />
+                                        <Text text="{i18n>step5LabelSystemRetrieved}" class="rakDocSystemText" />
+                                    </HBox>
+                                </HBox>
+                                <!-- Upload row (UPLOAD mechanism only) -->
+                                <VBox visible="{= ${view>providingMechanism} === 'UPLOAD' }" class="sapUiTinyMarginTop">
+                                    <!-- Idle / choose file -->
+                                    <unified:FileUploader
+                                        maximumFileSize="10"
+                                        fileType=""
+                                        placeholder="{i18n>step5ActionChooseFile}"
+                                        buttonText=""
+                                        buttonOnly="false"
+                                        class="rakFileInput"
+                                        visible="{= ${view>uploadState} === 'IDLE' }"
+                                        change=".onDocumentFileChange"
+                                        fileSizeExceed=".onDocumentFileSizeExceed"
+                                        typeMissmatch=".onDocumentTypeMissmatch" />
+                                    <!-- Uploading progress -->
+                                    <HBox
+                                        visible="{= ${view>uploadState} === 'UPLOADING' }"
+                                        alignItems="Center"
+                                        class="rakDocProgressRow">
+                                        <ProgressIndicator
+                                            percentValue="{view>uploadProgress}"
+                                            displayValue="{= ${view>uploadProgress} + '%'}"
+                                            showValue="true"
+                                            state="Information"
+                                            width="200px"
+                                            class="sapUiTinyMarginEnd" />
+                                        <Text text="{i18n>step5LabelUploading}" />
+                                    </HBox>
+                                    <!-- Uploaded -->
+                                    <HBox
+                                        visible="{= ${view>uploadState} === 'UPLOADED' }"
+                                        alignItems="Center"
+                                        justifyContent="SpaceBetween">
+                                        <HBox alignItems="Center">
+                                            <core:Icon src="sap-icon://attachment" class="sapUiTinyMarginEnd rakDocUploadedIcon" />
+                                            <Text text="{view>fileMeta/fileName}" class="rakDocFileName" />
+                                        </HBox>
+                                        <Link text="{i18n>step5ActionRemoveUpload}" press=".onRemoveDocumentFile" />
+                                    </HBox>
+                                    <!-- Error -->
+                                    <Text
+                                        visible="{= !!${view>uploadError} }"
+                                        text="{view>uploadError}"
+                                        class="rakFieldError" />
+                                </VBox>
+                            </VBox>
+                        </CustomListItem>
+                    </items>
+                </List>
+
+                <!-- Additional Supporting Documents -->
+                <VBox class="rakFormCard sapUiMediumMarginTop">
+                    <Title text="{i18n>step5LabelAdditionalDocs}" level="H4" class="rakDocCategoryHeader" />
+                    <List
+                        id="additionalDocList"
+                        items="{view>/additionalDocuments}"
+                        showSeparators="None"
+                        noDataText=" ">
+                        <items>
+                            <CustomListItem>
+                                <HBox alignItems="Start" justifyContent="SpaceBetween" class="sapUiTinyMarginBottom">
+                                    <VBox width="70%">
+                                        <Input
+                                            value="{view>description}"
+                                            placeholder="{i18n>step5PlaceholderFileDescription}"
+                                            class="sapUiTinyMarginBottom" />
+                                        <unified:FileUploader
+                                            maximumFileSize="10"
+                                            fileType=""
+                                            placeholder="{i18n>step5ActionChooseFile}"
+                                            buttonText=""
+                                            buttonOnly="false"
+                                            class="rakFileInput"
+                                            visible="{= ${view>uploadState} === 'IDLE' }"
+                                            change=".onAdditionalFileChange"
+                                            fileSizeExceed=".onAdditionalFileSizeExceed" />
+                                        <ProgressIndicator
+                                            percentValue="{view>uploadProgress}"
+                                            showValue="true"
+                                            state="Information"
+                                            width="180px"
+                                            visible="{= ${view>uploadState} === 'UPLOADING' }" />
+                                        <HBox
+                                            visible="{= ${view>uploadState} === 'UPLOADED' }"
+                                            alignItems="Center">
+                                            <core:Icon src="sap-icon://attachment" class="sapUiTinyMarginEnd rakDocUploadedIcon" />
+                                            <Text text="{view>fileMeta/fileName}" class="rakDocFileName" />
+                                        </HBox>
+                                        <Text
+                                            visible="{= !!${view>uploadError} }"
+                                            text="{view>uploadError}"
+                                            class="rakFieldError" />
+                                    </VBox>
+                                    <Button
+                                        icon="sap-icon://delete"
+                                        type="Transparent"
+                                        tooltip="{i18n>step5ActionRemoveFile}"
+                                        press=".onRemoveAdditionalDocument" />
+                                </HBox>
+                            </CustomListItem>
+                        </items>
+                    </List>
+                    <Link
+                        text="{i18n>step5ActionAddAnotherFile}"
+                        press=".onAddAnotherFile"
+                        class="sapUiTinyMarginTop rakAddFileLink" />
+                </VBox>
+
+                <!-- Load Cards (DOC-21) -->
+                <VBox class="rakFormCard sapUiMediumMarginTop">
+                    <HBox alignItems="Center">
+                        <Title text="{i18n>step5LabelLoadCards}" level="H4" class="rakDocCategoryHeader" />
+                        <Text text=" *" class="rakDocMandatoryMark" />
+                    </HBox>
+                    <Text text="{i18n>step5LoadCardDesc}" class="sapUiTinyMarginTop sapUiTinyMarginBottom" />
+                    <Link
+                        text="{i18n>step5LoadCardTemplateLink}"
+                        press=".onDownloadLoadCardTemplate"
+                        class="sapUiTinyMarginBottom rakLoadCardLink" />
+                    <unified:FileUploader
+                        id="loadCardFileUploader"
+                        maximumFileSize="10"
+                        fileType="xls,xlsx"
+                        placeholder="{i18n>step5ActionChooseFile}"
+                        buttonText=""
+                        buttonOnly="false"
+                        class="rakFileInput"
+                        visible="{= ${view>/loadCard/uploadState} === 'IDLE' }"
+                        change=".onLoadCardFileChange"
+                        fileSizeExceed=".onLoadCardFileSizeExceed"
+                        typeMissmatch=".onLoadCardTypeMissmatch" />
+                    <HBox
+                        visible="{= ${view>/loadCard/uploadState} === 'UPLOADING' }"
+                        alignItems="Center"
+                        class="rakDocProgressRow">
+                        <ProgressIndicator
+                            percentValue="{view>/loadCard/uploadProgress}"
+                            displayValue="{= ${view>/loadCard/uploadProgress} + '%'}"
+                            showValue="true"
+                            state="Information"
+                            width="200px"
+                            class="sapUiTinyMarginEnd" />
+                        <Text text="{i18n>step5LabelUploading}" />
+                    </HBox>
+                    <HBox
+                        visible="{= ${view>/loadCard/uploadState} === 'UPLOADED' }"
+                        alignItems="Center"
+                        justifyContent="SpaceBetween">
+                        <HBox alignItems="Center">
+                            <core:Icon src="sap-icon://attachment" class="sapUiTinyMarginEnd rakDocUploadedIcon" />
+                            <Text text="{view>/loadCard/fileMeta/fileName}" class="rakDocFileName" />
+                        </HBox>
+                        <Link text="{i18n>step5ActionRemoveUpload}" press=".onRemoveLoadCardFile" />
+                    </HBox>
+                    <Text
+                        visible="{= !!${view>/loadCard/uploadError} }"
+                        text="{view>/loadCard/uploadError}"
+                        class="rakFieldError" />
+                </VBox>
+
+                <!-- Declaration -->
+                <VBox class="rakFormCard sapUiMediumMarginTop sapUiMediumMarginBottom">
+                    <Title text="{i18n>step5LabelDeclarationSection}" level="H4" class="rakDocCategoryHeader" />
+                    <HBox alignItems="Start" class="sapUiSmallMarginTop">
+                        <CheckBox
+                            id="declarationCheckBox"
+                            selected="{view>/declarationAccepted}"
+                            select=".onDeclarationChange"
+                            class="sapUiTinyMarginEnd" />
+                        <Text
+                            text="{view>/declarationText}"
+                            wrapping="true"
+                            class="rakDeclarationText" />
+                    </HBox>
+                    <Text
+                        id="declarationError"
+                        visible="{= !!${view>/declarationError} }"
+                        text="{view>/declarationError}"
+                        class="rakFieldError sapUiTinyMarginTop" />
+                </VBox>
+
+                <!-- Submit note -->
+                <VBox class="rakSubmitNote sapUiSmallMarginBottom">
+                    <core:HTML content="&lt;div class='rakSubmitNote__inner'&gt;&lt;span class='rakSubmitNote__icon'&gt;&#9888;&lt;/span&gt;&lt;span class='rakSubmitNote__text'&gt;Note: Once you submit the application, you will not be able to edit or delete it.&lt;/span&gt;&lt;/div&gt;" />
+                </VBox>
+
+            </VBox>
+        </content>
+
+        <!-- MSG-C08 dialog -->
+        <dependents>
+            <Dialog
+                id="mandatoryAttachDialog"
+                title="{i18n>msgC08MandatoryAttachTitle}"
+                type="Message">
+                <Text text="{i18n>msgC08MandatoryAttachBody}" />
+                <beginButton>
+                    <Button
+                        text="{i18n>msgC08BtnCancel}"
+                        press=".onMandatoryDialogCancel"
+                        type="Default" />
+                </beginButton>
+                <endButton>
+                    <Button
+                        text="{i18n>msgC08BtnNext}"
+                        press=".onMandatoryDialogNext"
+                        type="Emphasized" />
+                </endButton>
+            </Dialog>
+        </dependents>
+
     </Page>
 
 </mvc:View>

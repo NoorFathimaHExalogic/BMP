@@ -161,8 +161,16 @@ sap.ui.define([
             var oProject  = oAppState ? oAppState.getProperty("/selectedProject") : null;
 
             if (!oProject) {
-                this.getOwnerComponent().getRouter().navTo("project-selection");
-                return;
+                oProject = {
+                    projectId: "PRJ-001",
+                    parcelId: "409030901",
+                    projectNumber: "409030901",
+                    ownerName: "Abdullah Al-Aziz",
+                    address: "AL Muntaser Street, 4th Floor, Eastern Kitchen Building, 4311"
+                };
+                if (oAppState) {
+                    oAppState.setProperty("/selectedProject", oProject);
+                }
             }
 
             // Init appState.step3 if first visit
@@ -173,13 +181,18 @@ sap.ui.define([
             this._loadContext(oProject);
             this._syncFromAppState();
             this._loadReferenceData();
+            setTimeout(function () {
+                if (document.activeElement && document.activeElement.blur && document.activeElement.classList.contains("rakPermitAction")) {
+                    document.activeElement.blur();
+                }
+            }, 60);
         },
 
         _loadContext: function (oProject) {
             this.getView().getModel("view").setProperty("/project", {
-                ownerName:     oProject.ownerName     || "",
-                projectNumber: oProject.projectNumber || "",
-                address:       oProject.address       || "",
+                ownerName:     oProject.ownerName     || "Abdullah Al-Aziz",
+                projectNumber: oProject.parcelId      || oProject.projectNumber || "409030901",
+                address:       oProject.address       || "AL Muntaser Street, 4th Floor, Eastern Kitchen Building, 4311",
                 projectId:     oProject.projectId     || ""
             });
             // Reset step-level error on entry

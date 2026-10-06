@@ -10,7 +10,8 @@
     "lint": "eslint webapp"
   },
   "devDependencies": {
-    "@ui5/cli": "^4.0.0"
+    "@ui5/cli": "^4.0.0",
+    "playwright": "^1.62.1"
   },
   "ui5": {
     "dependencies": [

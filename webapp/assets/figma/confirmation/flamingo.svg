@@ -1,0 +1,43 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 260 220" fill="none">
+  <!-- Ripple/splash on ground -->
+  <ellipse cx="110" cy="195" rx="55" ry="16" fill="#fde8e8" stroke="#bf1313" stroke-width="1.5" opacity="0.7"/>
+  <ellipse cx="110" cy="195" rx="35" ry="9" fill="none" stroke="#bf1313" stroke-width="1.2" opacity="0.5"/>
+
+  <!-- Left leg (back) -->
+  <path d="M 108 185 L 105 210 L 98 215" stroke="#bf1313" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+  <path d="M 105 210 L 112 215" stroke="#bf1313" stroke-width="2" stroke-linecap="round" fill="none"/>
+
+  <!-- Right leg (front, lifted) -->
+  <path d="M 115 180 L 120 200 L 128 205" stroke="#bf1313" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+  <path d="M 120 200 L 113 207" stroke="#bf1313" stroke-width="2" stroke-linecap="round" fill="none"/>
+
+  <!-- Body -->
+  <path d="M 95 155 Q 85 135 90 115 Q 95 95 115 90 Q 135 87 148 100 Q 158 115 150 135 Q 142 155 120 163 Q 105 168 95 155 Z"
+        stroke="#bf1313" stroke-width="2" fill="#fde8e8" fill-opacity="0.4"/>
+
+  <!-- Wing - upper sweep -->
+  <path d="M 120 100 Q 145 70 175 50 Q 200 32 230 25 Q 210 45 195 65 Q 178 88 155 105 Q 140 115 120 110"
+        stroke="#bf1313" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+
+  <!-- Wing tip feathers -->
+  <path d="M 195 65 Q 215 55 238 42" stroke="#bf1313" stroke-width="1.5" stroke-linecap="round" fill="none"/>
+  <path d="M 205 80 Q 228 68 252 58" stroke="#bf1313" stroke-width="1.5" stroke-linecap="round" fill="none"/>
+  <path d="M 175 50 Q 195 35 218 22" stroke="#bf1313" stroke-width="1.5" stroke-linecap="round" fill="none"/>
+
+  <!-- Tail feathers -->
+  <path d="M 95 155 Q 72 148 55 130 Q 45 115 50 98" stroke="#bf1313" stroke-width="2" stroke-linecap="round" fill="none"/>
+  <path d="M 90 160 Q 65 158 48 145 Q 35 130 40 112" stroke="#bf1313" stroke-width="1.5" stroke-linecap="round" fill="none"/>
+
+  <!-- Neck -->
+  <path d="M 115 90 Q 118 72 125 55 Q 130 40 138 28"
+        stroke="#bf1313" stroke-width="2.5" stroke-linecap="round" fill="none"/>
+
+  <!-- Head -->
+  <circle cx="140" cy="23" r="10" stroke="#bf1313" stroke-width="2" fill="#fde8e8" fill-opacity="0.5"/>
+
+  <!-- Beak -->
+  <path d="M 148 20 Q 162 18 168 22 Q 162 27 148 26 Z" stroke="#bf1313" stroke-width="1.5" fill="#bf1313" fill-opacity="0.3"/>
+
+  <!-- Eye -->
+  <circle cx="143" cy="20" r="2.5" fill="#bf1313"/>
+</svg>

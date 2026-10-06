@@ -1,4 +1,4 @@
-<mvc:View
+﻿<mvc:View
     xmlns:mvc="sap.ui.core.mvc"
     xmlns="sap.m"
     xmlns:core="sap.ui.core"
@@ -13,21 +13,30 @@
         <customHeader>
             <Bar class="rakHeader sapMBarMiddle">
                 <contentLeft>
-                    <core:HTML content="&lt;div class='rakHeader__logo-area'&gt;&lt;img class='rakHeader__logo' src='assets/figma/step1/rak-municipality-logo.svg' alt='RAK Municipality' /&gt;&lt;div class='rakHeader__divider'&gt;&lt;/div&gt;&lt;img class='rakHeader__wordmark' src='assets/figma/step1/rak-digital-wordmark.svg' alt='RAK Digital' /&gt;&lt;/div&gt;" />
+                    <core:HTML content="&lt;img class='rakHeader__logo' src='assets/figma/step1/rak-municipality-logo.svg' alt='RAK Municipality' /&gt;" />
                 </contentLeft>
                 <contentRight>
-                    <core:HTML content="&lt;div class='rakHeader__user-area'&gt;&lt;img class='rakHeader__avatar' src='assets/figma/step1/icon-user-avatar-small.svg' alt='User' /&gt;&lt;span class='rakHeader__user-name'&gt;Abdullah Al-Aziz&lt;/span&gt;&lt;img class='rakHeader__chevron' src='assets/figma/step1/icon-chevron-down-small.svg' alt='' /&gt;&lt;/div&gt;" />
+                    <HBox class="rakHeader__user-area" alignItems="Center">
+                        <items>
+                            <Image src="assets/figma/step1/icon-user-avatar-small.svg" class="rakHeader__avatar" width="32px" height="32px" alt="User" />
+                            <Text text="Abdullah Al-Aziz" class="rakHeader__user-name" />
+                            <Image src="assets/figma/step1/icon-chevron-down-small.svg" class="rakHeader__chevron" width="12px" height="12px" alt="" />
+                        </items>
+                    </HBox>
+                    <core:HTML content="&lt;div class='rakHeader__divider'&gt;&lt;/div&gt;&lt;img class='rakHeader__wordmark-right' src='assets/figma/step1/rak-digital-wordmark-red.svg' alt='RAK Digital' /&gt;" />
                 </contentRight>
             </Bar>
         </customHeader>
 
-        <!-- Footer with Next button -->
+        <!-- Footer: Next button (right) -->
         <footer>
             <Bar class="rakFooter sapMBarMiddle">
                 <contentRight>
                     <Button
                         id="btnNext"
                         text="{i18n>actionNext}"
+                        icon="sap-icon://navigation-right-arrow"
+                        iconFirst="false"
                         press=".onNext"
                         enabled="{= !!${view>/selectedProjectId} }"
                         type="Emphasized"
@@ -43,8 +52,8 @@
                 <items>
                     <HBox alignItems="Center" class="rakPermitHeading__left">
                         <items>
-                            <Image src="assets/figma/step1/icon-permit-muni-30.svg"
-                                width="24px" height="24px"
+                            <Image src="assets/figma/step1/icon-permit-muni-tight.svg"
+                                width="30px" height="30px"
                                 class="rakPermitHeading__icon"
                                 alt="New Building Permit" />
                             <Title text="New Building Permit"
@@ -56,13 +65,13 @@
                         <items>
                             <Button id="btnSaveDraft"
                                 text="{i18n>actionSaveAsDraft}"
-                                icon="sap-icon://save"
+                                icon="assets/figma/step1/icon-20px-b.svg"
                                 press=".onSaveAsDraft"
                                 type="Transparent"
                                 class="rakPermitAction" />
                             <Button id="btnDelete"
                                 text="{i18n>actionDelete}"
-                                icon="sap-icon://delete"
+                                icon="assets/figma/step1/icon-20px-a.svg"
                                 press=".onDelete"
                                 type="Transparent"
                                 class="rakPermitAction" />
@@ -79,10 +88,10 @@
                 extraSteps="2"
                 class="rakContent rakStepperWrap" />
 
-            <!-- Section card: title + description -->
-            <VBox class="rakSectionCard rakContent">
+            <!-- Section header: title + description -->
+            <VBox class="rakSectionHeader rakContent">
                 <items>
-                    <Title text="{i18n>step1SectionTitle}" titleStyle="H5" class="rakSection__title" />
+                    <Title text="{i18n>step1SectionTitle}" class="rakSection__title" />
                     <Text text="{i18n>step1SectionDesc}" class="rakSection__desc" wrapping="true" />
                 </items>
             </VBox>
@@ -144,6 +153,7 @@
                 showSeparators="None"
                 noDataText="{i18n>step1NoResults}"
                 items="{path: 'view>/displayedProjects', templateShareable: false}"
+                updateFinished=".onListUpdateFinished"
                 class="rakContent rakProjectList">
                 <CustomListItem
                     type="Active"
@@ -167,14 +177,14 @@
                             <!-- Row 2: Parcel ID | Owner (inline) -->
                             <Text
                                 class="rakCard__meta-inline"
-                                text="{= 'Parcel ID ' + ${view>parcelId} + '   |   Owner ' + ${view>ownerName}}" />
+                                text="{= 'Parcel ID ' + ${view>parcelId} + ' | Owner ' + ${view>ownerName}}" />
                             <!-- Row 3: Address (left) | Full Details (right) -->
                             <HBox justifyContent="SpaceBetween" alignItems="Center" width="100%" class="rakCard__row3">
                                 <items>
                                     <Text class="rakCard__address" text="{view>address}" />
                                     <HBox alignItems="Center" class="rakCard__detail-link-wrap">
                                         <items>
-                                            <core:Icon src="sap-icon://detail-view" class="rakCard__detail-icon" />
+                                            <Image src="assets/figma/step1/icon-16px-a.svg" width="16px" height="16px" class="rakCard__detail-icon" alt="" />
                                             <Link text="{i18n>step1DetailLink}" press=".onFullDetails" class="rakCard__detail-link" />
                                         </items>
                                     </HBox>
@@ -185,44 +195,35 @@
                 </CustomListItem>
             </List>
 
-            <!-- Pagination — proper SAPUI5 controls, no global references -->
+            <!-- In-body Pagination row -->
             <HBox id="paginationBar"
                 class="rakPagination rakContent"
                 visible="{= ${view>/totalPages} > 1 }"
-                alignItems="Center"
-                justifyContent="Center">
+                alignItems="Center">
                 <Button id="btnPageFirst"
-                    icon="sap-icon://media-rewind"
+                    icon="{= ${view>/currentPage} > 1 ? 'assets/figma/step1/icon-pagination-first-enabled.svg' : 'assets/figma/step1/icon-pagination-first.svg' }"
                     type="Transparent"
                     class="rakPagBtn"
                     tooltip="First page"
                     enabled="{= ${view>/currentPage} > 1 }"
                     press=".onPageFirst" />
                 <Button id="btnPagePrev"
-                    icon="sap-icon://slim-arrow-left"
+                    icon="{= ${view>/currentPage} > 1 ? 'assets/figma/step1/icon-pagination-prev-enabled.svg' : 'assets/figma/step1/icon-pagination-prev-disabled.svg' }"
                     type="Transparent"
                     class="rakPagBtn"
                     tooltip="Previous page"
                     enabled="{= ${view>/currentPage} > 1 }"
                     press=".onPagePrev" />
-                <HBox id="pageNums"
-                    items="{path: 'view>/paginationPages', templateShareable: false}"
-                    alignItems="Center">
-                    <Button
-                        text="{view>num}"
-                        type="{= ${view>active} ? 'Emphasized' : 'Ghost' }"
-                        class="rakPagBtn rakPagBtn--num"
-                        press=".onPageNumPress" />
-                </HBox>
+                <Text text="{view>/currentPage} / {view>/totalPages}" class="rakPagText" />
                 <Button id="btnPageNext"
-                    icon="sap-icon://slim-arrow-right"
+                    icon="{= ${view>/currentPage} &lt; ${view>/totalPages} ? 'assets/figma/step1/icon-arrow-right.svg' : 'assets/figma/step1/icon-pagination-next-disabled.svg' }"
                     type="Transparent"
                     class="rakPagBtn"
                     tooltip="Next page"
                     enabled="{= ${view>/currentPage} &lt; ${view>/totalPages} }"
                     press=".onPageNext" />
                 <Button id="btnPageLast"
-                    icon="sap-icon://media-fast-forward"
+                    icon="{= ${view>/currentPage} &lt; ${view>/totalPages} ? 'assets/figma/step1/icon-pagination-last.svg' : 'assets/figma/step1/icon-pagination-last-disabled.svg' }"
                     type="Transparent"
                     class="rakPagBtn"
                     tooltip="Last page"
@@ -231,7 +232,7 @@
             </HBox>
 
             <!-- Footer spacer -->
-            <core:HTML content="&lt;div style='height:80px'&gt;&lt;/div&gt;" />
+            <core:HTML content="&lt;div style='height:40px'&gt;&lt;/div&gt;" />
 
         </content>
     </Page>

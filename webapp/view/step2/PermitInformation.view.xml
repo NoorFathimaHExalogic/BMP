@@ -1,4 +1,4 @@
-<mvc:View
+﻿<mvc:View
     xmlns:mvc="sap.ui.core.mvc"
     xmlns="sap.m"
     xmlns:core="sap.ui.core"
@@ -12,10 +12,17 @@
         <customHeader>
             <Bar class="rakHeader sapMBarMiddle">
                 <contentLeft>
-                    <core:HTML content="&lt;div class='rakHeader__logo-area'&gt;&lt;img class='rakHeader__logo' src='assets/figma/step1/rak-municipality-logo.svg' alt='RAK Municipality' /&gt;&lt;div class='rakHeader__divider'&gt;&lt;/div&gt;&lt;img class='rakHeader__wordmark' src='assets/figma/step1/rak-digital-wordmark.svg' alt='RAK Digital' /&gt;&lt;/div&gt;" />
+                    <core:HTML content="&lt;img class='rakHeader__logo' src='assets/figma/step1/rak-municipality-logo.svg' alt='RAK Municipality' /&gt;" />
                 </contentLeft>
                 <contentRight>
-                    <core:HTML content="&lt;div class='rakHeader__user-area'&gt;&lt;img class='rakHeader__avatar' src='assets/figma/step1/icon-user-avatar-small.svg' alt='User' /&gt;&lt;span class='rakHeader__user-name'&gt;Abdullah Al-Aziz&lt;/span&gt;&lt;img class='rakHeader__chevron' src='assets/figma/step1/icon-chevron-down-small.svg' alt='' /&gt;&lt;/div&gt;" />
+                    <HBox class="rakHeader__user-area" alignItems="Center">
+                        <items>
+                            <Image src="assets/figma/step1/icon-user-avatar-small.svg" class="rakHeader__avatar" width="32px" height="32px" alt="User" />
+                            <Text text="Abdullah Al-Aziz" class="rakHeader__user-name" />
+                            <Image src="assets/figma/step1/icon-chevron-down-small.svg" class="rakHeader__chevron" width="12px" height="12px" alt="" />
+                        </items>
+                    </HBox>
+                    <core:HTML content="&lt;div class='rakHeader__divider'&gt;&lt;/div&gt;&lt;img class='rakHeader__wordmark-right' src='assets/figma/step1/rak-digital-wordmark-red.svg' alt='RAK Digital' /&gt;" />
                 </contentRight>
             </Bar>
         </customHeader>
@@ -27,6 +34,7 @@
                     <Button
                         id="btnBack"
                         text="{i18n>actionBack}"
+                        icon="sap-icon://navigation-left-arrow"
                         press=".onBack"
                         type="Transparent"
                         class="rakBackBtn" />
@@ -35,6 +43,8 @@
                     <Button
                         id="btnNext"
                         text="{i18n>actionNext}"
+                        icon="sap-icon://navigation-right-arrow"
+                        iconFirst="false"
                         press=".onNext"
                         type="Emphasized"
                         class="rakNextBtn" />
@@ -49,8 +59,8 @@
                 <items>
                     <HBox alignItems="Center" class="rakPermitHeading__left">
                         <items>
-                            <Image src="assets/figma/step1/icon-permit-muni-30.svg"
-                                width="24px" height="24px"
+                            <Image src="assets/figma/step1/icon-permit-muni-tight.svg"
+                                width="30px" height="30px"
                                 class="rakPermitHeading__icon"
                                 alt="New Building Permit" />
                             <Title text="New Building Permit"
@@ -62,18 +72,33 @@
                         <items>
                             <Button id="btnSaveDraft"
                                 text="{i18n>actionSaveAsDraft}"
-                                icon="sap-icon://save"
+                                icon="assets/figma/step1/icon-20px-b.svg"
                                 press=".onSaveAsDraft"
                                 type="Transparent"
                                 class="rakPermitAction" />
                             <Button id="btnDelete"
                                 text="{i18n>actionDelete}"
-                                icon="sap-icon://delete"
+                                icon="assets/figma/step1/icon-20px-a.svg"
                                 press=".onDelete"
                                 type="Transparent"
                                 class="rakPermitAction" />
                         </items>
                     </HBox>
+                </items>
+            </HBox>
+
+            <!-- Persistent project context bar (below heading, above stepper) -->
+            <HBox class="rakContextBar rakContent" alignItems="Center" wrap="Wrap">
+                <items>
+                    <Text text="{i18n>step2ContextOwner}" class="rakContextBar__text" />
+                    <Text text=" " class="rakContextBar__text" />
+                    <Text text="{view>/project/ownerName}" class="rakContextBar__value" />
+                    <Text text=" | " class="rakContextBar__sep" />
+                    <Text text="{i18n>step2ContextProject}" class="rakContextBar__text" />
+                    <Text text=" " class="rakContextBar__text" />
+                    <Text text="{view>/project/projectNumber}" class="rakContextBar__value" />
+                    <Text text=" | " class="rakContextBar__sep" />
+                    <Text text="{view>/project/address}" class="rakContextBar__value" />
                 </items>
             </HBox>
 
@@ -85,22 +110,12 @@
                 extraSteps="2"
                 class="rakContent rakStepperWrap" />
 
-            <!-- Persistent project context bar -->
-            <HBox class="rakContextBar rakContent" alignItems="Center" wrap="Wrap">
+            <!-- Form area (title lives inside so it inherits the container's left indent) -->
+            <VBox class="rakFormArea rakContent">
                 <items>
-                    <Text text="{i18n>step2ContextOwner}: " class="rakContextBar__text" />
-                    <Text text="{view>/project/ownerName}" class="rakContextBar__value" />
-                    <Text text=" | " class="rakContextBar__sep" />
-                    <Text text="{i18n>step2ContextProject}: " class="rakContextBar__text" />
-                    <Text text="{view>/project/projectNumber}" class="rakContextBar__value" />
-                    <Text text=" | " class="rakContextBar__sep" />
-                    <Text text="{view>/project/address}" class="rakContextBar__value" />
-                </items>
-            </HBox>
 
-            <!-- Section card -->
-            <VBox class="rakFormCard rakContent">
-                <items>
+                    <!-- Section heading -->
+                    <Title text="{i18n>step2SectionTitle}" class="rakFormSectionTitle" />
 
                     <!-- Row 1: Etisalat/Du NOC + EWE NOC + Civil Defence Area -->
                     <HBox class="rakFormRow" alignItems="End">
@@ -138,7 +153,7 @@
                                     <HBox class="rakFormLabelRow" alignItems="Center">
                                         <items>
                                             <Label text="{i18n>step2LabelEweNoc}"
-                                                class="rakFormLabel rakFormLabel--required"
+                                                class="rakFormLabel"
                                                 labelFor="inpEweNoc" />
                                             <core:Icon id="icEweInfo"
                                                 src="sap-icon://information"
@@ -186,14 +201,15 @@
                         </items>
                     </HBox>
 
-                    <!-- Row 2: Grant Program -->
+                    <!-- Row 2: Grant Program + Grant Type + Program Expiry Date -->
                     <HBox class="rakFormRow" alignItems="End">
                         <items>
+                            <!-- Grant Program? -->
                             <VBox class="rakFormField">
                                 <items>
                                     <HBox class="rakFormLabelRow" alignItems="Center">
                                         <items>
-                                            <Label text="{i18n>step2LabelGrantProgram}"
+                                            <Label text="{i18n>step2LabelGrantProgram}?"
                                                 class="rakFormLabel"
                                                 labelFor="rbgGrant" />
                                         </items>
@@ -201,23 +217,18 @@
                                     <RadioButtonGroup id="rbgGrant"
                                         columns="2"
                                         selectedIndex="{view>/form/grantProgramIndex}"
-                                        select=".onGrantProgramChange">
+                                        select=".onGrantProgramChange"
+                                        class="rakRadioGroup">
                                         <buttons>
-                                            <RadioButton text="{i18n>step2RadioGrantNo}"  class="rakRadioBox" />
                                             <RadioButton text="{i18n>step2RadioGrantYes}" class="rakRadioBox" />
+                                            <RadioButton text="{i18n>step2RadioGrantNo}"  class="rakRadioBox" />
                                         </buttons>
                                     </RadioButtonGroup>
                                 </items>
                             </VBox>
-                        </items>
-                    </HBox>
-
-                    <!-- Row 3: Grant Type + Program Expiry Date (conditional) -->
-                    <HBox class="rakFormRow" alignItems="End" visible="{view>/showGrantFields}">
-                        <items>
 
                             <!-- Grant Type -->
-                            <VBox class="rakFormField">
+                            <VBox class="rakFormField" visible="{view>/showGrantFields}">
                                 <items>
                                     <HBox class="rakFormLabelRow" alignItems="Center">
                                         <items>
@@ -241,7 +252,7 @@
                             </VBox>
 
                             <!-- Program Expiry Date -->
-                            <VBox class="rakFormField">
+                            <VBox class="rakFormField" visible="{view>/showGrantFields}">
                                 <items>
                                     <HBox class="rakFormLabelRow" alignItems="Center">
                                         <items>
@@ -263,9 +274,6 @@
                                         visible="{= !!${view>/errors/grantExpiryMsg} }" />
                                 </items>
                             </VBox>
-
-                            <!-- Spacer to keep layout balanced -->
-                            <VBox class="rakFormField" />
 
                         </items>
                     </HBox>

@@ -3,3 +3,10 @@ dist/
 *.log
 .DS_Store
 Thumbs.db
+
+# AI assistant files & logs
+.claude/
+.cursor/
+.cline/
+.gemini/
+docs/

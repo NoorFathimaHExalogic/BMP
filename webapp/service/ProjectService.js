@@ -15,6 +15,10 @@ sap.ui.define(["rak/zp02/service/adapter/MockProjectAdapter"], function (Adapter
             });
         },
 
+        getProjectMetadata: function () {
+            return Adapter.getProjectMetadata();
+        },
+
         filterProjects: function (aProjects, oFilters) {
             return aProjects.filter(function (p) {
                 var bRole = !oFilters.role || oFilters.role === p.roleCode;

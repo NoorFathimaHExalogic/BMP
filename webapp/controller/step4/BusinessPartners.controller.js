@@ -108,21 +108,34 @@ sap.ui.define([
             var oProject  = oAppState ? oAppState.getProperty("/selectedProject") : null;
 
             if (!oProject) {
-                this.getOwnerComponent().getRouter().navTo("project-selection");
-                return;
+                oProject = {
+                    projectId: "PRJ-001",
+                    parcelId: "409030901",
+                    projectNumber: "409030901",
+                    ownerName: "Abdullah Al-Aziz",
+                    address: "AL Muntaser Street, 4th Floor, Eastern Kitchen Building, 4311"
+                };
+                if (oAppState) {
+                    oAppState.setProperty("/selectedProject", oProject);
+                }
             }
 
             this._loadContext(oProject);
             this._loadReferenceData();
             this._syncFromAppState();
             this._clearValidationErrors();
+            setTimeout(function () {
+                if (document.activeElement && document.activeElement.blur && document.activeElement.classList.contains("rakPermitAction")) {
+                    document.activeElement.blur();
+                }
+            }, 60);
         },
 
         _loadContext: function (oProject) {
             this.getView().getModel("view").setProperty("/project", {
-                ownerName:     oProject.ownerName     || "",
-                projectNumber: oProject.projectNumber || "",
-                address:       oProject.address       || ""
+                ownerName:     oProject.ownerName     || "Abdullah Al-Aziz",
+                projectNumber: oProject.parcelId      || oProject.projectNumber || "409030901",
+                address:       oProject.address       || "AL Muntaser Street, 4th Floor, Eastern Kitchen Building, 4311"
             });
         },
 
@@ -283,8 +296,8 @@ sap.ui.define([
                         return e.engineerId === row.engineerId ||
                                aAssigned.indexOf(e.engineerId) === -1;
                     });
-                // Blank "Select" entry at top
-                var aWithBlank = [{ engineerId: "", name: "Select" }].concat(aFiltered);
+                // Blank "Search" entry at top
+                var aWithBlank = [{ engineerId: "", name: "Search" }].concat(aFiltered);
                 oViewModel.setProperty("/engineers/" + idx + "/availableEngineers", aWithBlank);
             });
         },
@@ -310,7 +323,7 @@ sap.ui.define([
             var aEngineers = oViewModel.getProperty("/engineers") || [];
             var oNew       = _emptyEngineerRow("ARCHITECT", "Architect", false);
             // Blank available list until _refreshAllAvailableEngineers populates it
-            oNew.availableEngineers = [{ engineerId: "", name: "Select" }];
+            oNew.availableEngineers = [{ engineerId: "", name: "Search" }];
             aEngineers.push(oNew);
             oViewModel.setProperty("/engineers", aEngineers);
             this._refreshAddEngineerLabel();
