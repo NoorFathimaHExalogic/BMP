@@ -151,9 +151,9 @@
                             <cells>
                                 <Text text="{view>specialityText}" />
                                 <Text text="{view>engineerName}" />
-                                <Text text=”{= ${view>engineerId} || '—' }” />
-                                <Text text=”{view>mobile}” />
-                                <Text text=”—“ />
+                                <Text text="{= ${view>engineerId} || '—' }" />
+                                <Text text="{view>mobile}" />
+                                <Text text="—" />
                             </cells>
                         </ColumnListItem>
                     </items>
@@ -229,11 +229,11 @@
                 <HBox wrap="Wrap" class="rakSummaryInlineFields sapUiTinyMarginTop">
                     <VBox class="rakSummaryInlineField">
                         <Label text="{i18n>step4EweConsultantLabel}" class="rakSummaryLabel" />
-                        <Text text=”{= ${view>/summary/ewe} ? ${view>/summary/ewe/name} : '—' }” class=”rakSummaryValue” />
+                        <Text text="{= ${view>/summary/ewe} ? ${view>/summary/ewe/name} : '—' }" class="rakSummaryValue" />
                     </VBox>
                     <VBox class="rakSummaryInlineField">
                         <Label text="{i18n>step4EweLicenceNo}" class="rakSummaryLabel" />
-                        <Text text=”{= ${view>/summary/ewe} ? ${view>/summary/ewe/licenceNo} : '—' }” class=”rakSummaryValue” />
+                        <Text text="{= ${view>/summary/ewe} ? ${view>/summary/ewe/licenceNo} : '—' }" class="rakSummaryValue" />
                     </VBox>
                 </HBox>
             </VBox>

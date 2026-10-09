@@ -1038,89 +1038,103 @@ html.sap-desktop .sapMBtn.rakPermitAction.sapMBtnFocus > .sapMFocusable::after {
     border-color: var(--rak-color-primary) !important;
 }
 
-/* ── Content action buttons (Add Building, Add Fence, Add Engineer) ── */
+/* ── Content action buttons (Add Building, Add Fence, Add Engineer) ──
+   The pill is painted on the outer <button> ONLY. sap.m.Button renders
+   <button.sapMBtn> > <span.sapMBtnInner>; styling both layers drew a
+   second pill inside the first (Step 3 Add Fence/Wall, Add Building,
+   Step 4 Add Engineer). The inner span is reset to a transparent,
+   borderless layout box in every state so Horizon cannot repaint it. */
 .rakBtn--solid-red.sapMBtn,
-.rakBtn--solid-red.sapMBtn:focus,
-.rakBtn--solid-red.sapMBtn:focus-visible,
-.rakBtn--solid-red.sapMBtn.sapMBtnFocus,
-.rakBtn--solid-red.sapMBtn .sapMBtnInner {
-    border-radius: var(--rak-radius-btn) !important;
-    background: linear-gradient(90deg, #EB3642 0%, #990808 100%) !important;
-    color: #ffffff !important;
-    border: none !important;
-    height: 40px !important;
-    font-size: 14px !important;
-    font-weight: 500 !important;
+.rakBtn--outline-red.sapMBtn {
     display: inline-flex !important;
     align-items: center !important;
     justify-content: center !important;
+    box-sizing: border-box !important;
+    height: 40px !important;
     padding: 0 24px !important;
+    border-radius: var(--rak-radius-btn) !important;
+    font-size: 14px !important;
+    font-weight: 500 !important;
     box-shadow: none !important;
     outline: none !important;
+    cursor: pointer;
 }
-.rakBtn--solid-red.sapMBtn:hover .sapMBtnInner {
-    background: linear-gradient(90deg, #d42f3a 0%, #7a0606 100%) !important;
-    outline: none !important;
-    box-shadow: none !important;
-}
+.rakBtn--solid-red.sapMBtn .sapMBtnInner,
+.rakBtn--solid-red.sapMBtn:hover .sapMBtnInner,
 .rakBtn--solid-red.sapMBtn:active .sapMBtnInner,
-.rakBtn--solid-red.sapMBtn.sapMBtnActive .sapMBtnInner {
-    background: linear-gradient(90deg, #b81c26 0%, #680505 100%) !important;
-    outline: none !important;
+.rakBtn--solid-red.sapMBtn.sapMBtnActive .sapMBtnInner,
+.rakBtn--solid-red.sapMBtn .sapMBtnInner.sapMBtnActive,
+.rakBtn--outline-red.sapMBtn .sapMBtnInner,
+.rakBtn--outline-red.sapMBtn:hover .sapMBtnInner,
+.rakBtn--outline-red.sapMBtn:active .sapMBtnInner,
+.rakBtn--outline-red.sapMBtn.sapMBtnActive .sapMBtnInner,
+.rakBtn--outline-red.sapMBtn .sapMBtnInner.sapMBtnActive {
+    background: transparent !important;
+    border: none !important;
+    border-radius: 0 !important;
     box-shadow: none !important;
+    outline: none !important;
+    padding: 0 !important;
+    min-width: 0 !important;
+    height: auto !important;
+    color: inherit !important;
+    font: inherit !important;
+    text-shadow: none !important;
 }
-.rakBtn--solid-red.sapMBtn:focus > .sapMFocusable::before,
-.rakBtn--solid-red.sapMBtn:focus > .sapMFocusable::after,
-.rakBtn--solid-red.sapMBtn.sapMBtnFocus > .sapMFocusable::before,
-.rakBtn--solid-red.sapMBtn.sapMBtnFocus > .sapMFocusable::after,
-.rakBtn--solid-red.sapMBtn .sapMFocusable::before,
-.rakBtn--solid-red.sapMBtn .sapMFocusable::after {
+.rakBtn--solid-red.sapMBtn .sapMBtnInner::before,
+.rakBtn--solid-red.sapMBtn .sapMBtnInner::after,
+.rakBtn--outline-red.sapMBtn .sapMBtnInner::before,
+.rakBtn--outline-red.sapMBtn .sapMBtnInner::after {
     display: none !important;
     content: none !important;
 }
 
-.rakBtn--outline-red.sapMBtn,
-.rakBtn--outline-red.sapMBtn:focus,
-.rakBtn--outline-red.sapMBtn:focus-visible,
-.rakBtn--outline-red.sapMBtn.sapMBtnFocus,
-.rakBtn--outline-red.sapMBtn .sapMBtnInner {
-    border-radius: var(--rak-radius-btn) !important;
+/* Solid red */
+.rakBtn--solid-red.sapMBtn {
+    background: linear-gradient(90deg, #EB3642 0%, #990808 100%) !important;
+    border: none !important;
+    color: #ffffff !important;
+}
+.rakBtn--solid-red.sapMBtn:not([disabled]):hover {
+    background: linear-gradient(90deg, #d42f3a 0%, #7a0606 100%) !important;
+}
+.rakBtn--solid-red.sapMBtn:not([disabled]):active,
+.rakBtn--solid-red.sapMBtn.sapMBtnActive {
+    background: linear-gradient(90deg, #b81c26 0%, #680505 100%) !important;
+}
+
+/* Outline red */
+.rakBtn--outline-red.sapMBtn {
     background: #ffffff !important;
-    color: #eb3642 !important;
     border: 1.5px solid #eb3642 !important;
-    height: 40px !important;
-    font-size: 14px !important;
-    font-weight: 500 !important;
-    display: inline-flex !important;
-    align-items: center !important;
-    justify-content: center !important;
-    padding: 0 24px !important;
-    box-shadow: none !important;
-    outline: none !important;
-}
-.rakBtn--outline-red.sapMBtn:hover .sapMBtnInner {
-    background: #fef2f2 !important;
     color: #eb3642 !important;
-    outline: none !important;
-    box-shadow: none !important;
 }
-.rakBtn--outline-red.sapMBtn:active .sapMBtnInner,
-.rakBtn--outline-red.sapMBtn.sapMBtnActive .sapMBtnInner {
+.rakBtn--outline-red.sapMBtn:not([disabled]):hover {
+    background: #fef2f2 !important;
+}
+.rakBtn--outline-red.sapMBtn:not([disabled]):active,
+.rakBtn--outline-red.sapMBtn.sapMBtnActive {
     background: #fee2e2 !important;
-    color: #c41230 !important;
     border-color: #c41230 !important;
-    outline: none !important;
-    box-shadow: none !important;
+    color: #c41230 !important;
 }
-.rakBtn--outline-red.sapMBtn:focus > .sapMFocusable::before,
-.rakBtn--outline-red.sapMBtn:focus > .sapMFocusable::after,
-.rakBtn--outline-red.sapMBtn.sapMBtnFocus > .sapMFocusable::before,
-.rakBtn--outline-red.sapMBtn.sapMBtnFocus > .sapMFocusable::after,
-.rakBtn--outline-red.sapMBtn .sapMFocusable::before,
-.rakBtn--outline-red.sapMBtn .sapMFocusable::after {
-    display: none !important;
-    content: none !important;
+
+/* Disabled: one muted pill, no Horizon opacity layer on the inner span */
+.rakBtn--solid-red.sapMBtn[disabled],
+.rakBtn--outline-red.sapMBtn[disabled] {
+    opacity: 0.4 !important;
+    cursor: default !important;
 }
+.rakBtn--solid-red.sapMBtn[disabled] .sapMBtnInner,
+.rakBtn--outline-red.sapMBtn[disabled] .sapMBtnInner { opacity: 1 !important; }
+
+/* Keyboard focus: visible RAK-red ring on the single pill (mouse focus stays clean) */
+.rakBtn--solid-red.sapMBtn:focus-visible,
+.rakBtn--outline-red.sapMBtn:focus-visible {
+    outline: 2px solid var(--rak-color-primary) !important;
+    outline-offset: 2px !important;
+}
+
 /* Pseudo-element fallback (some SAPUI5 builds draw the dot via ::before) */
 .rakRadioBox.sapMRB.sapMRBSel .sapMRBIco::before,
 .rakRadioBox.sapMRB.sapMRBSel .sapMRBIcn::before {
@@ -1506,20 +1520,14 @@ html.sap-desktop .sapMBtn.rakPermitAction.sapMBtnFocus > .sapMFocusable::after {
     line-height: 1.5 !important;
 }
 
-/* ── Add Engineer outlined red button ─────────────────────────── */
-.rakAddEngBtn.sapMBtn .sapMBtnInner {
-    border: 1.5px solid var(--rak-color-primary) !important;
-    border-radius: var(--rak-radius-btn) !important;
-    color: var(--rak-color-primary) !important;
-    background: transparent !important;
+/* ── Add Engineer outlined red button ───────────────────────────
+   Carries rakBtn--outline-red (which paints the single outer pill);
+   this class only resizes that pill. */
+.rakAddEngBtn.rakBtn--outline-red.sapMBtn {
     height: 32px !important;
     min-width: 140px !important;
     font-size: 13px !important;
-    font-weight: 500 !important;
     white-space: nowrap !important;
-}
-.rakAddEngBtn.sapMBtn:not([disabled]) .sapMBtnInner:hover {
-    background: #fef2f2 !important;
 }
 
 /* ── Engineer table ───────────────────────────────────────────── */
@@ -2511,3 +2519,1850 @@ html.sap-desktop .sapMBtn.rakPermitAction.sapMBtnFocus > .sapMFocusable::after {
 .rakFDDownload { display: flex; align-items: flex-start; gap: 10px; margin-top: 20px; border-top: 1px solid #f0f0f0; padding-top: 20px; }
 .rakFDDownload__label { font-size: 12px; color: #666; display: block; font-family: 'Poppins', Arial, sans-serif; }
 .rakFDDownload__link { font-size: 13px; color: #c41230; font-family: 'Poppins', Arial, sans-serif; text-decoration: underline; }
+
+/* ══════════════════════════════════════════════════════════════
+   STEP 2 — Permit Information · Figma field reconciliation
+   Source: Figma aq5xvEg4AvS44yaZH17ipr, frame 121:7020
+   (fields 121:7034/7035/7037, SheikhZayedProgram 213:9619,
+   error variant "Text fields" state=error 1:3666 / Base Error stat).
+   Field rules are shared by Step 2, Step 3 and the Step 3 Add Building
+   dialog (same Figma field components); layout rules stay .zp02Step2-only.
+   The shared rakForm* rules used by Step 4 are untouched.
+   ══════════════════════════════════════════════════════════════ */
+:is(.zp02Step2, .zp02Step3, .zp02Step5, .zp02BuildingDialog) {
+    --zp02-field-w:        204px;
+    --zp02-gap:            24px;
+    --zp02-field-h:        40px;
+    --zp02-border:         #c0c0c0;
+    --zp02-error:          #e53939;
+    --zp02-label:          #313131;
+    --zp02-value:          #10233e;
+    --zp02-hint:           #929292;
+}
+
+/* ── Section heading (121:7030 — 18px SemiBold #313131, 16px gap) ── */
+.zp02Step2 .rakFormSectionTitle.sapMTitle {
+    font-size: 18px !important;
+    font-weight: 600 !important;
+    line-height: 27px !important;
+    color: var(--zp02-label) !important;
+    padding-top: 20px !important;
+    padding-bottom: 0 !important;
+    margin-bottom: 16px !important;
+}
+.zp02Step2 .zp02FormArea.sapMVBox { padding-bottom: 24px; }
+
+/* ── Form grid: 204px columns, 24px gaps, top-aligned rows ───── */
+.zp02Step2 .zp02FormRow.sapMHBox {
+    display: flex !important;
+    flex-wrap: nowrap !important;
+    align-items: flex-start !important;
+    gap: var(--zp02-gap) !important;
+    margin: 0 0 var(--zp02-gap) 0 !important;
+}
+.zp02Step2 .zp02FormRow.sapMHBox:last-child { margin-bottom: 0 !important; }
+.zp02Step2 .zp02Field.sapMVBox {
+    flex: 0 0 var(--zp02-field-w) !important;
+    width: var(--zp02-field-w) !important;
+    min-width: 0 !important;
+    max-width: var(--zp02-field-w) !important;
+}
+.zp02Step2 .zp02Field--grant.sapMVBox {
+    flex-basis: calc(var(--zp02-field-w) * 2 + var(--zp02-gap)) !important;
+    width: calc(var(--zp02-field-w) * 2 + var(--zp02-gap)) !important;
+    max-width: calc(var(--zp02-field-w) * 2 + var(--zp02-gap)) !important;
+}
+
+/* ── Label row: 16px Medium, 24px line, 8px to control ───────── */
+:is(.zp02Step2, .zp02Step3, .zp02Step5, .zp02BuildingDialog) .zp02Field .rakFormLabelRow.sapMHBox {
+    height: 24px;
+    margin: 0 0 8px 0 !important;
+    gap: 0 !important;
+    align-items: center !important;
+    flex-wrap: nowrap !important;
+    overflow: visible;
+}
+:is(.zp02Step2, .zp02Step3, .zp02Step5, .zp02BuildingDialog) .zp02Field .rakFormLabel.sapMLabel {
+    font-size: 16px !important;
+    font-weight: 500 !important;
+    line-height: 24px !important;
+    color: var(--zp02-label) !important;
+    margin: 0 !important;
+    white-space: nowrap !important;
+    overflow: visible !important;
+    max-width: none !important;
+}
+:is(.zp02Step2, .zp02Step3, .zp02Step5, .zp02BuildingDialog) .zp02Field .rakFormLabel--required.sapMLabel::after {
+    content: '*';
+    margin-left: 2px;
+    color: var(--rak-color-primary);
+    font-weight: 500;
+}
+/* Info icon (Figma "info" 20×20, 8px after label, centred on label line) */
+:is(.zp02Step2, .zp02Step3, .zp02Step5, .zp02BuildingDialog) .zp02InfoIcon.sapMImg {
+    width: 20px !important;
+    height: 20px !important;
+    margin-left: 8px;
+    flex: 0 0 20px;
+    display: block;
+    cursor: default;
+}
+
+/* ── Control shell: 40px, 1px #C0C0C0, radius 6, px 15 ──────── */
+:is(.zp02Step2, .zp02Step3, .zp02Step5, .zp02BuildingDialog) .zp02FieldControl.sapMInputBase,
+:is(.zp02Step2, .zp02Step3, .zp02Step5, .zp02BuildingDialog) .zp02FieldControl.sapMSlt {
+    width: 100% !important;
+    min-width: 0 !important;
+    max-width: 100% !important;
+    height: var(--zp02-field-h) !important;
+    margin: 0 !important;
+    border: 1px solid var(--zp02-border) !important;
+    border-radius: 6px !important;
+    background: #ffffff !important;
+    box-shadow: none !important;
+    box-sizing: border-box !important;
+}
+:is(.zp02Step2, .zp02Step3, .zp02Step5, .zp02BuildingDialog) .zp02FieldControl .sapMInputBaseContentWrapper {
+    height: 100% !important;
+    border: none !important;
+    border-radius: 6px !important;
+    background: transparent !important;
+    box-shadow: none !important;
+}
+:is(.zp02Step2, .zp02Step3, .zp02Step5, .zp02BuildingDialog) .zp02FieldControl .sapMInputBaseContentWrapper::after,
+:is(.zp02Step2, .zp02Step3, .zp02Step5, .zp02BuildingDialog) .zp02FieldControl.sapMSlt::after { display: none !important; }
+:is(.zp02Step2, .zp02Step3, .zp02Step5, .zp02BuildingDialog) .zp02FieldControl .sapMInputBaseInner {
+    height: 100% !important;
+    padding: 0 15px !important;
+    font-size: 14px !important;
+    font-weight: 400 !important;
+    color: var(--zp02-value) !important;
+    background: transparent !important;
+}
+:is(.zp02Step2, .zp02Step3, .zp02Step5, .zp02BuildingDialog) .zp02FieldControl .sapMInputBaseInner::placeholder {
+    color: var(--zp02-hint) !important;
+    font-style: normal !important;
+    opacity: 1;
+}
+
+/* Select: "Select" hint grey, Figma 16px chevron 15px from right */
+:is(.zp02Step2, .zp02Step3, .zp02Step5, .zp02BuildingDialog) .zp02FieldControl.sapMSlt .sapMSltLabel {
+    height: 100% !important;
+    line-height: 38px !important;
+    padding: 0 39px 0 15px !important;
+    font-size: 14px !important;
+    color: var(--zp02-value) !important;
+}
+:is(.zp02Step2, .zp02Step3, .zp02Step5, .zp02BuildingDialog) .zp02FieldControl.sapMSlt .sapMSltLabel .sapMSelectListItemText {
+    font-size: 14px !important;
+    color: inherit !important;
+}
+:is(.zp02Step2, .zp02Step3, .zp02Step5, .zp02BuildingDialog) .zp02FieldControl.sapMSlt[data-zp02-empty="true"] .sapMSltLabel {
+    color: var(--zp02-hint) !important;
+}
+:is(.zp02Step2, .zp02Step3, .zp02Step5, .zp02BuildingDialog) .zp02FieldControl.sapMSlt .sapMSltArrow {
+    position: absolute !important;
+    top: 50% !important;
+    right: 15px !important;
+    width: 16px !important;
+    height: 16px !important;
+    min-width: 0 !important;
+    margin: -8px 0 0 0 !important;
+    padding: 0 !important;
+    border: none !important;
+    background: url('../assets/figma/step2/icon-chevron-16.svg') no-repeat center / 16px 16px !important;
+}
+:is(.zp02Step2, .zp02Step3, .zp02Step5, .zp02BuildingDialog) .zp02FieldControl.sapMSlt .sapMSltArrow::before,
+:is(.zp02Step2, .zp02Step3, .zp02Step5, .zp02BuildingDialog) .zp02FieldControl.sapMSlt .sapMSltArrow::after { content: none !important; display: none !important; }
+
+/* DatePicker: Figma 20px calendar 15px from right */
+:is(.zp02Step2, .zp02Step3, .zp02Step5, .zp02BuildingDialog) .zp02FieldControl.sapMInputBase .sapMInputBaseIconContainer {
+    height: 100% !important;
+    width: auto !important;
+    padding: 0 15px 0 4px !important;
+    display: flex !important;
+    align-items: center !important;
+    background: transparent !important;
+}
+:is(.zp02Step2, .zp02Step3, .zp02Step5, .zp02BuildingDialog) .zp02FieldControl.sapMDP .sapMInputBaseIcon {
+    width: 20px !important;
+    min-width: 20px !important;
+    height: 20px !important;
+    line-height: 20px !important;
+    padding: 0 !important;
+    border: none !important;
+    background: url('../assets/figma/step2/icon-calendar-20.svg') no-repeat center / 20px 20px !important;
+}
+:is(.zp02Step2, .zp02Step3, .zp02Step5, .zp02BuildingDialog) .zp02FieldControl.sapMDP .sapMInputBaseIcon::before,
+:is(.zp02Step2, .zp02Step3, .zp02Step5, .zp02BuildingDialog) .zp02FieldControl.sapMDP .sapMInputBaseIcon::after { content: none !important; display: none !important; }
+:is(.zp02Step2, .zp02Step3, .zp02Step5, .zp02BuildingDialog) .zp02FieldControl.sapMDP .sapMInputBaseInner { padding-right: 0 !important; }
+
+/* ── Error state (Figma Text fields state=error) ─────────────── */
+/* UI5 1.120 flags Input/DatePicker errors on the inner wrapper only
+   (root just gets the generic sapMInputBaseState). */
+:is(.zp02Step2, .zp02Step3, .zp02Step5, .zp02BuildingDialog) .zp02FieldControl.sapMInputBase:has(> .sapMInputBaseContentWrapperError),
+:is(.zp02Step2, .zp02Step3, .zp02Step5, .zp02BuildingDialog) .zp02FieldControl.sapMInputBase.sapMInputBaseError,
+:is(.zp02Step2, .zp02Step3, .zp02Step5, .zp02BuildingDialog) .zp02FieldControl.sapMSlt.sapMSltState-Error,
+:is(.zp02Step2, .zp02Step3, .zp02Step5, .zp02BuildingDialog) .zp02FieldControl.sapMSlt.sapMSltError {
+    border: 1px solid var(--zp02-error) !important;
+    background: #ffffff !important;
+    box-shadow: none !important;
+}
+:is(.zp02Step2, .zp02Step3, .zp02Step5, .zp02BuildingDialog) .zp02FieldControl.sapMInputBaseError .sapMInputBaseContentWrapper,
+:is(.zp02Step2, .zp02Step3, .zp02Step5, .zp02BuildingDialog) .zp02FieldControl .sapMInputBaseContentWrapperError {
+    background: transparent !important;
+    box-shadow: none !important;
+    border: none !important;
+}
+/* Base Error stat: 8px below control, 16px alert + 4px + 13px #E53939 */
+:is(.zp02Step2, .zp02Step3, .zp02Step5, .zp02BuildingDialog) .zp02ValidationError.sapMText {
+    display: block !important;
+    min-height: 0 !important;
+    margin: 8px 0 0 0 !important;
+    padding-left: 20px !important;
+    font-size: 13px !important;
+    font-weight: 400 !important;
+    line-height: 20px !important;
+    color: var(--zp02-error) !important;
+    white-space: normal !important;
+    background: url('../assets/figma/step2/icon-alert-error-16.svg') no-repeat 0 2px / 16px 16px;
+}
+
+/* ── Grant Program radio cards (213:9562 / 213:9563) ─────────── */
+.zp02Step2 .zp02GrantGroup.sapMRbG {
+    display: flex !important;
+    flex-wrap: nowrap !important;
+    gap: var(--zp02-gap) !important;
+    width: 100% !important;
+}
+.zp02Step2 .zp02GrantOption.sapMRb {
+    flex: 0 0 var(--zp02-field-w) !important;
+    width: var(--zp02-field-w) !important;
+    min-width: 0 !important;
+    height: var(--zp02-field-h) !important;
+    margin: 0 !important;
+    padding: 0 16px !important;
+    display: flex !important;
+    align-items: center !important;
+    gap: 8px;
+    border: 1px solid var(--zp02-border) !important;
+    border-radius: 6px !important;
+    background: #ffffff !important;
+    box-sizing: border-box !important;
+    cursor: pointer;
+}
+.zp02Step2 .zp02GrantOption.sapMRb .sapMRbB {
+    position: relative !important;
+    flex: 0 0 14px !important;
+    width: 14px !important;
+    height: 14px !important;
+    margin: 0 !important;
+    padding: 0 !important;
+}
+.zp02Step2 .zp02GrantOption.sapMRb .sapMRbSvg { visibility: hidden !important; width: 14px !important; height: 14px !important; }
+.zp02Step2 .zp02GrantOption.sapMRb .sapMRbB::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border: 1px solid var(--rak-color-primary);
+    border-radius: 50%;
+    background: #ffffff;
+    box-sizing: border-box;
+}
+.zp02Step2 .zp02GrantOption.sapMRb.sapMRbSel .sapMRbB::after {
+    content: '';
+    position: absolute;
+    top: 3px;
+    left: 3px;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--rak-color-primary);
+}
+.zp02Step2 .zp02GrantOption.sapMRb .sapMRbBLabel.sapMLabel {
+    flex: 1 1 auto;
+    height: auto !important;
+    line-height: 21px !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    font-size: 14px !important;
+    font-weight: 400 !important;
+    color: var(--zp02-value) !important;
+    cursor: pointer;
+}
+.zp02Step2 .zp02GrantOption.sapMRb .sapMRbBLabel .sapMLabelTextWrapper { height: auto !important; line-height: 21px !important; }
+
+/* ── Footer: lives on the 1200px canvas (121:7045 — 60px, px 60) ── */
+:is(.zp02Step2, .zp02Step3, .zp02Step5) { --zp02-footer-px: 60px; }
+:is(.zp02Step2, .zp02Step3, .zp02Step5) .sapMPageFooter { background: transparent !important; }
+:is(.zp02Step2, .zp02Step3, .zp02Step5) .sapMBar.rakFooter,
+:is(.zp02Step2, .zp02Step3, .zp02Step5) .sapMIBar.rakFooter {
+    max-width: 1200px;
+    margin: 0 auto;
+    height: 60px !important;
+    min-height: 60px !important;
+    padding: 0 !important;
+    background: #e6e6e6 !important;
+}
+/* SAP positions the bar's left/right sections absolutely, so the inset
+   goes on the sections rather than on the bar itself. */
+:is(.zp02Step2, .zp02Step3, .zp02Step5) .sapMBar.rakFooter .sapMBarLeft  { padding-left:  var(--zp02-footer-px) !important; }
+:is(.zp02Step2, .zp02Step3, .zp02Step5) .sapMBar.rakFooter .sapMBarRight { padding-right: var(--zp02-footer-px) !important; }
+
+/* ── Responsive: below the 888px composition, fields go fluid ── */
+@media (max-width: 951px) {
+    .zp02Step2 .zp02FormRow.sapMHBox { flex-wrap: wrap !important; }
+    .zp02Step2 .zp02Field.sapMVBox {
+        flex: 0 0 calc(50% - var(--zp02-gap) / 2) !important;
+        width: calc(50% - var(--zp02-gap) / 2) !important;
+        max-width: calc(50% - var(--zp02-gap) / 2) !important;
+    }
+    .zp02Step2 .zp02Field--grant.sapMVBox {
+        flex-basis: 100% !important;
+        width: 100% !important;
+        max-width: 100% !important;
+    }
+    .zp02Step2 .zp02GrantOption.sapMRb {
+        flex: 1 1 0 !important;
+        width: auto !important;
+    }
+}
+@media (max-width: 1024px) {
+    :is(.zp02Step2, .zp02Step3, .zp02Step5) { --zp02-footer-px: 32px; }
+}
+@media (max-width: 768px) {
+    :is(.zp02Step2, .zp02Step3, .zp02Step5) { --zp02-footer-px: 16px; }
+}
+@media (max-width: 480px) {
+    :is(.zp02Step2, .zp02Step3, .zp02Step5) { --zp02-footer-px: 12px; }
+    .zp02Step2 .zp02Field.sapMVBox {
+        flex-basis: 100% !important;
+        width: 100% !important;
+        max-width: 100% !important;
+    }
+    .zp02Step2 .zp02GrantGroup.sapMRbG { gap: 12px !important; }
+}
+
+/* ══════════════════════════════════════════════════════════════
+   STEP 3 — Fences & Buildings · Figma reconciliation
+   Source: Figma aq5xvEg4AvS44yaZH17ipr
+     empty state 136:8925 · populated 136:8658 · fence list 136:8666
+     fence edit row 136:9069 · actions menu 136:8762
+     Add Building popup 136:9241 / 136:9236 · dropdowns 137:11930 / 363:10485
+   Scoped to .zp02Step3, .zp02BuildingDialog, .zp02SelectPicker and
+   .zp02ActionMenu (the last three live in the UI5 static area).
+   ══════════════════════════════════════════════════════════════ */
+:is(.zp02Step3, .zp02BuildingDialog, .zp02SelectPicker, .zp02ActionMenu) {
+    --zp02-red:          #bf1313;
+    --zp02-red-grad:     linear-gradient(120deg, #EB3642 17.3%, #990808 120.1%);
+    --zp02-navy:         #10233e;
+    --zp02-ink:          #313131;
+    --zp02-muted:        #616161;
+    --zp02-line:         #d9d9d9;
+    --zp02-field-border: #c0c0c0;
+    --zp02-card-shadow:  0 0 3.5px rgba(173, 173, 173, 0.25);
+}
+
+/* ── Sections: empty (Figma 136:8925) vs populated (136:8658) ─── */
+.zp02Step3 .zp02Section.sapMVBox { padding-top: 20px; }
+.zp02Step3 .zp02SectionTitle.sapMTitle {
+    font-size: 18px !important;
+    font-weight: 600 !important;
+    line-height: 27px !important;
+    color: var(--zp02-navy) !important;
+}
+.zp02Step3 .zp02SectionTitle.sapMTitle .sapMTitleInner,
+.zp02Step3 .zp02SectionTitle.sapMTitle span { font: inherit !important; color: inherit !important; }
+.zp02Step3 .zp02SectionDesc.sapMText {
+    font-size: 14px !important;
+    line-height: 21px !important;
+    color: var(--zp02-muted) !important;
+    max-width: 600px;
+}
+
+/* Populated: heading + small secondary CTA on one 32px row */
+.zp02Step3 .zp02Section[data-zp02-populated="true"] .zp02SectionHead.sapMHBox {
+    justify-content: space-between !important;
+    min-height: 32px;
+    margin-bottom: 16px;
+    gap: 16px;
+}
+/* Empty: heading, (description), then the large CTA stacked in Figma order.
+   The heading row dissolves so its two children join the section's flow. */
+.zp02Step3 .zp02Section[data-zp02-populated="false"] .zp02SectionHead.sapMHBox { display: contents !important; }
+.zp02Step3 .zp02Section[data-zp02-populated="false"] .zp02SectionTitle.sapMTitle { order: 0; margin-bottom: 12px; }
+.zp02Step3 .zp02Section[data-zp02-populated="false"] .zp02SectionDesc.sapMText  { order: 1; margin-bottom: 24px; }
+.zp02Step3 .zp02Section[data-zp02-populated="false"] .zp02SectionHead .sapMBtn  { order: 2; align-self: flex-start; }
+.zp02Step3 .zp02Section[data-zp02-populated="false"] > :not(.zp02SectionHead):not(.zp02SectionDesc) { order: 3; }
+.zp02Step3 .zp02BuildingSection[data-zp02-populated="false"] .zp02SectionTitle--buildings.sapMTitle::after {
+    content: '*';
+    color: var(--zp02-red);
+}
+
+/* Empty-state CTAs are the shared large pills (rakBtn--solid-red / --outline-red);
+   Figma uses Primary Red #BF1313 for the Step 3 outline CTA. */
+.zp02Step3 .zp02AddFenceBtn.rakBtn--outline-red.sapMBtn { border-color: var(--zp02-red) !important; color: var(--zp02-red) !important; }
+
+/* Populated-state CTAs: Figma "Small Button / Secondary" (32px, 1.5px #BF1313, r42, px22) */
+.zp02Step3 .zp02Section[data-zp02-populated="true"] .zp02AddBuildingBtn.rakBtn--solid-red.sapMBtn,
+.zp02Step3 .zp02Section[data-zp02-populated="true"] .zp02AddFenceBtn.rakBtn--outline-red.sapMBtn,
+.zp02Step3 .zp02SmallBtn.rakBtn--outline-red.sapMBtn {
+    height: 32px !important;
+    padding: 0 22px !important;
+    border: 1.5px solid var(--zp02-red) !important;
+    border-radius: 42px !important;
+    background: #ffffff !important;
+    color: var(--zp02-red) !important;
+    font-size: 14px !important;
+    font-weight: 500 !important;
+}
+.zp02Step3 .zp02Section[data-zp02-populated="true"] .zp02AddBuildingBtn.rakBtn--solid-red.sapMBtn:not([disabled]):hover,
+.zp02Step3 .zp02Section[data-zp02-populated="true"] .zp02AddFenceBtn.rakBtn--outline-red.sapMBtn:not([disabled]):hover,
+.zp02Step3 .zp02SmallBtn.rakBtn--outline-red.sapMBtn:not([disabled]):hover { background: #fef2f2 !important; }
+
+/* Divider between Building and Fence sections (Figma: 32px above / below) */
+.zp02Step3 .zp02SectionDividerWrap { margin: 32px auto 12px; }
+.zp02Step3 .zp02SectionDivider { border: none; border-top: 1px solid var(--zp02-line); margin: 0; }
+
+/* ── Card lists (Figma "1 line new": 60px, #fff, 1px #D9D9D9, r6) ── */
+.zp02Step3 .zp02RowList.sapMVBox { gap: 8px; }
+.zp02Step3 .zp02RowHead.sapMHBox { padding: 0 16px; min-height: 24px; }
+.zp02Step3 .zp02RowHead .zp02Col.sapMText {
+    font-size: 16px !important;
+    font-weight: 500 !important;
+    line-height: 24px !important;
+    color: var(--zp02-ink) !important;
+}
+.zp02Step3 .zp02ReqStar.sapMText::after { content: '*'; color: var(--zp02-red); }
+.zp02Step3 .zp02CardList.sapMList,
+.zp02Step3 .zp02CardList .sapMListUl { background: transparent !important; border: none !important; }
+.zp02Step3 .zp02CardList .sapMListUl { display: flex; flex-direction: column; gap: 8px; }
+.zp02Step3 .zp02CardRow.sapMLIB {
+    position: relative;
+    display: flex !important;
+    align-items: center !important;
+    min-height: 60px !important;
+    height: auto !important;
+    padding: 0 10px 0 16px !important;
+    background: #ffffff !important;
+    border: 1px solid var(--zp02-line) !important;
+    border-radius: 6px !important;
+    box-shadow: var(--zp02-card-shadow) !important;
+    box-sizing: border-box !important;
+}
+.zp02Step3 .zp02CardRow.sapMLIB:hover { background: #ffffff !important; }
+.zp02Step3 .zp02CardRow.sapMLIB:focus { outline: none !important; }
+.zp02Step3 .zp02CardRow.sapMLIB:focus::after,
+.zp02Step3 .zp02CardRow.sapMLIB.sapMLIBFocused::after {
+    border-color: var(--zp02-red) !important;
+    border-radius: 6px !important;
+}
+.zp02Step3 .zp02CardRow .sapMLIBContent { flex: 1 1 auto; min-width: 0; }
+.zp02Step3 .zp02CardRow .zp02Col.sapMText {
+    font-size: 16px !important;
+    font-weight: 400 !important;
+    line-height: 24px !important;
+    color: var(--zp02-ink) !important;
+    white-space: nowrap !important;
+    overflow: hidden !important;
+    text-overflow: ellipsis !important;
+}
+
+/* Building columns (Figma: 250 / 200 / 100 / auto, gap 20) */
+.zp02Step3 .zp02BuildingCols.sapMHBox { width: 100%; gap: 20px; }
+.zp02Step3 .zp02Col--bName.sapMText   { flex: 0 0 250px; }
+.zp02Step3 .zp02Col--bType.sapMText   { flex: 0 0 200px; }
+.zp02Step3 .zp02Col--bGap.sapMText    { flex: 0 0 100px; }
+.zp02Step3 .zp02Col--bFloors.sapMText { flex: 1 1 auto; min-width: 0; }
+
+/* Fence columns (Figma: Type / 160 / 160 / 160 / menu, gap 16).
+   The header has no menu column, so it reserves the menu's 32px + gap. */
+.zp02Step3 .zp02FenceCols.sapMHBox { width: 100%; gap: 16px; }
+.zp02Step3 .zp02Col--fType  { flex: 1 1 0 !important; min-width: 0 !important; }
+.zp02Step3 .zp02Col--fNum,
+.zp02Step3 .zp02Col--fGates { flex: 0 0 160px !important; min-width: 0 !important; }
+.zp02Step3 .zp02RowHead.zp02FenceCols.sapMHBox { padding-right: 58px; }
+
+/* Three-dot menu trigger: Figma "menu" glyph (20px building / 24px fence), 32px hit area */
+.zp02Step3 .zp02MenuBtn.sapMBtn,
+.zp02Step3 .zp02IconBtn.sapMBtn {
+    flex: 0 0 32px;
+    width: 32px !important;
+    height: 32px !important;
+    min-width: 32px !important;
+    padding: 0 !important;
+    margin: 0 0 0 auto !important;
+    border-radius: 50% !important;
+    background: transparent !important;
+    border: none !important;
+}
+.zp02Step3 .zp02MenuBtn.sapMBtn .sapMBtnInner,
+.zp02Step3 .zp02IconBtn.sapMBtn .sapMBtnInner {
+    width: 32px !important;
+    height: 32px !important;
+    min-width: 32px !important;
+    padding: 0 !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    background: transparent !important;
+    border: none !important;
+    box-shadow: none !important;
+}
+.zp02Step3 .zp02MenuBtn.sapMBtn:hover,
+.zp02Step3 .zp02IconBtn.sapMBtn:hover { background: #f3f3f3 !important; }
+.zp02Step3 .zp02MenuBtn .sapMBtnIcon,
+.zp02Step3 .zp02IconBtn .sapMBtnIcon { margin: 0 !important; width: 20px !important; height: 20px !important; }
+.zp02Step3 .zp02MenuBtn--24 .sapMBtnIcon { width: 24px !important; height: 24px !important; }
+.zp02Step3 .zp02MenuBtn.sapMBtn:focus-visible,
+.zp02Step3 .zp02IconBtn.sapMBtn:focus-visible { outline: 2px solid var(--zp02-red) !important; outline-offset: 1px !important; }
+
+/* ── Fence add row (Figma "Fence Line DML" 115:3099) ───────────── */
+.zp02Step3 .zp02FenceEditRow.sapMHBox {
+    flex-wrap: wrap !important;
+    align-items: flex-start !important;
+    padding: 10px 10px 10px 16px;
+    min-height: 60px;
+    background: #f9f9f9;
+    border: 1px solid #f3f3f3;
+    border-radius: 6px;
+    box-sizing: border-box;
+}
+.zp02Step3 .zp02FenceEditRow .zp02IconBtn.sapMBtn { margin-top: 4px !important; }
+.zp02Step3 .zp02FenceEditRow__confirm.sapMHBox { flex: 0 0 100%; justify-content: flex-end; }
+.zp02Step3 .zp02VisuallyHidden {
+    position: absolute !important;
+    width: 1px !important;
+    height: 1px !important;
+    margin: -1px !important;
+    padding: 0 !important;
+    overflow: hidden !important;
+    clip: rect(0 0 0 0) !important;
+    white-space: nowrap !important;
+    border: 0 !important;
+}
+
+/* MSG-F03 strip: aligned to the 1080px content, RAK error palette (no SAP blue) */
+.zp02Step3 .zp02ErrorStrip.sapMMsgStrip { margin-top: 16px; border-radius: 6px; }
+
+/* ══ Add Building dialog (Figma 136:9241 / 136:9236) ══════════════ */
+.zp02BuildingDialog.sapMDialog {
+    max-width: calc(100vw - 32px) !important;
+    border: none !important;
+    border-radius: 8px !important;
+    box-shadow: 0 0 16px rgba(0, 0, 0, 0.2) !important;
+    overflow: hidden !important;
+    background: #ffffff !important;
+}
+/* Header: red gradient, white 18px SemiBold title, 24px close */
+/* UI5 1.120 renders the dialog <header> without a class: anchor on the title group / bar */
+.zp02BuildingDialog.sapMDialog > header,
+.zp02BuildingDialog.sapMDialog .sapMDialogTitleGroup { border: none !important; box-shadow: none !important; padding: 0 !important; }
+.zp02BuildingDialog.sapMDialog .zp02DlgHeader.sapMBar {
+    height: 54px !important;
+    padding: 0 24px 0 32px !important;
+    background: linear-gradient(162.7deg, #EB3642 17.3%, #990808 120.1%) !important;
+    border: none !important;
+    box-shadow: none !important;
+}
+.zp02BuildingDialog .zp02DlgHeader .sapMBarLeft,
+.zp02BuildingDialog .zp02DlgHeader .sapMBarRight { height: 100% !important; display: flex !important; align-items: center !important; }
+/* Bar sections are absolutely positioned: the Figma 32px inset goes on them */
+.zp02BuildingDialog .zp02DlgHeader .sapMBarLeft  { padding-left: 32px !important; }
+.zp02BuildingDialog .zp02DlgHeader .sapMBarRight { padding-right: 28px !important; }
+/* UI5 wrappers clamp header (44px), sub-header (48px) and footer (2.75rem): let the Figma bars size them */
+.zp02BuildingDialog.sapMDialog .sapMDialogTitleGroup,
+.zp02BuildingDialog.sapMDialog .sapMDialogSubHeader,
+.zp02BuildingDialog.sapMDialog > footer.sapMDialogFooter,
+.zp02BuildingDialog.sapMDialog > footer { height: auto !important; min-height: 0 !important; }
+/* Horizon reserves header/footer space as padding on the dialog (92px / 44px for its
+   own 44+48px header and 44px footer). Reserve the Figma heights instead:
+   header 54 + stepper 57 = 111, footer 70  →  1000 × 611 (Figma 1000 × 610). */
+.zp02BuildingDialog.sapMDialog { padding-top: 111px !important; padding-bottom: 70px !important; }
+/* Sub-header is absolutely positioned at Horizon's 44px header height: sit it under the 54px Figma header */
+.zp02BuildingDialog.sapMDialog .sapMDialogSubHeader { top: 54px !important; }
+.zp02BuildingDialog .zp02DlgTitle.sapMTitle,
+.zp02BuildingDialog .zp02DlgTitle.sapMTitle span {
+    color: #ffffff !important;
+    font-size: 18px !important;
+    font-weight: 600 !important;
+    line-height: 27px !important;
+}
+.zp02BuildingDialog .zp02DlgClose.sapMBtn,
+.zp02BuildingDialog .zp02DlgClose.sapMBtn .sapMBtnInner {
+    width: 32px !important;
+    height: 32px !important;
+    min-width: 32px !important;
+    padding: 0 !important;
+    background: transparent !important;
+    border: none !important;
+    box-shadow: none !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    border-radius: 50% !important;
+}
+.zp02BuildingDialog .zp02DlgClose.sapMBtn:hover .sapMBtnInner { background: rgba(255, 255, 255, 0.15) !important; }
+.zp02BuildingDialog .zp02DlgClose .sapMBtnIcon { width: 24px !important; height: 24px !important; margin: 0 !important; }
+.zp02BuildingDialog .zp02DlgClose.sapMBtn:focus-visible { outline: 2px solid #ffffff !important; outline-offset: 1px !important; }
+
+/* Modal stepper (Figma "Modal Steper": 24px bullets, 6px gap, 22px connector) */
+.zp02BuildingDialog .sapMDialogSubHeader { border: none !important; box-shadow: none !important; }
+.zp02BuildingDialog .zp02ModalStepper.sapMTB {
+    height: auto !important;
+    min-height: 57px !important;
+    padding: 16px 32px !important;
+    gap: 16px;
+    flex-wrap: wrap;
+    background: #ffffff !important;
+    border: none !important;
+    border-bottom: 1px solid var(--zp02-field-border) !important;
+    box-shadow: none !important;
+}
+.zp02BuildingDialog .zp02ModalStepper.sapMTB > * { margin: 0 !important; }
+.zp02BuildingDialog .zp02MStep.sapMHBox { gap: 6px; }
+.zp02BuildingDialog .zp02MStep__num.sapMText {
+    width: 24px !important;
+    height: 24px !important;
+    border-radius: 50% !important;
+    box-sizing: border-box !important;
+    text-align: center !important;
+    font-size: 14px !important;
+    line-height: 22px !important;
+    border: 1px solid #616161;
+    color: #616161 !important;
+    background: #ffffff;
+}
+.zp02BuildingDialog .zp02MStep__label.sapMText {
+    font-size: 14px !important;
+    line-height: 21px !important;
+    color: #616161 !important;
+    white-space: nowrap !important;
+}
+.zp02BuildingDialog .zp02MStep__label.sapMText::after { content: '*'; }
+.zp02BuildingDialog .zp02MStep[data-zp02-state="active"] .zp02MStep__num.sapMText {
+    border: none;
+    line-height: 24px !important;
+    font-weight: 500 !important;
+    color: #ffffff !important;
+    background: linear-gradient(100.35deg, #EB3642 17.3%, #990808 120.1%);
+}
+.zp02BuildingDialog .zp02MStep[data-zp02-state="active"] .zp02MStep__label.sapMText { color: var(--zp02-red) !important; font-weight: 500 !important; }
+.zp02BuildingDialog .zp02MStep[data-zp02-state="done"] .zp02MStep__num.sapMText { border-color: #53a56e; color: #53a56e !important; background: #eef6f1; }
+.zp02BuildingDialog .zp02MStep[data-zp02-state="done"] .zp02MStep__label.sapMText { color: #53a56e !important; }
+.zp02BuildingDialog .zp02MStep__line { display: inline-block; width: 22px; height: 1px; background: #616161; }
+
+/* Body: 32px padding, Figma column grid (219 / 456, 24px column gap, 20px row gap) */
+.zp02BuildingDialog .sapMDialogSection { padding: 0 !important; }
+.zp02BuildingDialog .zp02DlgBody.rakDlgStepContent.sapMVBox { padding: 32px !important; gap: 20px; }
+.zp02BuildingDialog .zp02DlgRow.sapMHBox { gap: 24px; flex-wrap: wrap; margin: 0 !important; }
+.zp02BuildingDialog .zp02FloorGrid.sapMHBox { gap: 20px; flex-wrap: wrap !important; margin: 0 !important; }
+.zp02BuildingDialog .zp02DlgCol.sapMVBox { flex: 0 0 219px; width: 219px; min-width: 0; }
+.zp02BuildingDialog .zp02DlgCol--wide.sapMVBox { flex: 0 1 456px; width: 456px; }
+/* Labels that sit directly in the field (no label row) keep the 8px gap to the control */
+:is(.zp02Step3, .zp02BuildingDialog) .zp02Field > .rakFormLabel.sapMLabel {
+    margin-bottom: 8px !important;
+    font-size: 16px !important;
+    font-weight: 500 !important;
+    line-height: 24px !important;
+    color: var(--zp02-ink) !important;
+    white-space: nowrap !important;
+}
+:is(.zp02Step3, .zp02BuildingDialog) .zp02Field > .rakFormLabel--required.sapMLabel::after {
+    content: '*';
+    margin-left: 2px;
+    color: var(--zp02-red);
+    font-weight: 500;
+}
+.zp02BuildingDialog .zp02Helper.sapMText {
+    margin-top: 6px !important;
+    font-size: 14px !important;
+    line-height: 21px !important;
+    color: var(--zp02-muted) !important;
+}
+/* Structural Features check boxes: RAK red, no Horizon blue */
+.zp02BuildingDialog .zp02CheckGroup .sapMCbBg { border-color: var(--zp02-navy) !important; border-radius: 2px !important; box-shadow: none !important; }
+.zp02BuildingDialog .zp02CheckGroup .sapMCbBg.sapMCbMarkChecked::before,
+.zp02BuildingDialog .zp02CheckGroup .sapMCbBg.sapMCbMarkChecked::after { color: var(--zp02-red) !important; }
+.zp02BuildingDialog .zp02CheckGroup .sapMCbLabel { color: var(--zp02-navy) !important; font-size: 14px !important; }
+
+/* MultiComboBox (Usage Type): Figma field + grey tokens + chevron */
+.zp02BuildingDialog .zp02FieldControl.sapMMultiComboBox .sapMInputBaseIcon {
+    width: 16px !important;
+    min-width: 16px !important;
+    height: 16px !important;
+    padding: 0 !important;
+    background: url('../assets/figma/step2/icon-chevron-16.svg') no-repeat center / 16px 16px !important;
+}
+.zp02BuildingDialog .zp02FieldControl.sapMMultiComboBox .sapMInputBaseIcon::before { content: none !important; }
+.zp02BuildingDialog .zp02FieldControl.sapMMultiComboBox .sapMInputBaseIcon.sapMInputBaseIconPressed,
+.zp02BuildingDialog .zp02FieldControl.sapMMultiComboBox .sapMInputBaseIcon:hover {
+    background-color: transparent !important;
+    border: none !important;
+    box-shadow: none !important;
+    outline: none !important;
+}
+.zp02BuildingDialog .zp02FieldControl.sapMMultiComboBox .sapMInputBaseIcon.sapMInputBaseIconPressed { transform: rotate(180deg); }
+.zp02BuildingDialog .zp02FieldControl.sapMMultiComboBox .sapMToken {
+    background: #e6e6e6 !important;
+    border: none !important;
+    border-radius: 4px !important;
+    color: var(--zp02-navy) !important;
+    font-size: 14px !important;
+}
+.zp02BuildingDialog .zp02FieldControl.sapMMultiComboBox .sapMToken .sapMTokenIcon,
+.zp02BuildingDialog .zp02FieldControl.sapMMultiComboBox .sapMTokenizerIndicator { color: var(--zp02-navy) !important; }
+.zp02BuildingDialog .zp02FieldControl.sapMMultiComboBox.sapMInputBaseDisabled { opacity: 1 !important; background: #f3f3f3 !important; }
+
+/* ── Spin box (Figma 115:2023): 32px red-ring − / 70×40 value / + ── */
+:is(.zp02BuildingDialog) .zp02SpinBox.sapMStepInput {
+    width: auto !important;
+    min-width: 0 !important;
+    height: 40px !important;
+    border: none !important;
+    background: transparent !important;
+    box-shadow: none !important;
+}
+.zp02BuildingDialog .zp02SpinBox .sapMInputBase {
+    width: auto !important;
+    min-width: 0 !important;
+    height: 40px !important;
+    margin: 0 !important;
+    border: none !important;
+    background: transparent !important;
+    box-shadow: none !important;
+}
+.zp02BuildingDialog .zp02SpinBox .sapMInputBaseContentWrapper {
+    display: flex !important;
+    align-items: center !important;
+    gap: 12px;
+    width: auto !important;
+    height: 40px !important;
+    border: none !important;
+    background: transparent !important;
+    box-shadow: none !important;
+}
+.zp02BuildingDialog .zp02SpinBox .sapMInputBaseContentWrapper::after { display: none !important; }
+.zp02BuildingDialog .zp02SpinBox .sapMInputBaseIconContainer {
+    width: 32px !important;
+    height: 32px !important;
+    padding: 0 !important;
+    background: transparent !important;
+}
+.zp02BuildingDialog .zp02SpinBox .sapMInputBaseIcon {
+    width: 32px !important;
+    min-width: 32px !important;
+    height: 32px !important;
+    padding: 0 !important;
+    box-sizing: border-box !important;
+    border: 1px solid var(--zp02-red) !important;
+    border-radius: 30px !important;
+    background: #ffffff no-repeat center / 16px 16px !important;
+    cursor: pointer;
+}
+.zp02BuildingDialog .zp02SpinBox .sapMInputBaseIcon::before,
+.zp02BuildingDialog .zp02SpinBox .sapMInputBaseIcon::after { content: none !important; }
+.zp02BuildingDialog .zp02SpinBox .sapMInputBaseIcon[id$="-decrementBtn"] { background-image: url('../assets/figma/step3/icon-minus-16.svg') !important; }
+.zp02BuildingDialog .zp02SpinBox .sapMInputBaseIcon[id$="-incrementBtn"] { background-image: url('../assets/figma/step3/icon-plus-16.svg') !important; }
+.zp02BuildingDialog .zp02SpinBox .sapMInputBaseIcon:hover { background-color: #fef2f2 !important; }
+.zp02BuildingDialog .zp02SpinBox .sapMInputBaseIcon.sapMStepInputIconDisabled { cursor: default; background-color: #ffffff !important; }
+/* At min/max, or when the whole control is disabled: Figma grey spin buttons */
+.zp02BuildingDialog .zp02SpinBox .sapMInputBaseDisabled .sapMInputBaseIcon {
+    border-color: #a6a6a6 !important;
+    background-color: #f3f3f3 !important;
+    cursor: default;
+}
+.zp02BuildingDialog .zp02SpinBox .sapMInputBaseDisabled .sapMInputBaseIcon[id$="-decrementBtn"] { background-image: url('../assets/figma/step3/icon-minus-disabled-16.svg') !important; }
+.zp02BuildingDialog .zp02SpinBox .sapMInputBaseDisabled .sapMInputBaseIcon[id$="-incrementBtn"] { background-image: url('../assets/figma/step3/icon-plus-disabled-16.svg') !important; }
+.zp02BuildingDialog .zp02SpinBox .sapMInputBaseInner {
+    flex: 0 0 70px;
+    width: 70px !important;
+    height: 40px !important;
+    padding: 0 !important;
+    box-sizing: border-box !important;
+    border: 1px solid var(--zp02-field-border) !important;
+    border-radius: 6px !important;
+    background: #ffffff !important;
+    text-align: center !important;
+    font-size: 14px !important;
+    color: var(--zp02-navy) !important;
+}
+.zp02BuildingDialog .zp02SpinBox .sapMInputBaseInner:focus { border-color: var(--zp02-red) !important; outline: none !important; }
+.zp02BuildingDialog .zp02SpinBox .sapMInputBase.sapMFocus,
+.zp02BuildingDialog .zp02SpinBox .sapMInputBase.sapMFocus .sapMInputBaseContentWrapper,
+.zp02BuildingDialog .zp02SpinBox.sapMFocus,
+.zp02BuildingDialog .zp02SpinBox:focus-within { outline: none !important; box-shadow: none !important; border-color: transparent !important; }
+.zp02BuildingDialog .zp02SpinBox .sapMInputBase.sapMFocus::before,
+.zp02BuildingDialog .zp02SpinBox .sapMInputBase.sapMFocus::after,
+.zp02BuildingDialog .zp02SpinBox .sapMInputBase.sapMFocus .sapMInputBaseContentWrapper::before,
+.zp02BuildingDialog .zp02SpinBox .sapMInputBase.sapMFocus .sapMInputBaseContentWrapper::after,
+.zp02BuildingDialog .zp02SpinBox.sapMFocus::before,
+.zp02BuildingDialog .zp02SpinBox.sapMFocus::after { display: none !important; content: none !important; }
+.zp02BuildingDialog .zp02SpinBox .sapMInputBaseIcon.sapMStepInputIconDisabled { opacity: 1 !important; }
+.zp02BuildingDialog .zp02SpinBox .sapMInputBaseContentWrapperError .sapMInputBaseInner { border-color: #e53939 !important; }
+.zp02BuildingDialog .zp02SpinBox .sapMInputBaseDisabled { opacity: 1 !important; }
+.zp02BuildingDialog .zp02SpinBox .sapMInputBaseDisabled .sapMInputBaseInner { color: var(--zp02-navy) !important; background: #ffffff !important; }
+/* Unique Floors while disabled: whole field at 30% (Figma 136:9236) */
+.zp02BuildingDialog .zp02Field:has(> .zp02SpinBox[id$="--stpUnique"] .sapMInputBaseDisabled) { opacity: 0.3; }
+.zp02BuildingDialog .zp02Field:has(> .zp02SpinBox[id$="--stpUnique"] .sapMInputBaseDisabled) .sapMInputBaseIcon {
+    border-color: var(--zp02-red) !important;
+    background-color: #ffffff !important;
+}
+.zp02BuildingDialog .zp02Field:has(> .zp02SpinBox[id$="--stpUnique"] .sapMInputBaseDisabled) .sapMInputBaseIcon[id$="-decrementBtn"] { background-image: url('../assets/figma/step3/icon-minus-16.svg') !important; }
+.zp02BuildingDialog .zp02Field:has(> .zp02SpinBox[id$="--stpUnique"] .sapMInputBaseDisabled) .sapMInputBaseIcon[id$="-incrementBtn"] { background-image: url('../assets/figma/step3/icon-plus-16.svg') !important; }
+
+/* Footer: 70px, 1px #D1D5DB top, Back (outline, left) / primary (gradient, right) */
+.zp02BuildingDialog .sapMDialogFooter { padding: 0 !important; border: none !important; box-shadow: none !important; background: #ffffff !important; }
+.zp02BuildingDialog .zp02DlgFooter.sapMTB {
+    height: 70px !important;
+    padding: 0 32px !important;
+    background: #ffffff !important;
+    border: none !important;
+    border-top: 1px solid #d1d5db !important;
+    box-shadow: none !important;
+}
+.zp02BuildingDialog .zp02ModalPrimaryButton.sapMBtn,
+.zp02BuildingDialog .zp02ModalSecondaryButton.sapMBtn {
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    box-sizing: border-box !important;
+    height: 40px !important;
+    min-width: 120px !important;
+    border-radius: 42px !important;
+    font-size: 16px !important;
+    font-weight: 600 !important;
+    box-shadow: none !important;
+    outline: none !important;
+}
+.zp02BuildingDialog .zp02ModalPrimaryButton.sapMBtn .sapMBtnInner,
+.zp02BuildingDialog .zp02ModalPrimaryButton.sapMBtn:hover .sapMBtnInner,
+.zp02BuildingDialog .zp02ModalPrimaryButton.sapMBtn .sapMBtnInner.sapMBtnActive,
+.zp02BuildingDialog .zp02ModalSecondaryButton.sapMBtn .sapMBtnInner,
+.zp02BuildingDialog .zp02ModalSecondaryButton.sapMBtn:hover .sapMBtnInner,
+.zp02BuildingDialog .zp02ModalSecondaryButton.sapMBtn .sapMBtnInner.sapMBtnActive {
+    display: flex !important;
+    align-items: center !important;
+    gap: 4px;
+    background: transparent !important;
+    border: none !important;
+    border-radius: 0 !important;
+    box-shadow: none !important;
+    padding: 0 !important;
+    min-width: 0 !important;
+    height: auto !important;
+    color: inherit !important;
+    font: inherit !important;
+    text-shadow: none !important;
+}
+.zp02BuildingDialog .zp02ModalPrimaryButton.sapMBtn .sapMBtnInner::before,
+.zp02BuildingDialog .zp02ModalPrimaryButton.sapMBtn .sapMBtnInner::after,
+.zp02BuildingDialog .zp02ModalSecondaryButton.sapMBtn .sapMBtnInner::before,
+.zp02BuildingDialog .zp02ModalSecondaryButton.sapMBtn .sapMBtnInner::after { display: none !important; content: none !important; }
+.zp02BuildingDialog .zp02ModalPrimaryButton .sapMBtnIcon,
+.zp02BuildingDialog .zp02ModalSecondaryButton .sapMBtnIcon { width: 20px !important; height: 20px !important; margin: 0 !important; }
+.zp02BuildingDialog .zp02ModalPrimaryButton .sapMBtnContent,
+.zp02BuildingDialog .zp02ModalSecondaryButton .sapMBtnContent { padding: 0 !important; line-height: 24px !important; }
+/* Primary — Figma "Regular Button" red gradient, white 16px SemiBold */
+.zp02BuildingDialog .zp02ModalPrimaryButton.sapMBtn {
+    padding: 0 29px 0 36px !important;
+    border: none !important;
+    background: linear-gradient(119.9deg, #EB3642 17.3%, #990808 120.1%) !important;
+    color: #ffffff !important;
+}
+.zp02BuildingDialog .zp02ModalPrimaryButton.sapMBtn[id$="--dlgBtnSave"] { padding: 0 36px !important; }
+.zp02BuildingDialog .zp02ModalPrimaryButton.sapMBtn:not([disabled]):hover { background: linear-gradient(119.9deg, #d42f3a 17.3%, #7a0606 120.1%) !important; }
+.zp02BuildingDialog .zp02ModalPrimaryButton.sapMBtn:not([disabled]):active { background: linear-gradient(119.9deg, #b81c26 17.3%, #680505 120.1%) !important; }
+/* Secondary — Figma Back: 2px #EB3642 outline, gradient text, left arrow */
+.zp02BuildingDialog .zp02ModalSecondaryButton.sapMBtn {
+    padding: 0 36px 0 29px !important;
+    border: 2px solid #eb3642 !important;
+    background: #ffffff !important;
+    color: var(--zp02-red) !important;
+}
+.zp02BuildingDialog .zp02ModalSecondaryButton .sapMBtnContent bdi {
+    background: linear-gradient(107.3deg, #EB3642 17.3%, #990808 120.1%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+}
+.zp02BuildingDialog .zp02ModalSecondaryButton.sapMBtn:not([disabled]):hover { background: #fef2f2 !important; }
+.zp02BuildingDialog .zp02ModalPrimaryButton.sapMBtn[disabled],
+.zp02BuildingDialog .zp02ModalSecondaryButton.sapMBtn[disabled] { opacity: 0.4 !important; cursor: default !important; }
+.zp02BuildingDialog .zp02ModalPrimaryButton.sapMBtn:focus-visible,
+.zp02BuildingDialog .zp02ModalSecondaryButton.sapMBtn:focus-visible {
+    outline: 2px solid var(--zp02-red) !important;
+    outline-offset: 2px !important;
+}
+
+/* Field focus inside Step 3: RAK red instead of the Horizon blue focus frame */
+:is(.zp02Step3, .zp02BuildingDialog) .zp02FieldControl.sapMSlt.sapMSltFocused,
+:is(.zp02Step3, .zp02BuildingDialog) .zp02FieldControl.sapMSlt.sapMFocus,
+:is(.zp02Step3, .zp02BuildingDialog) .zp02FieldControl.sapMSlt.sapMSltPressed,
+:is(.zp02Step3, .zp02BuildingDialog) .zp02FieldControl.sapMInputBase.sapMFocus,
+:is(.zp02Step3, .zp02BuildingDialog) .zp02FieldControl.sapMInputBase:focus-within {
+    border-color: var(--zp02-red) !important;
+    outline: none !important;
+    box-shadow: none !important;
+}
+:is(.zp02Step3, .zp02BuildingDialog) .zp02FieldControl.sapMSlt.sapMSltFocused::before,
+:is(.zp02Step3, .zp02BuildingDialog) .zp02FieldControl.sapMSlt.sapMFocus::before,
+:is(.zp02Step3, .zp02BuildingDialog) .zp02FieldControl.sapMInputBase.sapMFocus .sapMInputBaseContentWrapper::before,
+:is(.zp02Step3, .zp02BuildingDialog) .zp02FieldControl.sapMInputBase .sapMInputBaseContentWrapper::before,
+:is(.zp02Step3, .zp02BuildingDialog) .zp02FieldControl.sapMInputBase:focus-within .sapMInputBaseContentWrapper::after { display: none !important; content: none !important; }
+/* Open Select (Figma "after selection"): square bottom corners, chevron flips up */
+:is(.zp02Step3, .zp02BuildingDialog) .zp02FieldControl.sapMSlt.sapMSltPressed { border-radius: 6px 6px 0 0 !important; }
+:is(.zp02Step3, .zp02BuildingDialog) .zp02FieldControl.sapMSlt.sapMSltPressed .sapMSltArrow { transform: rotate(180deg); }
+
+/* ══ Dropdown open state (Figma 137:11930 / 363:10485) ═══════════
+   Popover rendered in the static area; tagged .zp02SelectPicker by the controller. */
+.zp02SelectPicker.sapMPopover {
+    margin-top: -1px;
+    border: 1px solid var(--zp02-field-border) !important;
+    border-radius: 0 0 6px 6px !important;
+    box-shadow: none !important;
+    overflow: hidden !important;
+    background: #ffffff !important;
+}
+.zp02SelectPicker .sapMPopoverArr { display: none !important; }
+.zp02SelectPicker .sapMPopoverCont { padding: 0 !important; border-radius: 0 0 6px 6px !important; background: #ffffff !important; }
+.zp02SelectPicker .sapMSelectList,
+.zp02SelectPicker .sapMList .sapMListUl { padding: 0 !important; background: #ffffff !important; }
+.zp02SelectPicker .sapMSelectListItemBase,
+.zp02SelectPicker .sapMLIB {
+    min-height: 40px !important;
+    height: 40px !important;
+    padding: 0 15px !important;
+    border: none !important;
+    border-bottom: 1px solid var(--zp02-field-border) !important;
+    background: #ffffff !important;
+    color: var(--zp02-navy) !important;
+    font-size: 14px !important;
+    line-height: 40px !important;
+    box-shadow: none !important;
+}
+.zp02SelectPicker .sapMSelectListItemBase:last-child,
+.zp02SelectPicker .sapMLIB:last-child { border-bottom: none !important; }
+.zp02SelectPicker .sapMSelectListItemBase .sapMSelectListItemText,
+.zp02SelectPicker .sapMLIB .sapMSLITitleOnly,
+.zp02SelectPicker .sapMLIB .sapMLIBContent { color: inherit !important; font-size: 14px !important; }
+/* Selected / hovered row: 3px Primary Red bar + red text (no SAP blue fill or underline) */
+.zp02SelectPicker .sapMSelectListItemBaseSelected,
+.zp02SelectPicker .sapMSelectListItemBaseHoverable:hover,
+.zp02SelectPicker .sapMLIBSelected,
+.zp02SelectPicker .sapMLIB.sapMLIBHoverable:hover {
+    background: #ffffff !important;
+    color: var(--zp02-red) !important;
+    box-shadow: inset 3px 0 0 var(--zp02-red) !important;
+}
+.zp02SelectPicker .sapMSelectListItemBase:focus,
+.zp02SelectPicker .sapMLIB:focus { outline: none !important; }
+.zp02SelectPicker .sapMSelectListItemBase:focus::after,
+.zp02SelectPicker .sapMSelectListItemBase.sapMSelectListItemBaseFocus::after,
+.zp02SelectPicker .sapMLIB:focus::after { border-color: var(--zp02-red) !important; }
+/* MultiComboBox picker check boxes */
+.zp02SelectPicker .sapMCbBg { border-color: var(--zp02-navy) !important; box-shadow: none !important; }
+.zp02SelectPicker .sapMCbBg.sapMCbMarkChecked::before,
+.zp02SelectPicker .sapMCbBg.sapMCbMarkChecked::after { color: var(--zp02-red) !important; }
+.zp02SelectPicker .sapMTB { border-bottom: 1px solid var(--zp02-field-border) !important; box-shadow: none !important; }
+
+/* ══ Actions menu (Figma 136:8762): 160px, rows 40px, 20px icon + 8px + 14px ══ */
+.sapMPopover:has(> .sapMPopoverCont .zp02ActionMenu),
+.sapMPopover:has(.zp02ActionMenu) {
+    min-width: 160px !important;
+    width: 160px !important;
+    border: 1px solid #c0c0c0 !important;
+    border-radius: 6px !important;
+    box-shadow: 0 0 7px rgba(173, 173, 173, 0.25) !important;
+    background: #ffffff !important;
+    overflow: hidden !important;
+}
+.sapMPopover:has(.zp02ActionMenu) .sapMPopoverArr { display: none !important; }
+.sapMPopover:has(.zp02ActionMenu) .sapMPopoverCont { padding: 0 !important; border-radius: 6px !important; background: #ffffff !important; }
+.sapMPopover:has(.zp02ActionMenu) .sapMPopoverScroll { width: 100% !important; }
+.zp02ActionMenu.sapMActionSheet { padding: 0 !important; width: 160px !important; background: #ffffff !important; }
+.zp02ActionMenu .sapMActionSheetButton.sapMBtn {
+    display: flex !important;
+    width: 100% !important;
+    height: 40px !important;
+    min-height: 40px !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    background: #ffffff !important;
+    border: none !important;
+    border-radius: 0 !important;
+}
+.zp02ActionMenu .sapMActionSheetButton.sapMBtn .sapMBtnInner {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: flex-start !important;
+    gap: 8px;
+    width: 100% !important;
+    height: 40px !important;
+    padding: 11px 15px !important;
+    box-sizing: border-box !important;
+    background: transparent !important;
+    border: none !important;
+    border-radius: 0 !important;
+    box-shadow: none !important;
+    color: #10233e !important;
+    text-shadow: none !important;
+}
+.zp02ActionMenu .sapMActionSheetButton.sapMBtn:hover,
+.zp02ActionMenu .sapMActionSheetButton.sapMBtn:hover .sapMBtnInner { background: #f9f9f9 !important; }
+.zp02ActionMenu .sapMActionSheetButton .sapMBtnIcon { width: 20px !important; height: 20px !important; margin: 0 !important; }
+.zp02ActionMenu .sapMActionSheetButton .sapMBtnContent,
+.zp02ActionMenu .sapMActionSheetButton .sapMBtnContent bdi {
+    padding: 0 !important;
+    font-size: 14px !important;
+    font-weight: 400 !important;
+    line-height: 21px !important;
+    color: #10233e !important;
+    text-align: left !important;
+}
+.zp02ActionMenu .sapMActionSheetButton.sapMBtn:focus { outline: none !important; }
+.zp02ActionMenu .sapMActionSheetButton.sapMBtn:focus-visible .sapMBtnInner { outline: 2px solid var(--zp02-red) !important; outline-offset: -2px !important; }
+.zp02ActionMenu .sapMActionSheetButton .sapMBtnInner::before,
+.zp02ActionMenu .sapMActionSheetButton .sapMBtnInner::after { display: none !important; content: none !important; }
+
+/* ── Step 3 responsive ─────────────────────────────────────────── */
+@media (max-width: 1024px) {
+    .zp02Step3 .zp02Col--bGap.sapMText { display: none !important; }
+    .zp02Step3 .zp02Col--bName.sapMText { flex-basis: 220px; }
+}
+@media (max-width: 1032px) {
+    .zp02BuildingDialog .zp02DlgCol--wide.sapMVBox { flex: 1 1 219px; width: auto; }
+}
+@media (max-width: 820px) {
+    /* Card rows stack: name/type + menu on line 1, values labelled below */
+    .zp02Step3 .zp02RowHead.sapMHBox { display: none !important; }
+    .zp02Step3 .zp02CardRow.sapMLIB { padding: 12px 8px 12px 16px !important; }
+    .zp02Step3 .zp02CardRow .zp02BuildingCols.sapMHBox,
+    .zp02Step3 .zp02CardRow .zp02FenceCols.sapMHBox { flex-wrap: wrap !important; row-gap: 4px; column-gap: 16px; }
+    .zp02Step3 .zp02CardRow .zp02Col--bName.sapMText,
+    .zp02Step3 .zp02CardRow .zp02Col--fType.sapMText { flex: 1 1 calc(100% - 48px) !important; font-weight: 500 !important; order: 0; }
+    .zp02Step3 .zp02CardRow .zp02MenuBtn.sapMBtn { order: 1; }
+    .zp02Step3 .zp02CardRow .zp02Col--bType.sapMText,
+    .zp02Step3 .zp02CardRow .zp02Col--bFloors.sapMText { flex: 0 0 100% !important; order: 2; }
+    .zp02Step3 .zp02CardRow .zp02Col--fNum.sapMText,
+    .zp02Step3 .zp02CardRow .zp02Col--fGates.sapMText { flex: 1 1 0 !important; order: 2; font-size: 14px !important; }
+    .zp02Step3 .zp02CardRow .zp02Col[data-zp02-label]::before {
+        content: attr(data-zp02-label) ": ";
+        color: var(--zp02-muted);
+    }
+    .zp02Step3 .zp02FenceEditRow .zp02Col--fType { flex: 1 1 100% !important; }
+    .zp02Step3 .zp02FenceEditRow .zp02Col--fNum,
+    .zp02Step3 .zp02FenceEditRow .zp02Col--fGates { flex: 1 1 calc(33% - 16px) !important; }
+}
+@media (max-width: 600px) {
+    .zp02BuildingDialog .zp02DlgHeader .sapMBarLeft  { padding-left: 16px !important; }
+    .zp02BuildingDialog .zp02DlgHeader .sapMBarRight { padding-right: 12px !important; }
+    /* One-row stepper on phones: numbers for all stages, label for the active one */
+    .zp02BuildingDialog .zp02ModalStepper.sapMTB { padding: 12px 16px !important; gap: 8px; flex-wrap: nowrap; min-height: 49px !important; height: 49px !important; }
+    .zp02BuildingDialog .zp02MStep:not([data-zp02-state="active"]) .zp02MStep__label { display: none !important; }
+    .zp02BuildingDialog .zp02MStep__line { width: 12px; }
+    .zp02BuildingDialog.sapMDialog { padding-top: 103px !important; }
+    .zp02BuildingDialog .zp02DlgBody.rakDlgStepContent.sapMVBox { padding: 20px 16px !important; }
+    .zp02BuildingDialog .zp02DlgCol.sapMVBox,
+    .zp02BuildingDialog .zp02DlgCol--wide.sapMVBox { flex: 1 1 100%; width: 100%; }
+    .zp02BuildingDialog .zp02DlgFooter.sapMTB { padding: 0 16px !important; }
+    .zp02BuildingDialog .zp02ModalPrimaryButton.sapMBtn,
+    .zp02BuildingDialog .zp02ModalSecondaryButton.sapMBtn { min-width: 0 !important; }
+    .zp02BuildingDialog .zp02Field > .rakFormLabel.sapMLabel { white-space: normal !important; }
+}
+
+/* ── Step 3 confirmation dialogs (MessageBox styleClass "zp02MessageBox") ──
+   Delete Building / Delete Fence / Delete Request: RAK buttons, no SAP blue. */
+.zp02MessageBox.sapMDialog { border-radius: 8px !important; box-shadow: 0 0 16px rgba(0, 0, 0, 0.2) !important; }
+.zp02MessageBox .sapMDialogFooter .sapMBtn {
+    height: 40px !important;
+    min-width: 100px !important;
+    padding: 0 24px !important;
+    border-radius: 42px !important;
+    font-size: 14px !important;
+    font-weight: 600 !important;
+    box-shadow: none !important;
+}
+.zp02MessageBox .sapMDialogFooter .sapMBtn .sapMBtnInner {
+    background: transparent !important;
+    border: none !important;
+    box-shadow: none !important;
+    color: inherit !important;
+    padding: 0 !important;
+    min-width: 0 !important;
+}
+.zp02MessageBox .sapMDialogFooter .sapMBtn:has(> .sapMBtnEmphasized) {
+    background: linear-gradient(119.9deg, #EB3642 17.3%, #990808 120.1%) !important;
+    border: none !important;
+    color: #ffffff !important;
+}
+.zp02MessageBox .sapMDialogFooter .sapMBtn:has(> .sapMBtnDefault) {
+    background: #ffffff !important;
+    border: 2px solid #eb3642 !important;
+    color: #bf1313 !important;
+}
+.zp02MessageBox .sapMDialogFooter .sapMBtn:focus-visible { outline: 2px solid #bf1313 !important; outline-offset: 2px !important; }
+.zp02MessageBox .sapMDialogFooter .sapMBtn .sapMBtnInner::before,
+.zp02MessageBox .sapMDialogFooter .sapMBtn .sapMBtnInner::after { display: none !important; content: none !important; }
+
+/* ── Step 3 static-area surfaces use the RAK font ──────────────────
+   Dialog, dropdown pickers, action menu and MessageBox render in UI5's
+   static area, outside .rakApp, and otherwise fall back to SAP "72".
+   Same stack as .rakApp (SAP-icons kept as fallback for icon glyphs). */
+:is(.zp02BuildingDialog, .zp02SelectPicker, .zp02ActionMenu, .zp02MessageBox, .zp02SysMsgDialog),
+:is(.zp02BuildingDialog, .zp02SelectPicker, .zp02ActionMenu, .zp02MessageBox, .zp02SysMsgDialog) * {
+    font-family: 'Poppins', 'SAP-icons', Arial, sans-serif !important;
+}
+
+/* ── Empty-state CTAs (Figma 136:8925): 40px, 16px SemiBold, 36px side padding ── */
+.zp02Step3 .zp02Section[data-zp02-populated="false"] .zp02AddBuildingBtn.rakBtn--solid-red.sapMBtn,
+.zp02Step3 .zp02Section[data-zp02-populated="false"] .zp02AddFenceBtn.rakBtn--outline-red.sapMBtn {
+    padding: 0 36px !important;
+    font-size: 16px !important;
+    font-weight: 600 !important;
+}
+
+/* ── Step 3 dropdown open-state clean-up ─────────────────────────
+   The inline Figma error row already shows the message (and the control keeps
+   aria-invalid / valueStateText), so the picker's duplicate value-state banner is hidden. */
+.zp02SelectPicker .sapMValueStateHeaderRoot,
+.zp02SelectPicker .sapMValueStateHeaderText,
+.zp02SelectPicker .sapMSltPickerValueState { display: none !important; }
+/* Keyboard-focused option: RAK red ring instead of Horizon focus blue (#0032A5) */
+.zp02SelectPicker .sapMSelectListItemBase:focus,
+.zp02SelectPicker .sapMSelectListItemBase.sapMSelectListItemBaseFocus,
+.zp02SelectPicker .sapMLIB:focus {
+    outline: 2px solid var(--zp02-red) !important;
+    outline-offset: -2px !important;
+}
+.zp02SelectPicker .sapMSelectListItemBase:focus::after,
+.zp02SelectPicker .sapMSelectListItemBase.sapMSelectListItemBaseFocus::after,
+.zp02SelectPicker .sapMLIB:focus::after,
+.zp02SelectPicker .sapMLIB.sapMLIBFocused::after { display: none !important; content: none !important; }
+/* Chevron: no Horizon pressed/hover box in any state */
+:is(.zp02Step3, .zp02BuildingDialog) .zp02FieldControl.sapMSlt .sapMSltArrow,
+:is(.zp02Step3, .zp02BuildingDialog) .zp02FieldControl.sapMSlt:hover .sapMSltArrow,
+:is(.zp02Step3, .zp02BuildingDialog) .zp02FieldControl.sapMSlt.sapMSltPressed .sapMSltArrow,
+:is(.zp02Step3, .zp02BuildingDialog) .zp02FieldControl.sapMSlt .sapMSltArrow.sapMSltIconPressed {
+    border: none !important;
+    box-shadow: none !important;
+    outline: none !important;
+    background-color: transparent !important;
+}
+html.sap-desktop .zp02SelectPicker.sapMPopover .sapMSelectList .sapMSelectListItemBase:focus::after,
+html.sap-desktop .zp02SelectPicker.sapMPopover .sapMSelectList .sapMSelectListItemBase::after,
+html .zp02SelectPicker.sapMPopover .sapMSelectList .sapMSelectListItemBase:focus::after {
+    outline-color: var(--zp02-red, #bf1313) !important;
+    border-color: var(--zp02-red, #bf1313) !important;
+}
+@media (max-width: 600px) {
+    /* Phone cards: one labelled value per line; titles may wrap instead of truncating */
+    .zp02Step3 .zp02CardRow .zp02Col--fNum.sapMText,
+    .zp02Step3 .zp02CardRow .zp02Col--fGates.sapMText { flex: 0 0 100% !important; }
+    .zp02Step3 .zp02CardRow .zp02Col--bName.sapMText,
+    .zp02Step3 .zp02CardRow .zp02Col--fType.sapMText,
+    .zp02Step3 .zp02CardRow .zp02Col--bType.sapMText,
+    .zp02Step3 .zp02CardRow .zp02Col--bFloors.sapMText { white-space: normal !important; overflow: visible !important; }
+}
+
+/* ══════════════════════════════════════════════════════════════
+   STEP 5 — Attachments · Figma reconciliation
+   Source: Figma aq5xvEg4AvS44yaZH17ipr, frame 231:10203
+     sections 242:10230 · Additional 1757:10837 · Load Cards 1617:11323
+     Declaration 231:10233 · note 231:10237 · MSG-C08 System messages 231:10327
+     File Uploader "uploaded" variant 277:15885
+   Scoped to .zp02Step5 / .zp02SysMsgDialog.
+   ══════════════════════════════════════════════════════════════ */
+:is(.zp02Step5, .zp02SysMsgDialog) {
+    --zp02-red: #bf1313;
+    --zp02-navy: #10233e;
+    --zp02-ink: #313131;
+    --zp02-muted: #616161;
+    --zp02-hint: #a6a6a6;
+    --zp02-line: #d9d9d9;
+    --zp02-field-border: #c0c0c0;
+    --zp02-azure: #0c7de5;
+    --zp02-tile-w: 328px;
+}
+
+/* ── Intro: "Attachments" + max size note ───────────────────────── */
+.zp02Step5 .zp02S5Intro { padding-top: 20px; display: flex; flex-direction: column; gap: 8px; }
+.zp02Step5 .zp02S5Title.sapMTitle,
+.zp02Step5 .zp02S5CatTitle.sapMTitle {
+    font-size: 18px !important;
+    font-weight: 600 !important;
+    line-height: 27px !important;
+    color: var(--zp02-ink) !important;
+    margin: 0 !important;
+}
+.zp02Step5 .zp02S5Title.sapMTitle span,
+.zp02Step5 .zp02S5CatTitle.sapMTitle span { font: inherit !important; color: inherit !important; }
+.zp02Step5 .zp02S5Desc.sapMText {
+    font-size: 14px !important;
+    line-height: 21px !important;
+    color: var(--zp02-muted) !important;
+}
+.zp02Step5 .zp02S5CatTitle--required.sapMTitle::after { content: '*'; margin-left: 2px; color: var(--zp02-red); font-weight: 500; font-size: 16px; }
+
+/* ── Document matrix as the Figma grid ──────────────────────────
+   3 × 328px tiles, 48px column gap, 20px row gap; each category starts
+   a new full-width row behind a 1px divider with 32px either side.   */
+.zp02Step5 .zp02S5DocGrid.sapMList,
+.zp02Step5 .zp02S5DocGrid .sapMListUl,
+.zp02Step5 .zp02S5AddList.sapMList,
+.zp02Step5 .zp02S5AddList .sapMListUl { background: transparent !important; border: none !important; }
+.zp02Step5 .zp02S5DocGrid .sapMListUl {
+    display: flex;
+    flex-wrap: wrap;
+    column-gap: 48px;
+    row-gap: 20px;
+    padding: 0;
+    margin: 0;
+}
+.zp02Step5 .zp02S5Item.sapMLIB {
+    display: block !important;
+    height: auto !important;
+    min-height: 0 !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    background: transparent !important;
+    border: none !important;
+    box-shadow: none !important;
+}
+.zp02Step5 .zp02S5Item.sapMLIB:hover { background: transparent !important; }
+.zp02Step5 .zp02S5Item.sapMLIB:focus { outline: none !important; }
+.zp02Step5 .zp02S5Item.sapMLIB:focus::after,
+.zp02Step5 .zp02S5AddItem.sapMLIB:focus::after { border-color: var(--zp02-red) !important; border-radius: 6px !important; }
+.zp02Step5 .zp02S5Item .sapMLIBContent,
+.zp02Step5 .zp02S5AddItem .sapMLIBContent { width: 100%; }
+.zp02Step5 .zp02S5Item[data-zp02-type="DOC"]      { flex: 0 0 var(--zp02-tile-w); width: var(--zp02-tile-w); }
+.zp02Step5 .zp02S5Item[data-zp02-type="CATEGORY"] {
+    flex: 0 0 100%;
+    width: 100%;
+    margin-top: 12px !important;           /* + 20px row gap = 32px */
+    padding-top: 32px !important;
+    border-top: 1px solid var(--zp02-line) !important;
+}
+.zp02Step5 .zp02S5Item[data-zp02-type="CATEGORY"]:first-child { margin-top: 16px !important; padding-top: 0 !important; border-top: none !important; }
+.zp02Step5 .zp02S5Item[data-zp02-type="CATEGORY"] .zp02S5CatTitle.sapMTitle { margin-bottom: -4px !important; }
+
+/* ── Document tile: label (16 Medium, red *) + 40px field ───────── */
+.zp02Step5 .zp02S5Tile { display: flex; flex-direction: column; gap: 8px; width: 100%; }
+.zp02Step5 .zp02S5Tile--bare { width: var(--zp02-tile-w); flex: 0 0 var(--zp02-tile-w); }
+.zp02Step5 .zp02S5Label.sapMText {
+    font-size: 16px !important;
+    font-weight: 500 !important;
+    line-height: 24px !important;
+    color: var(--zp02-ink) !important;
+}
+.zp02Step5 .zp02S5Label.sapMText[data-zp02-required="true"]::after { content: '*'; margin-left: 2px; color: var(--zp02-red); }
+
+/* Figma "File Uploader - new": 40px, 1px #C0C0C0, r6, hint #A6A6A6, 43px segment */
+.zp02Step5 .zp02FileUploader.sapUiFup { display: block !important; width: 100% !important; }
+.zp02Step5 .zp02FileUploader.sapUiFup form,
+.zp02Step5 .zp02FileUploader.sapUiFup form > div { display: block !important; width: 100% !important; position: relative; }
+.zp02Step5 .zp02FileUploader .sapUiFupGroup {
+    display: flex !important;
+    width: 100% !important;
+    height: 40px !important;
+    box-sizing: border-box !important;
+    border: 1px solid var(--zp02-field-border) !important;
+    border-radius: 6px !important;
+    background: #ffffff !important;
+    overflow: hidden !important;
+}
+.zp02Step5 .zp02FileUploader .sapUiFupGroup > div { display: flex !important; width: 100% !important; }
+.zp02Step5 .zp02FileUploader .sapUiFupGroup > div > div:first-child { display: block !important; flex: 1 1 auto; min-width: 0; }
+.zp02Step5 .zp02FileUploader .sapUiFupGroup > div > div:last-child {
+    display: flex !important;
+    flex: 0 0 43px;
+    align-items: center;
+    justify-content: center;
+    border-left: 1px solid var(--zp02-field-border);
+}
+.zp02Step5 .zp02FileUploader .sapMInputBase {
+    width: 100% !important;
+    height: 38px !important;
+    margin: 0 !important;
+    border: none !important;
+    background: transparent !important;
+    box-shadow: none !important;
+}
+.zp02Step5 .zp02FileUploader .sapMInputBaseContentWrapper {
+    width: 100% !important;
+    height: 38px !important;
+    border: none !important;
+    background: transparent !important;
+    box-shadow: none !important;
+}
+.zp02Step5 .zp02FileUploader .sapMInputBaseContentWrapper::before,
+.zp02Step5 .zp02FileUploader .sapMInputBaseContentWrapper::after { display: none !important; }
+.zp02Step5 .zp02FileUploader .sapMInputBaseInner {
+    height: 38px !important;
+    padding: 0 15px !important;
+    font-size: 14px !important;
+    font-style: normal !important;
+    color: var(--zp02-muted) !important;
+    background: transparent !important;
+    cursor: pointer;
+}
+.zp02Step5 .zp02FileUploader .sapMInputBaseInner::placeholder { color: var(--zp02-hint) !important; font-style: normal !important; opacity: 1; }
+.zp02Step5 .zp02FileUploader .sapMBtn,
+.zp02Step5 .zp02FileUploader .sapMBtn .sapMBtnInner {
+    width: 43px !important;
+    min-width: 43px !important;
+    height: 38px !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    border: none !important;
+    border-radius: 0 !important;
+    background: transparent !important;
+    box-shadow: none !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+}
+.zp02Step5 .zp02FileUploader .sapMBtn .sapMBtnInner::before,
+.zp02Step5 .zp02FileUploader .sapMBtn .sapMBtnInner::after { display: none !important; }
+.zp02Step5 .zp02FileUploader .sapMBtnIcon { width: 20px !important; height: 20px !important; margin: 0 !important; }
+.zp02Step5 .zp02FileUploader:hover .sapUiFupGroup { border-color: #929292 !important; }
+.zp02Step5 .zp02FileUploader:focus-within .sapUiFupGroup { border-color: var(--zp02-red) !important; }
+.zp02Step5 .zp02FileUploader .sapMBtn:focus-visible { outline: 2px solid var(--zp02-red) !important; outline-offset: -3px !important; }
+
+/* State tiles share the field shell */
+.zp02Step5 .zp02FileField {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    width: 100%;
+    height: 40px;
+    box-sizing: border-box;
+    padding-left: 15px;
+    border: 1px solid var(--zp02-field-border);
+    border-radius: 6px;
+    background: #ffffff;
+    overflow: hidden;
+}
+.zp02Step5 .zp02FileField__text.sapMText { font-size: 14px !important; color: var(--zp02-muted) !important; }
+/* Uploaded: underlined file name + 43px delete segment (277:15885) */
+.zp02Step5 .zp02FileField__name.sapMText {
+    flex: 1 1 auto;
+    min-width: 0;
+    font-size: 14px !important;
+    color: var(--zp02-muted) !important;
+    text-decoration: underline !important;
+    overflow: hidden !important;
+    text-overflow: ellipsis !important;
+    white-space: nowrap !important;
+}
+.zp02Step5 .zp02FileField--noSeg { padding-right: 15px; }
+.zp02Step5 .zp02FileField__seg.sapMBtn,
+.zp02Step5 .zp02FileField__seg.sapMBtn .sapMBtnInner {
+    flex: 0 0 43px;
+    width: 43px !important;
+    min-width: 43px !important;
+    height: 38px !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    border: none !important;
+    border-radius: 0 !important;
+    background: transparent !important;
+    box-shadow: none !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+}
+.zp02Step5 .zp02FileField__seg.sapMBtn { border-left: 1px solid var(--zp02-field-border) !important; }
+.zp02Step5 .zp02FileField__seg.sapMBtn:hover { background: #f9f9f9 !important; }
+.zp02Step5 .zp02FileField__seg .sapMBtnIcon { width: 20px !important; height: 20px !important; margin: 0 !important; }
+.zp02Step5 .zp02FileField__seg.sapMBtn:focus-visible { outline: 2px solid var(--zp02-red) !important; outline-offset: -3px !important; }
+/* Uploading: Figma uploader indicator, spinning */
+.zp02Step5 .zp02FileField__spinner.sapMImg { animation: zp02Spin 0.9s linear infinite; }
+@keyframes zp02Spin { to { transform: rotate(360deg); } }
+/* System retrieved (no Figma variant): read-only tile in the same field language */
+.zp02Step5 .zp02FileField--system { background: #f9f9f9; border-color: #e6e6e6; }
+.zp02Step5 .zp02FileField__sysIcon.sapUiIcon { font-size: 16px !important; color: #53a56e !important; }
+.zp02Step5 .zp02FileField--system .zp02FileField__text.sapMText { color: #53a56e !important; }
+
+/* Missing mandatory after MSG-C08: Figma error variant (#E53939 border + alert row) */
+.zp02Step5 [data-zp02-missing="true"] .zp02FileUploader .sapUiFupGroup,
+.zp02Step5 [data-zp02-missing="true"] > .zp02FileField,
+.zp02Step5 [data-zp02-missing="true"] .zp02S5Tile .zp02FileUploader .sapUiFupGroup { border-color: #e53939 !important; }
+.zp02Step5 .zp02ValidationError.sapMText { margin-top: 0 !important; }
+
+/* ── Sections below the matrix: divider + 32px rhythm ──────────── */
+.zp02Step5 .zp02S5Section {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    margin-top: 32px;
+}
+.zp02Step5 .zp02S5Section::before {
+    content: '';
+    display: block;
+    height: 1px;
+    background: var(--zp02-line);
+    margin-bottom: 16px;                    /* + 16px gap = 32px */
+}
+.zp02Step5 .zp02S5Desc--tight.sapMText { margin-top: -8px; }
+
+/* Additional Supporting Documents row: uploader 328 · description 328 · trash */
+.zp02Step5 .zp02S5AddList .sapMListUl { display: flex; flex-direction: column; gap: 16px; padding: 0; margin: 0; }
+.zp02Step5 .zp02S5AddItem.sapMLIB {
+    display: block !important;
+    height: auto !important;
+    min-height: 0 !important;
+    padding: 0 !important;
+    background: transparent !important;
+    border: none !important;
+}
+.zp02Step5 .zp02S5AddItem.sapMLIB:hover { background: transparent !important; }
+.zp02Step5 .zp02S5AddRow { display: flex; align-items: center; gap: 16px; flex-wrap: wrap; }
+.zp02Step5 .zp02S5Desc328.sapMInputBase { flex: 0 0 var(--zp02-tile-w); width: var(--zp02-tile-w) !important; max-width: var(--zp02-tile-w) !important; }
+.zp02Step5 .zp02S5IconBtn.sapMBtn,
+.zp02Step5 .zp02S5IconBtn.sapMBtn .sapMBtnInner {
+    width: 32px !important;
+    min-width: 32px !important;
+    height: 32px !important;
+    padding: 0 !important;
+    border: none !important;
+    border-radius: 50% !important;
+    background: transparent !important;
+    box-shadow: none !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+}
+.zp02Step5 .zp02S5IconBtn.sapMBtn:hover .sapMBtnInner { background: #f3f3f3 !important; }
+.zp02Step5 .zp02S5IconBtn .sapMBtnIcon { width: 20px !important; height: 20px !important; margin: 0 !important; }
+.zp02Step5 .zp02S5IconBtn.sapMBtn:focus-visible { outline: 2px solid var(--zp02-red) !important; outline-offset: 1px !important; }
+
+/* Links: Figma "Regular link" Azure #0C7DE5 (design token, not SAP blue) */
+.zp02Step5 .zp02S5LinkRow { display: flex; align-items: center; gap: 6px; }
+.zp02Step5 .zp02S5LinkRow--template { gap: 10px; }
+.zp02Step5 .zp02S5Link.sapMLnk {
+    font-size: 16px !important;
+    line-height: 24px !important;
+    color: var(--zp02-azure) !important;
+    text-decoration: none !important;
+}
+.zp02Step5 .zp02S5Link--14.sapMLnk { font-size: 14px !important; line-height: 21px !important; }
+.zp02Step5 .zp02S5Link.sapMLnk:hover { text-decoration: underline !important; }
+.zp02Step5 .zp02S5Link.sapMLnk:focus-visible { outline: 2px solid var(--zp02-azure) !important; outline-offset: 2px; }
+
+/* Load Cards: uploader + template link on one row (gap 24) */
+.zp02Step5 .zp02S5LoadRow { display: flex; align-items: center; gap: 24px; flex-wrap: wrap; }
+
+/* Declaration: 16px #313131 body; acceptance check box in RAK red */
+.zp02Step5 .zp02S5DeclRow { display: flex; align-items: flex-start; gap: 8px; }
+.zp02Step5 .zp02S5DeclText.sapMText { font-size: 16px !important; line-height: 24px !important; color: var(--zp02-ink) !important; }
+.zp02Step5 .zp02S5Check.sapMCb { padding: 0 !important; height: 24px !important; width: 24px !important; flex: 0 0 24px; margin-top: 0 !important; }
+.zp02Step5 .zp02S5Check .sapMCbBg {
+    width: 16px !important;
+    height: 16px !important;
+    min-width: 16px !important;
+    margin: 4px !important;
+    left: 0 !important;
+    top: 0 !important;
+    border: 1px solid var(--zp02-navy) !important;
+    border-radius: 2px !important;
+    background: #ffffff !important;
+    box-shadow: none !important;
+}
+.zp02Step5 .zp02S5Check .sapMCbBg.sapMCbMarkChecked { border-color: var(--zp02-red) !important; background: var(--zp02-red) !important; }
+.zp02Step5 .zp02S5Check .sapMCbBg.sapMCbMarkChecked::before,
+.zp02Step5 .zp02S5Check .sapMCbBg.sapMCbMarkChecked::after { color: #ffffff !important; font-size: 12px !important; }
+.zp02Step5 .zp02S5Check.sapMCb:focus { outline: none !important; }
+.zp02Step5 .zp02S5Check.sapMCb:focus::before,
+.zp02Step5 .zp02S5Check.sapMCb:focus-visible::before { border-color: var(--zp02-red) !important; }
+
+/* Submit note (231:10237): 20px attention + 16px Primary Red, gap 6 */
+.zp02Step5 .zp02S5Note { display: flex; align-items: center; gap: 6px; margin-top: 48px; }
+.zp02Step5 .zp02S5Note__text.sapMText { font-size: 16px !important; line-height: 24px !important; color: var(--zp02-red) !important; }
+
+/* ══ MSG-C08 "Mandatory Attachments" (Figma System messages 231:10327) ══
+   523 wide, white, 8px Primary Red top border, r8, p 24/20/20.         */
+.zp02SysMsgDialog.sapMDialog {
+    border-radius: 8px !important;
+    border-top: 8px solid #bf1313 !important;
+    box-shadow: 0 0 7px rgba(173, 173, 173, 0.25) !important;
+    background: #ffffff !important;
+    overflow: hidden !important;
+    padding-top: 52px !important;
+    padding-bottom: 76px !important;
+    max-width: calc(100vw - 32px) !important;
+}
+.zp02SysMsgDialog.sapMDialog > header,
+.zp02SysMsgDialog.sapMDialog .sapMDialogTitleGroup { height: auto !important; border: none !important; box-shadow: none !important; }
+.zp02SysMsgDialog.sapMDialog .zp02SysMsgHeader.sapMBar {
+    height: 52px !important;
+    background: #ffffff !important;
+    border: none !important;
+    box-shadow: none !important;
+}
+.zp02SysMsgDialog .zp02SysMsgHeader .sapMBarLeft  { padding-left: 20px !important; height: 100% !important; display: flex !important; align-items: flex-end !important; }
+.zp02SysMsgDialog .zp02SysMsgHeader .sapMBarRight { padding-right: 16px !important; height: 100% !important; display: flex !important; align-items: flex-end !important; }
+.zp02SysMsgDialog .zp02SysMsgTitle.sapMTitle,
+.zp02SysMsgDialog .zp02SysMsgTitle.sapMTitle span {
+    font-size: 18px !important;
+    font-weight: 500 !important;
+    line-height: 27px !important;
+    color: #10233e !important;
+}
+.zp02SysMsgDialog .zp02SysMsgClose.sapMBtn,
+.zp02SysMsgDialog .zp02SysMsgClose.sapMBtn .sapMBtnInner {
+    width: 32px !important; min-width: 32px !important; height: 32px !important;
+    padding: 0 !important; border: none !important; background: transparent !important; box-shadow: none !important;
+    display: flex !important; align-items: center !important; justify-content: center !important; border-radius: 50% !important;
+}
+.zp02SysMsgDialog .zp02SysMsgClose.sapMBtn:hover .sapMBtnInner { background: #f3f3f3 !important; }
+.zp02SysMsgDialog .zp02SysMsgClose .sapMBtnIcon { width: 24px !important; height: 24px !important; margin: 0 !important; }
+.zp02SysMsgDialog .zp02SysMsgClose.sapMBtn:focus-visible { outline: 2px solid #bf1313 !important; outline-offset: 1px !important; }
+.zp02SysMsgDialog .sapMDialogSection { padding: 0 !important; }
+.zp02SysMsgDialog.sapMMessageDialog .sapMDialogScrollCont,
+.zp02SysMsgDialog .sapMDialogScrollCont { padding: 16px 20px 0 !important; }
+.zp02SysMsgDialog .zp02SysMsgBody.sapMText { font-size: 16px !important; line-height: 24px !important; color: #313131 !important; }
+.zp02SysMsgDialog.sapMDialog > footer,
+.zp02SysMsgDialog .sapMDialogFooter { height: auto !important; padding: 0 !important; border: none !important; box-shadow: none !important; background: #ffffff !important; }
+.zp02SysMsgDialog .zp02SysMsgFooter.sapMTB {
+    height: 76px !important;
+    padding: 16px 20px 20px !important;
+    background: #ffffff !important;
+    border: none !important;
+    box-shadow: none !important;
+}
+.zp02SysMsgDialog :is(.zp02SysMsgPrimary, .zp02SysMsgSecondary).sapMBtn {
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    box-sizing: border-box !important;
+    height: 40px !important;
+    min-width: 120px !important;
+    border-radius: 42px !important;
+    font-size: 16px !important;
+    font-weight: 600 !important;
+    box-shadow: none !important;
+}
+.zp02SysMsgDialog :is(.zp02SysMsgPrimary, .zp02SysMsgSecondary).sapMBtn .sapMBtnInner,
+.zp02SysMsgDialog :is(.zp02SysMsgPrimary, .zp02SysMsgSecondary).sapMBtn:hover .sapMBtnInner {
+    display: flex !important; align-items: center !important; gap: 4px;
+    background: transparent !important; border: none !important; border-radius: 0 !important;
+    box-shadow: none !important; padding: 0 !important; min-width: 0 !important; height: auto !important;
+    color: inherit !important; font: inherit !important; text-shadow: none !important;
+}
+.zp02SysMsgDialog :is(.zp02SysMsgPrimary, .zp02SysMsgSecondary).sapMBtn .sapMBtnInner::before,
+.zp02SysMsgDialog :is(.zp02SysMsgPrimary, .zp02SysMsgSecondary).sapMBtn .sapMBtnInner::after { display: none !important; content: none !important; }
+.zp02SysMsgDialog :is(.zp02SysMsgPrimary, .zp02SysMsgSecondary) .sapMBtnContent { padding: 0 !important; line-height: 24px !important; }
+.zp02SysMsgDialog .zp02SysMsgPrimary .sapMBtnIcon { width: 20px !important; height: 20px !important; margin: 0 !important; }
+.zp02SysMsgDialog .zp02SysMsgPrimary.sapMBtn {
+    padding: 0 29px 0 36px !important;
+    border: none !important;
+    background: linear-gradient(119.5deg, #EB3642 17.3%, #990808 120.1%) !important;
+    color: #ffffff !important;
+}
+.zp02SysMsgDialog .zp02SysMsgPrimary.sapMBtn:hover { background: linear-gradient(119.5deg, #d42f3a 17.3%, #7a0606 120.1%) !important; }
+.zp02SysMsgDialog .zp02SysMsgSecondary.sapMBtn {
+    padding: 0 36px !important;
+    border: 2px solid #eb3642 !important;
+    background: #ffffff !important;
+    color: #bf1313 !important;
+}
+.zp02SysMsgDialog .zp02SysMsgSecondary.sapMBtn:hover { background: #fef2f2 !important; }
+.zp02SysMsgDialog :is(.zp02SysMsgPrimary, .zp02SysMsgSecondary).sapMBtn:focus-visible { outline: 2px solid #bf1313 !important; outline-offset: 2px !important; }
+
+/* ── Step 5 responsive ─────────────────────────────────────────── */
+@media (max-width: 1120px) {
+    /* 2 tiles per row once 3 × 328 + 2 × 48 no longer fits the content width */
+    .zp02Step5 .zp02S5DocGrid .sapMListUl { column-gap: 24px; }
+    .zp02Step5 .zp02S5Item[data-zp02-type="DOC"] { flex: 0 0 calc(50% - 12px); width: calc(50% - 12px); }
+}
+@media (max-width: 600px) {
+    :is(.zp02Step5, .zp02SysMsgDialog) { --zp02-tile-w: 100%; }
+    .zp02Step5 .zp02S5Item[data-zp02-type="DOC"] { flex: 0 0 100%; width: 100%; }
+    .zp02Step5 .zp02S5AddRow { flex-wrap: wrap; }
+    .zp02Step5 .zp02S5Tile--bare,
+    .zp02Step5 .zp02S5Desc328.sapMInputBase { flex: 1 1 calc(100% - 48px); width: auto !important; max-width: none !important; }
+    .zp02Step5 .zp02S5Desc328.sapMInputBase { order: 3; flex-basis: 100%; }
+    .zp02Step5 .zp02S5LoadRow .zp02S5Tile--bare { flex-basis: 100%; }
+    .zp02Step5 .zp02S5Note { align-items: flex-start; }
+    .zp02SysMsgDialog .zp02SysMsgFooter.sapMTB { padding: 16px 16px 20px !important; }
+    .zp02SysMsgDialog :is(.zp02SysMsgPrimary, .zp02SysMsgSecondary).sapMBtn { min-width: 0 !important; }
+}
+/* Step 5 refinements: 40px from the intro to the first group (Figma 398→453);
+   fields in one row stay aligned when a long label wraps (label area grows). */
+.zp02Step5 .zp02S5Item[data-zp02-type="CATEGORY"]:first-child { margin-top: 24px !important; }
+.zp02Step5 .zp02S5Item[data-zp02-type="DOC"].sapMLIB { display: flex !important; }
+.zp02Step5 .zp02S5Item[data-zp02-type="DOC"] .sapMLIBContent { display: flex; flex-direction: column; }
+.zp02Step5 .zp02S5Item[data-zp02-type="DOC"] .zp02S5Tile { flex: 1 1 auto; }
+.zp02Step5 .zp02S5Item[data-zp02-type="DOC"] .zp02S5Label.sapMText { flex: 1 1 auto; }
+.zp02Step5 .zp02S5DocGrid .sapMListUl { align-content: flex-start; align-items: stretch; }
+.zp02Step5 .zp02S5Item[data-zp02-type="DOC"] .sapMLIBContent { height: 100%; align-self: stretch; }
+.zp02Step5 .zp02S5Item[data-zp02-type="DOC"] .zp02S5Tile { height: 100%; }
+.zp02Step5 .zp02S5Tile:not([data-zp02-missing="true"]) .zp02S5MissingMsg.sapMText { visibility: hidden !important; }
+
+/* ══════════════════════════════════════════════════════════════
+   STEP 1 — Project Details popup · Figma "Property details general NEW" 115:3421
+   1000 × 610, r8, shadow 0 0 16 rgba(0,0,0,.2); red gradient header (54);
+   body p32 with horizontal tabs; 70px footer with 144px secondary Close.
+   Scoped to .zp02ProjectDialog (renders in the UI5 static area).
+   ══════════════════════════════════════════════════════════════ */
+.zp02ProjectDialog {
+    --zp02-red: #bf1313;
+    --zp02-navy: #10233e;
+    --zp02-ink: #313131;
+    --zp02-muted: #616161;
+    --zp02-line: #d9d9d9;
+    --zp02-azure: #0c7de5;
+}
+.zp02ProjectDialog,
+.zp02ProjectDialog * { font-family: 'Poppins', 'SAP-icons', Arial, sans-serif !important; }
+
+/* Shell: one white surface (no Horizon frame / focus outline around it) */
+.zp02ProjectDialog.sapMDialog {
+    max-width: calc(100vw - 32px) !important;
+    border: none !important;
+    border-radius: 8px !important;
+    box-shadow: 0 0 16px rgba(0, 0, 0, 0.2) !important;
+    background: #ffffff !important;
+    overflow: hidden !important;
+    outline: none !important;
+    padding-top: 54px !important;           /* Figma header */
+    padding-bottom: 70px !important;        /* Figma footer */
+}
+.zp02ProjectDialog.sapMDialog:focus,
+.zp02ProjectDialog.sapMDialog:focus-visible { outline: none !important; }
+.zp02ProjectDialog.sapMDialog::before,
+.zp02ProjectDialog.sapMDialog::after { display: none !important; content: none !important; }
+.zp02ProjectDialog.sapMDialog > header,
+.zp02ProjectDialog.sapMDialog .sapMDialogTitleGroup { height: auto !important; border: none !important; box-shadow: none !important; padding: 0 !important; }
+.zp02ProjectDialog.sapMDialog .zp02DlgHeader.sapMBar {
+    height: 54px !important;
+    padding: 0 !important;
+    background: linear-gradient(162.7deg, #EB3642 17.3%, #990808 120.1%) !important;
+    border: none !important;
+    box-shadow: none !important;
+}
+.zp02ProjectDialog .zp02DlgHeader .sapMBarLeft  { padding-left: 32px !important; height: 100% !important; display: flex !important; align-items: center !important; }
+.zp02ProjectDialog .zp02DlgHeader .sapMBarRight { padding-right: 28px !important; height: 100% !important; display: flex !important; align-items: center !important; }
+.zp02ProjectDialog .zp02DlgTitle.sapMTitle,
+.zp02ProjectDialog .zp02DlgTitle.sapMTitle span { color: #ffffff !important; font-size: 18px !important; font-weight: 500 !important; line-height: 27px !important; }
+.zp02ProjectDialog .zp02DlgClose.sapMBtn,
+.zp02ProjectDialog .zp02DlgClose.sapMBtn .sapMBtnInner {
+    width: 32px !important; min-width: 32px !important; height: 32px !important; padding: 0 !important;
+    border: none !important; background: transparent !important; box-shadow: none !important;
+    display: flex !important; align-items: center !important; justify-content: center !important; border-radius: 50% !important;
+}
+.zp02ProjectDialog .zp02DlgClose.sapMBtn:hover .sapMBtnInner { background: rgba(255, 255, 255, 0.15) !important; }
+.zp02ProjectDialog .zp02DlgClose .sapMBtnIcon { width: 24px !important; height: 24px !important; margin: 0 !important; }
+.zp02ProjectDialog .zp02DlgClose.sapMBtn:focus-visible { outline: 2px solid #ffffff !important; outline-offset: 1px !important; }
+
+/* Body: 32px padding around tabs + panel */
+.zp02ProjectDialog .sapMDialogSection { padding: 0 !important; background: #ffffff !important; }
+.zp02ProjectDialog .sapMDialogScrollCont { padding: 32px 32px 0 !important; height: 100% !important; box-sizing: border-box !important; }
+
+/* ── Horizontal tabs (Figma "Horizontal Tabs"): 16px #10233E, gap 24,
+      selected = Medium + 3px #BF1313 underline, one 1px rule under the row.
+      The Horizon content arrow is hidden on every tab (it was painted red on all). */
+.zp02ProjectDialog .zp02PDTabs.sapMITB { background: transparent !important; height: 100%; }
+.zp02ProjectDialog .zp02PDTabs .sapMITH {
+    background: transparent !important;
+    box-shadow: inset 0 -1px 0 #a6a6a6 !important;
+    padding: 0 !important;
+    height: 31px !important;
+    min-height: 31px !important;
+    border: none !important;
+}
+.zp02ProjectDialog .zp02PDTabs .sapMITBHead { gap: 24px; padding: 0 !important; margin: 0 !important; height: 31px !important; align-items: flex-start !important; }
+.zp02ProjectDialog .zp02PDTabs .sapMITBFilter.sapMITBItem {
+    height: 31px !important;
+    min-height: 31px !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    cursor: pointer;
+}
+.zp02ProjectDialog .zp02PDTabs .sapMITBFilterWrapper {
+    height: 31px !important;
+    padding: 0 0 7px !important;
+    margin: 0 !important;
+    box-sizing: border-box !important;
+    border-bottom: 3px solid transparent !important;
+    display: flex !important;
+    align-items: flex-start !important;
+}
+.zp02ProjectDialog .zp02PDTabs .sapMITBText {
+    font-size: 16px !important;
+    line-height: 24px !important;
+    font-weight: 400 !important;
+    color: var(--zp02-navy) !important;
+    height: auto !important;
+}
+.zp02ProjectDialog .zp02PDTabs .sapMITBSelected .sapMITBFilterWrapper { border-bottom-color: var(--zp02-red) !important; }
+.zp02ProjectDialog .zp02PDTabs .sapMITBSelected .sapMITBText { font-weight: 500 !important; color: var(--zp02-navy) !important; }
+.zp02ProjectDialog .zp02PDTabs .sapMITBContentArrow,
+.zp02ProjectDialog .zp02PDTabs .sapMITBFilter::before,
+.zp02ProjectDialog .zp02PDTabs .sapMITBFilter::after,
+.zp02ProjectDialog .zp02PDTabs .sapMITBFilterWrapper::before,
+.zp02ProjectDialog .zp02PDTabs .sapMITBFilterWrapper::after,
+.zp02ProjectDialog .zp02PDTabs .sapMITBContentArrow::before,
+.zp02ProjectDialog .zp02PDTabs .sapMITBContentArrow::after { display: none !important; content: none !important; background: none !important; }
+.zp02ProjectDialog .zp02PDTabs .sapMITBFilter:not(.sapMITBSelected):hover .sapMITBText { color: var(--zp02-red) !important; }
+.zp02ProjectDialog .zp02PDTabs .sapMITBFilter:focus { outline: none !important; }
+.zp02ProjectDialog .zp02PDTabs .sapMITBFilter:focus-visible .sapMITBFilterWrapper { outline: 2px solid var(--zp02-red) !important; outline-offset: 2px !important; border-radius: 2px; }
+/* Overflow "More" (narrow widths) in the same language */
+.zp02ProjectDialog .zp02PDTabs .sapMITHEndOverflow .sapMITBFilter { align-items: flex-start !important; }
+.zp02ProjectDialog .zp02PDTabs .sapMITHEndOverflow .sapMITBFilterWrapper { border: none !important; background: transparent !important; }
+.zp02ProjectDialog .zp02PDTabs .sapMITHEndOverflow .sapMITBText { color: var(--zp02-red) !important; }
+.zp02ProjectDialog .zp02PDTabs .sapMITHEndOverflow .sapMITBFilter .sapMITBFilterWrapper { box-shadow: none !important; }
+
+.zp02ProjectDialog .zp02PDTabs .sapMITBContainerContent,
+.zp02ProjectDialog .zp02PDTabs .sapMITBContent {
+    padding: 0 !important;
+    margin: 0 !important;
+    border: none !important;
+    background: transparent !important;
+    box-shadow: none !important;
+}
+.zp02ProjectDialog .zp02PDTabs .sapMITBContainerContent { padding-top: 32px !important; }
+.zp02ProjectDialog .zp02PD__scroll.sapMScrollCont { padding: 0 0 24px !important; }
+
+/* ── Panel content ──────────────────────────────────────────────── */
+.zp02ProjectDialog .zp02PD__panel { color: var(--zp02-ink); font-size: 16px; line-height: 24px; }
+.zp02ProjectDialog .zp02PD__section + .zp02PD__section { margin-top: 32px; }
+.zp02ProjectDialog .zp02PD__title { margin: 0 0 16px; font-size: 18px; font-weight: 600; line-height: 27px; color: var(--zp02-ink); }
+.zp02ProjectDialog .zp02PD__title--tight { margin-bottom: 12px; }
+/* Label/value fields: 16 Medium #313131 over 14 Regular #616161, gap 3 */
+.zp02ProjectDialog .zp02PD__fields { display: grid; gap: 24px; }
+.zp02ProjectDialog .zp02PD__fields--3 { grid-template-columns: repeat(3, 210px); }
+.zp02ProjectDialog .zp02PD__fields--4 { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+.zp02ProjectDialog .zp02PD__field { display: flex; flex-direction: column; gap: 3px; min-width: 0; }
+.zp02ProjectDialog .zp02PD__label { font-size: 16px; font-weight: 500; line-height: 24px; color: var(--zp02-ink); }
+.zp02ProjectDialog .zp02PD__value { font-size: 14px; font-weight: 400; line-height: 21px; color: var(--zp02-muted); }
+/* Tables: header 16 Medium #313131 (no rule); rows 16 Regular #616161, py 12, 1px #D9D9D9 */
+.zp02ProjectDialog .zp02PD__table { width: 100%; border-collapse: collapse; font-size: 16px; line-height: 24px; }
+.zp02ProjectDialog .zp02PD__table th { text-align: left; font-weight: 500; color: var(--zp02-ink); padding: 0 8px 0 0; }
+.zp02ProjectDialog .zp02PD__table td { text-align: left; font-weight: 400; color: var(--zp02-muted); padding: 12px 8px 12px 0; border-bottom: 1px solid var(--zp02-line); }
+.zp02ProjectDialog .zp02PD__table tbody tr:last-child td { border-bottom: none; }
+.zp02ProjectDialog .zp02PD__small { font-size: 14px; }
+/* Land: download reference block */
+.zp02ProjectDialog .zp02PD__download { display: flex; align-items: flex-start; gap: 10px; margin-top: 32px; }
+.zp02ProjectDialog .zp02PD__download > img { flex: 0 0 24px; margin-top: 4px; }
+.zp02ProjectDialog .zp02PD__downloadLabel { display: block; font-size: 14px; line-height: 21px; color: var(--zp02-ink); }
+.zp02ProjectDialog .zp02PD__link { display: block; font-size: 14px; line-height: 21px; color: var(--zp02-azure); }
+/* Map: 936 wide, r6, photo + white tooltip (16px pad, r4, 13px) + navy pin */
+.zp02ProjectDialog .zp02PD__map { position: relative; width: 100%; height: 359px; border-radius: 6px; overflow: hidden; background: #eeeeee; }
+.zp02ProjectDialog .zp02PD__mapImg { position: absolute; left: 0; top: 0; width: 991px; height: 440px; max-width: none; object-fit: cover; object-position: bottom; }
+.zp02ProjectDialog .zp02PD__pinWrap {
+    position: absolute; left: calc(50% - 93px); top: calc(50% - 23.5px); transform: translate(-50%, -50%);
+    display: flex; flex-direction: column; align-items: center;
+}
+.zp02ProjectDialog .zp02PD__tooltip {
+    padding: 16px; border-radius: 4px; background: #ffffff; filter: drop-shadow(0 0 8px rgba(0, 0, 0, 0.2));
+    font-size: 13px; line-height: 20px; color: var(--zp02-navy); white-space: nowrap;
+}
+.zp02ProjectDialog .zp02PD__tooltipArrow { width: 14.4px; height: 6px; transform: rotate(180deg); margin-bottom: -4px; }
+.zp02ProjectDialog .zp02PD__pin { width: 24px; height: 24px; margin: 8px; }
+/* Documents: header row + 64px card rows (#fff, 1px #D9D9D9, r6, shadow 0 0 7px) */
+.zp02ProjectDialog .zp02PD__docs { display: flex; flex-direction: column; gap: 16px; }
+.zp02ProjectDialog .zp02PD__docHead,
+.zp02ProjectDialog .zp02PD__docRow { display: flex; align-items: center; gap: 20px; padding: 0 20px; }
+.zp02ProjectDialog .zp02PD__docHead { color: var(--zp02-navy); font-size: 16px; }
+.zp02ProjectDialog .zp02PD__docHead img { width: 16px; height: 16px; vertical-align: middle; margin-left: 8px; }
+.zp02ProjectDialog .zp02PD__docRow {
+    height: 64px; background: #ffffff; border: 1px solid var(--zp02-line); border-radius: 6px;
+    box-shadow: 0 0 7px rgba(173, 173, 173, 0.25); color: var(--zp02-muted);
+}
+.zp02ProjectDialog .zp02PD__dName { flex: 0 0 350px; display: flex; align-items: center; gap: 8px; min-width: 0; }
+.zp02ProjectDialog .zp02PD__dNum  { flex: 0 0 108px; }
+.zp02ProjectDialog .zp02PD__dDept { flex: 0 0 124px; }
+.zp02ProjectDialog .zp02PD__dDate { flex: 0 0 113px; white-space: nowrap; }
+.zp02ProjectDialog .zp02PD__docIcon { width: 24px; height: 24px; flex: 0 0 24px; }
+.zp02ProjectDialog .zp02PD__docName { font-weight: 500; color: var(--zp02-ink); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.zp02ProjectDialog .zp02PD__openIcon { width: 16.25px; height: 16.25px; flex: 0 0 auto; margin-left: 4px; }
+
+/* Footer: 70px, 1px #C0C0C0 top, 144px secondary Close (2px #EB3642, 16 SemiBold #BF1313) */
+.zp02ProjectDialog.sapMDialog > footer,
+.zp02ProjectDialog .sapMDialogFooter { height: auto !important; padding: 0 !important; border: none !important; box-shadow: none !important; background: #ffffff !important; }
+.zp02ProjectDialog .zp02PDFooter.sapMTB {
+    height: 70px !important; padding: 0 32px !important; background: #ffffff !important;
+    border: none !important; border-top: 1px solid #c0c0c0 !important; box-shadow: none !important;
+}
+.zp02ProjectDialog .zp02PDCloseBtn.sapMBtn {
+    width: 144px !important; height: 40px !important; min-width: 120px !important; padding: 0 !important;
+    border: 2px solid #eb3642 !important; border-radius: 42px !important; background: #ffffff !important;
+    color: var(--zp02-red) !important; box-shadow: none !important; box-sizing: border-box !important;
+    display: inline-flex !important; align-items: center !important; justify-content: center !important;
+}
+.zp02ProjectDialog .zp02PDCloseBtn.sapMBtn .sapMBtnInner,
+.zp02ProjectDialog .zp02PDCloseBtn.sapMBtn:hover .sapMBtnInner {
+    background: transparent !important; border: none !important; box-shadow: none !important; padding: 0 !important;
+    min-width: 0 !important; height: auto !important; color: inherit !important;
+}
+.zp02ProjectDialog .zp02PDCloseBtn.sapMBtn .sapMBtnInner::before,
+.zp02ProjectDialog .zp02PDCloseBtn.sapMBtn .sapMBtnInner::after { display: none !important; content: none !important; }
+.zp02ProjectDialog .zp02PDCloseBtn .sapMBtnContent,
+.zp02ProjectDialog .zp02PDCloseBtn .sapMBtnContent bdi { font-size: 16px !important; font-weight: 600 !important; color: var(--zp02-red) !important; padding: 0 !important; }
+.zp02ProjectDialog .zp02PDCloseBtn.sapMBtn:hover { background: #fef2f2 !important; }
+.zp02ProjectDialog .zp02PDCloseBtn.sapMBtn:focus-visible { outline: 2px solid var(--zp02-red) !important; outline-offset: 2px !important; }
+
+/* ── Responsive ───────────────────────────────────────────────── */
+@media (max-width: 1032px) {
+    /* Documents: rows become stacked cards (no forced min-width, which scrolled the whole tab area) */
+    .zp02ProjectDialog .zp02PD__docHead { display: none; }
+    .zp02ProjectDialog .zp02PD__docRow { flex-wrap: wrap; height: auto; padding: 12px 16px; row-gap: 4px; column-gap: 16px; font-size: 14px; }
+    .zp02ProjectDialog .zp02PD__dName { flex: 1 1 100%; }
+    .zp02ProjectDialog .zp02PD__dNum,
+    .zp02ProjectDialog .zp02PD__dDept,
+    .zp02ProjectDialog .zp02PD__dDate { flex: 0 0 auto; }
+    /* Tab strip scrolls on its own; the panel never scrolls sideways */
+    .zp02ProjectDialog .zp02PDTabs .sapMITH { overflow-x: auto !important; overflow-y: hidden !important; scrollbar-width: none; }
+    .zp02ProjectDialog .zp02PDTabs .sapMITH::-webkit-scrollbar { display: none; }
+    .zp02ProjectDialog .zp02PDTabs .sapMITBContainerContent,
+    .zp02ProjectDialog .zp02PDTabs .sapMITBContent { overflow-x: hidden !important; }
+}
+@media (max-width: 600px) {
+    .zp02ProjectDialog .zp02DlgHeader .sapMBarLeft  { padding-left: 16px !important; }
+    .zp02ProjectDialog .zp02DlgHeader .sapMBarRight { padding-right: 12px !important; }
+    .zp02ProjectDialog .sapMDialogScrollCont { padding: 20px 16px 0 !important; }
+    .zp02ProjectDialog .zp02PDFooter.sapMTB { padding: 0 16px !important; }
+    .zp02ProjectDialog .zp02PD__fields--3,
+    .zp02ProjectDialog .zp02PD__fields--4 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .zp02ProjectDialog .zp02PD__table { font-size: 14px; }
+    .zp02ProjectDialog .zp02PD__table th,
+    .zp02ProjectDialog .zp02PD__table td { white-space: nowrap; }
+    .zp02ProjectDialog .zp02PD__table th,
+    .zp02ProjectDialog .zp02PD__table td { padding-right: 12px; }
+    .zp02ProjectDialog .zp02PD__panel { overflow-x: auto; }
+}
+/* Horizon tab focus ring (#0032A5 on the text ::after) → replaced by the RAK-red :focus-visible outline above */
+.zp02ProjectDialog .zp02PDTabs .sapMITBText::before,
+.zp02ProjectDialog .zp02PDTabs .sapMITBText::after { display: none !important; content: none !important; }
+/* verticalScrolling=false → no scroll container: the 32px body inset goes on the section */
+.zp02ProjectDialog .sapMDialogSection { padding: 32px 32px 0 !important; box-sizing: border-box !important; }
+.zp02ProjectDialog .sapMDialogScrollCont { padding: 0 !important; }
+.zp02ProjectDialog .zp02PDTabs .sapMITH { display: flex !important; align-items: flex-start !important; overflow: visible !important; }
+.zp02ProjectDialog .zp02PDTabs .sapMITBHead { display: flex !important; flex-wrap: nowrap !important; column-gap: 24px !important; overflow: visible !important; }
+.zp02ProjectDialog .zp02PDTabs .sapMITBFilter.sapMITBItem { flex: 0 0 auto !important; }
+@media (max-width: 600px) {
+    .zp02ProjectDialog .sapMDialogSection { padding: 20px 16px 0 !important; }
+    .zp02ProjectDialog .zp02PDTabs .sapMITBHead { column-gap: 16px !important; }
+}
+/* Stretched IconTabBar is absolutely positioned over the dialog section by Horizon,
+   so the Figma 32px body inset is applied on the tab bar itself. */
+.zp02ProjectDialog .sapMDialogSection { padding: 0 !important; }
+.zp02ProjectDialog .zp02PDTabs.sapMITB { padding: 32px 32px 0 !important; box-sizing: border-box !important; }
+@media (max-width: 600px) {
+    .zp02ProjectDialog .sapMDialogSection { padding: 0 !important; }
+    .zp02ProjectDialog .zp02PDTabs.sapMITB { padding: 20px 16px 0 !important; }
+}
+.zp02ProjectDialog .zp02PDTabs .sapMITBText { margin: 0 !important; }
+/* Stretched tab content is positioned by Horizon: the 32px gap under the tab rule goes on the panel */
+.zp02ProjectDialog .zp02PDTabs .sapMITBContainerContent { padding-top: 0 !important; }
+.zp02ProjectDialog .zp02PD__panel { padding-top: 32px; box-sizing: border-box; }
+@media (max-width: 600px) { .zp02ProjectDialog .zp02PD__panel { padding-top: 20px; } }
+/* Keep the tab strip within the dialog width so only the strip scrolls (never the whole tab area) */
+.zp02ProjectDialog .zp02PDTabs.sapMITB { min-width: 0 !important; max-width: 100% !important; overflow: hidden !important; }
+.zp02ProjectDialog .zp02PDTabs .sapMITH { min-width: 0 !important; max-width: 100% !important; width: 100% !important; box-sizing: border-box !important; }
+.zp02ProjectDialog .zp02PDTabs .sapMITBContainerContent { min-width: 0 !important; max-width: 100% !important; }
+@media (max-width: 1032px) {
+    .zp02ProjectDialog .zp02PDTabs .sapMITH { overflow-x: auto !important; overflow-y: hidden !important; }
+}

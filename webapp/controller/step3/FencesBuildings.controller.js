@@ -154,6 +154,65 @@ sap.ui.define([
             this.getOwnerComponent().getRouter()
                 .getRoute("fences-buildings")
                 .attachPatternMatched(this._onRouteMatched, this);
+
+            this._attachPickerStyling();
+        },
+
+        /* ══════════════════════════════════════════════════════════════
+           PRESENTATION — scoped styling hooks (no behaviour change)
+           ══════════════════════════════════════════════════════════════ */
+
+        /**
+         * Select / MultiComboBox dropdowns render their list in a Popover in the
+         * static UI area, outside .zp02Step3 / .zp02BuildingDialog. Tag those
+         * pickers with a scoped class so the Figma open-state styling (137:11930,
+         * 363:10485) applies to Step 3 dropdowns only. The picker can be created
+         * lazily, so re-tag after rendering and on focus (before it can open).
+         */
+        _attachPickerStyling: function () {
+            var fnTag = function (oCtrl) {
+                var oPicker = oCtrl.getPicker && oCtrl.getPicker();
+                if (oPicker && !oPicker.hasStyleClass("zp02SelectPicker")) {
+                    oPicker.addStyleClass("zp02SelectPicker");
+                }
+            };
+            this.getView().findAggregatedObjects(true, function (oCtrl) {
+                return oCtrl.isA("sap.m.Select") || oCtrl.isA("sap.m.MultiComboBox");
+            }).forEach(function (oCtrl) {
+                // Delegates run after the control's own handler, so the picker a
+                // click / F4 / Alt+Down just created is already there to tag.
+                oCtrl.addEventDelegate({
+                    onAfterRendering: function () { fnTag(oCtrl); },
+                    onfocusin:        function () { fnTag(oCtrl); },
+                    onclick:          function () { fnTag(oCtrl); },
+                    onsapshow:        function () { fnTag(oCtrl); },
+                    onsapexpand:      function () { fnTag(oCtrl); }
+                });
+            });
+        },
+
+        onBuildingDialogAfterOpen: function () {
+            // Land keyboard focus on the first field rather than the header close icon
+            var oFirst = this.getView().getModel("view").getProperty("/dialog/currentStep") === 1
+                ? this.byId("selBuildingType") : null;
+            if (oFirst) { oFirst.focus(); }
+        },
+
+        /** Figma Actions Menu (136:8762): Edit / Delete rows with 20px icons. */
+        _createActionMenu: function (aItems) {
+            var oSheet = new ActionSheet({
+                placement: "Bottom",
+                buttons: aItems.map(function (oItem) {
+                    return new Button({
+                        text: oItem.text,
+                        icon: oItem.icon,
+                        press: oItem.press
+                    });
+                })
+            });
+            oSheet.addStyleClass("zp02ActionMenu");
+            this.getView().addDependent(oSheet);
+            return oSheet;
         },
 
         _onRouteMatched: function () {
@@ -627,14 +686,11 @@ sap.ui.define([
             this._pressedBuildingId = oCtx.getObject().buildingId;
 
             if (!this._buildingActionSheet) {
-                this._buildingActionSheet = new ActionSheet({
-                    cancelButton: new Button({ text: "Cancel" }),
-                    buttons: [
-                        new Button({ text: "Edit",   press: [this._onBuildingEdit,   this] }),
-                        new Button({ text: "Delete", press: [this._onBuildingDelete, this] })
-                    ]
-                });
-                this.getView().addDependent(this._buildingActionSheet);
+                var oBundle = this.getView().getModel("i18n").getResourceBundle();
+                this._buildingActionSheet = this._createActionMenu([
+                    { text: oBundle.getText("step3ActionEdit"),   icon: "assets/figma/step3/icon-edit-pen-20.svg", press: [this._onBuildingEdit,   this] },
+                    { text: oBundle.getText("step3ActionDelete"), icon: "assets/figma/step3/icon-delete-20.svg",   press: [this._onBuildingDelete, this] }
+                ]);
             }
             this._buildingActionSheet.openBy(oButton);
         },
@@ -653,6 +709,7 @@ sap.ui.define([
                 title:            oBundle.getText("msgC05DeleteBuildingTitle"),
                 actions:          [MessageBox.Action.OK, MessageBox.Action.CANCEL],
                 emphasizedAction: MessageBox.Action.CANCEL,
+                styleClass:       "zp02MessageBox",
                 onClose: function (sAction) {
                     if (sAction === MessageBox.Action.OK) {
                         that._deleteBuilding(that._pressedBuildingId);
@@ -773,13 +830,11 @@ sap.ui.define([
             this._pressedFenceId = oCtx.getObject().fenceId;
 
             if (!this._fenceActionSheet) {
-                this._fenceActionSheet = new ActionSheet({
-                    cancelButton: new Button({ text: "Cancel" }),
-                    buttons: [
-                        new Button({ text: "Delete", press: [this._onFenceDelete, this] })
-                    ]
-                });
-                this.getView().addDependent(this._fenceActionSheet);
+                // Fences support Delete only (no edit flow exists for fences).
+                this._fenceActionSheet = this._createActionMenu([
+                    { text: this.getView().getModel("i18n").getResourceBundle().getText("step3ActionDelete"),
+                      icon: "assets/figma/step3/icon-delete-20.svg", press: [this._onFenceDelete, this] }
+                ]);
             }
             this._fenceActionSheet.openBy(oButton);
         },
@@ -791,6 +846,7 @@ sap.ui.define([
                 title:            oBundle.getText("msgC04DeleteFenceTitle"),
                 actions:          [MessageBox.Action.OK, MessageBox.Action.CANCEL],
                 emphasizedAction: MessageBox.Action.CANCEL,
+                styleClass:       "zp02MessageBox",
                 onClose: function (sAction) {
                     if (sAction === MessageBox.Action.OK) {
                         that._deleteFence(that._pressedFenceId);
@@ -843,6 +899,7 @@ sap.ui.define([
                 title:            oBundle.getText("msgC01DeleteConfirmTitle"),
                 actions:          [MessageBox.Action.OK, MessageBox.Action.CANCEL],
                 emphasizedAction: MessageBox.Action.CANCEL,
+                styleClass:       "zp02MessageBox",
                 onClose: function (sAction) {
                     if (sAction === MessageBox.Action.OK) {
                         MessageToast.show("Application deleted.");

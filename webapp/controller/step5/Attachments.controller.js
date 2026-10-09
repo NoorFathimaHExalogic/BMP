@@ -31,7 +31,9 @@ sap.ui.define([
                 },
                 declarationAccepted: false,
                 declarationText: "",
-                declarationError: null
+                declarationError: null,
+                // UI only: after MSG-C08, highlight the documents counted as missing
+                highlightMissing: false
             });
             this.getView().setModel(oViewModel, "view");
             this.getOwnerComponent().getRouter().getRoute("attachments").attachPatternMatched(this._onRouteMatched, this);
@@ -71,6 +73,7 @@ sap.ui.define([
             });
             oViewModel.setProperty("/declarationAccepted", false);
             oViewModel.setProperty("/declarationError", null);
+            oViewModel.setProperty("/highlightMissing", false);
             var sApplicantName = oAppState.getProperty("/applicant/name") || "";
             var sDeclaration = this._getText("msgD01DeclarationText", [sApplicantName]);
             oViewModel.setProperty("/declarationText", sDeclaration);
@@ -315,6 +318,7 @@ sap.ui.define([
             var oLoadCard = oViewModel.getProperty("/loadCard");
             var aMissing = AttachmentService.getMissingMandatoryDocuments(aDocItems, oLoadCard);
             if (aMissing.length > 0) {
+                oViewModel.setProperty("/highlightMissing", true);
                 this.byId("mandatoryAttachDialog").open();
                 return;
             }
